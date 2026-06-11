@@ -1,1 +1,9 @@
 cycle 0: end cores=156 exx=-0.00% (34s)
+cycle 1: end cores=134 exx=-0.01% (56s)
+cycle 2: end cores=130 exx=-0.01% (76s)
+cycle 3: end cores=124 exx=-0.02% (96s)
+cycle 4: end cores=121 exx=-0.02% (116s)
+cycle 5: end cores=119 exx=-0.03% (136s)
+cycle 6: end cores=116 exx=-0.03% (157s)
+cycle 7: end cores=113 exx=-0.04% (178s)
+done in 178s
