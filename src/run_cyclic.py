@@ -21,15 +21,19 @@ RELAX = 300
 DT = 0.5
 
 
-def main():
-    os.makedirs(OUT, exist_ok=True)
+def main(kind="quad", amp=AMP, out=OUT):
+    os.makedirs(out, exist_ok=True)
     t0 = time.time()
     m = PFC2D(512, 512, r=-0.25, psi_bar=-0.25)
-    m.init_dislocations(QUAD)
-    m.step(DT, n=600)
+    if kind == "poly":
+        m.init_random(noise=0.05, seed=7)
+        m.step(DT, n=3000)
+    else:
+        m.init_dislocations(QUAD)
+        m.step(DT, n=600)
 
     rows = []
-    n_steps_quarter = int(round(AMP / DEPS))
+    n_steps_quarter = int(round(amp / DEPS))
     # triangle wave: 0 -> +amp -> -amp -> 0 per cycle
     pattern = ([+1] * n_steps_quarter + [-1] * 2 * n_steps_quarter
                + [+1] * n_steps_quarter)
@@ -43,13 +47,18 @@ def main():
                              cores=len(d["cores"])))
         print(f"cycle {cyc}: end cores={rows[-1]['cores']} "
               f"exx={m.exx*100:.2f}% ({time.time()-t0:.0f}s)", flush=True)
-        m.save(os.path.join(OUT, f"cycle_{cyc}.npz"))
+        m.save(os.path.join(out, f"cycle_{cyc}.npz"))
 
-    with open(os.path.join(OUT, "summary.json"), "w") as f:
-        json.dump(dict(rows=rows, amp=AMP, n_cycles=N_CYCLES, relax=RELAX,
+    with open(os.path.join(out, "summary.json"), "w") as f:
+        json.dump(dict(rows=rows, amp=amp, n_cycles=N_CYCLES, relax=RELAX,
                        wall_s=time.time() - t0), f, indent=1)
     print(f"done in {time.time()-t0:.0f}s", flush=True)
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == "poly":
+        main(kind="poly", amp=float(sys.argv[2]) if len(sys.argv) > 2 else 0.01,
+             out=os.path.join(os.path.dirname(__file__), "..", "results",
+                              "cyclic_poly_512"))
+    else:
+        main()
