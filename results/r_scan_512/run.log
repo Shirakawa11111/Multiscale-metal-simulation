@@ -1,0 +1,130 @@
+[rm035] exx= 0.25% sigma=+0.00193 cores=4
+[rm035] exx= 0.50% sigma=+0.00273 cores=4
+[rm035] exx= 0.75% sigma=+0.00351 cores=4
+[rm035] exx= 1.00% sigma=+0.00429 cores=4
+[rm035] exx= 1.26% sigma=+0.00506 cores=4
+[rm035] exx= 1.51% sigma=+0.00583 cores=4
+[rm035] exx= 1.76% sigma=+0.00659 cores=4
+[rm035] exx= 2.02% sigma=+0.00735 cores=4
+[rm035] exx= 2.27% sigma=+0.00809 cores=4
+[rm035] exx= 2.53% sigma=+0.00883 cores=4
+[rm035] exx= 2.78% sigma=+0.00956 cores=4
+[rm035] exx= 3.04% sigma=+0.01028 cores=4
+[rm035] exx= 3.30% sigma=+0.01100 cores=4
+[rm035] exx= 3.56% sigma=+0.01170 cores=4
+[rm035] exx= 3.82% sigma=+0.01237 cores=4
+[rm035] exx= 4.08% sigma=+0.01300 cores=4
+[rm035] exx= 4.34% sigma=+0.01367 cores=4
+[rm035] exx= 4.60% sigma=+0.01433 cores=4
+[rm035] exx= 4.86% sigma=+0.01495 cores=4
+[rm035] exx= 5.12% sigma=+0.01554 cores=4
+[rm035] exx= 5.38% sigma=+0.01617 cores=4
+[rm035] exx= 5.65% sigma=+0.01677 cores=4
+[rm035] exx= 5.91% sigma=+0.01732 cores=4
+[rm035] exx= 6.18% sigma=+0.01790 cores=4
+[rm035] exx= 6.44% sigma=+0.01844 cores=4
+[rm035] exx= 6.71% sigma=+0.01897 cores=4
+[rm035] exx= 6.97% sigma=+0.01950 cores=4
+[rm035] exx= 7.24% sigma=+0.01998 cores=4
+[rm035] exx= 7.51% sigma=+0.02049 cores=4
+[rm035] exx= 7.78% sigma=+0.02095 cores=4
+[rm035] exx= 8.05% sigma=+0.02139 cores=4
+[rm035] exx= 8.32% sigma=+0.02179 cores=4
+[rm035] exx= 8.59% sigma=+0.02224 cores=4
+[rm035] exx= 8.86% sigma=+0.02265 cores=4
+[rm035] exx= 9.13% sigma=+0.02300 cores=4
+[rm035] exx= 9.41% sigma=+0.02334 cores=4
+[rm035] exx= 9.68% sigma=+0.02370 cores=4
+[rm035] exx= 9.95% sigma=+0.02404 cores=4
+[rm035] exx=10.23% sigma=+0.02431 cores=4
+[rm035] exx=10.50% sigma=+0.02456 cores=4
+[rm035] exx=10.78% sigma=+0.02484 cores=4
+[rm035] exx=11.06% sigma=+0.02509 cores=6
+[rm035] exx=11.33% sigma=+0.02527 cores=4
+[rm035] exx=11.61% sigma=+0.02542 cores=4
+[rm035] exx=11.89% sigma=+0.02546 cores=9
+[rm035] exx=12.17% sigma=+0.02536 cores=12
+[rm035] exx=12.45% sigma=+0.02507 cores=15
+[rm035] exx=12.73% sigma=+0.02447 cores=15
+[rm035] exx=13.01% sigma=+0.02373 cores=14
+[rm035] exx=13.30% sigma=+0.02307 cores=13
+[rm035] exx=13.58% sigma=+0.02251 cores=8
+[rm035] exx=13.86% sigma=+0.02211 cores=8
+[rm035] exx=14.15% sigma=+0.02184 cores=8
+[rm035] exx=14.43% sigma=+0.02171 cores=8
+[rm035] exx=14.72% sigma=+0.02190 cores=9
+[rm035] exx=15.01% sigma=+0.02203 cores=9
+[rm035] exx=15.29% sigma=+0.02159 cores=8
+[rm035] exx=15.58% sigma=+0.02157 cores=8
+[rm035] exx=15.87% sigma=+0.02159 cores=8
+[rm035] exx=16.16% sigma=+0.02157 cores=8
+[rm035] exx=16.45% sigma=+0.02142 cores=8
+[rm035] exx=16.74% sigma=+0.02015 cores=21
+[rm035] exx=17.04% sigma=+0.02001 cores=25
+[rm035] exx=17.33% sigma=+0.02008 cores=21
+[rm035] done in 110s
+[rm015] exx= 0.25% sigma=+0.00022 cores=7
+[rm015] exx= 0.50% sigma=+0.00029 cores=4
+[rm015] exx= 0.75% sigma=+0.00036 cores=10
+[rm015] exx= 1.00% sigma=+0.00042 cores=18
+[rm015] exx= 1.26% sigma=+0.00047 cores=8
+[rm015] exx= 1.51% sigma=+0.00051 cores=18
+[rm015] exx= 1.76% sigma=+0.00054 cores=10
+[rm015] exx= 2.02% sigma=+0.00056 cores=6
+[rm015] exx= 2.27% sigma=+0.00057 cores=8
+[rm015] exx= 2.53% sigma=+0.00053 cores=22
+[rm015] exx= 2.78% sigma=+0.00047 cores=30
+[rm015] exx= 3.04% sigma=+0.00042 cores=38
+[rm015] exx= 3.30% sigma=+0.00037 cores=30
+[rm015] exx= 3.56% sigma=+0.00033 cores=34
+[rm015] exx= 3.82% sigma=+0.00029 cores=30
+[rm015] exx= 4.08% sigma=+0.00027 cores=34
+[rm015] exx= 4.34% sigma=+0.00025 cores=33
+[rm015] exx= 4.60% sigma=+0.00024 cores=41
+[rm015] exx= 4.86% sigma=+0.00022 cores=30
+[rm015] exx= 5.12% sigma=+0.00019 cores=36
+[rm015] exx= 5.38% sigma=+0.00017 cores=49
+[rm015] exx= 5.65% sigma=+0.00015 cores=40
+[rm015] exx= 5.91% sigma=+0.00014 cores=28
+[rm015] exx= 6.18% sigma=+0.00013 cores=34
+[rm015] exx= 6.44% sigma=+0.00013 cores=31
+[rm015] exx= 6.71% sigma=+0.00013 cores=30
+[rm015] exx= 6.97% sigma=+0.00012 cores=39
+[rm015] exx= 7.24% sigma=+0.00012 cores=34
+[rm015] exx= 7.51% sigma=+0.00012 cores=40
+[rm015] exx= 7.78% sigma=+0.00011 cores=40
+[rm015] exx= 8.05% sigma=+0.00011 cores=38
+[rm015] exx= 8.32% sigma=+0.00010 cores=46
+[rm015] exx= 8.59% sigma=+0.00009 cores=37
+[rm015] exx= 8.86% sigma=+0.00009 cores=36
+[rm015] exx= 9.13% sigma=+0.00008 cores=43
+[rm015] exx= 9.41% sigma=+0.00008 cores=40
+[rm015] exx= 9.68% sigma=+0.00008 cores=42
+[rm015] exx= 9.95% sigma=+0.00008 cores=43
+[rm015] exx=10.23% sigma=+0.00008 cores=43
+[rm015] exx=10.50% sigma=+0.00008 cores=31
+[rm015] exx=10.78% sigma=+0.00008 cores=43
+[rm015] exx=11.06% sigma=+0.00007 cores=30
+[rm015] exx=11.33% sigma=+0.00007 cores=26
+[rm015] exx=11.61% sigma=+0.00007 cores=42
+[rm015] exx=11.89% sigma=+0.00007 cores=35
+[rm015] exx=12.17% sigma=+0.00007 cores=40
+[rm015] exx=12.45% sigma=+0.00007 cores=34
+[rm015] exx=12.73% sigma=+0.00007 cores=35
+[rm015] exx=13.01% sigma=+0.00006 cores=44
+[rm015] exx=13.30% sigma=+0.00006 cores=30
+[rm015] exx=13.58% sigma=+0.00006 cores=39
+[rm015] exx=13.86% sigma=+0.00006 cores=28
+[rm015] exx=14.15% sigma=+0.00006 cores=41
+[rm015] exx=14.43% sigma=+0.00006 cores=23
+[rm015] exx=14.72% sigma=+0.00006 cores=33
+[rm015] exx=15.01% sigma=+0.00007 cores=26
+[rm015] exx=15.29% sigma=+0.00007 cores=36
+[rm015] exx=15.58% sigma=+0.00007 cores=37
+[rm015] exx=15.87% sigma=+0.00007 cores=46
+[rm015] exx=16.16% sigma=+0.00007 cores=40
+[rm015] exx=16.45% sigma=+0.00007 cores=39
+[rm015] exx=16.74% sigma=+0.00007 cores=43
+[rm015] exx=17.04% sigma=+0.00008 cores=44
+[rm015] exx=17.33% sigma=+0.00008 cores=47
+[rm015] done in 115s
