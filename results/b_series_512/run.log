@@ -1,0 +1,84 @@
+[b1b_void] eps=0 cores=0
+[b1b_void] exx= 0.25% sigma=+0.00128 cores=0
+[b1b_void] exx= 0.50% sigma=+0.00178 cores=0
+[b1b_void] exx= 0.75% sigma=+0.00228 cores=0
+[b1b_void] exx= 1.00% sigma=+0.00277 cores=0
+[b1b_void] exx= 1.26% sigma=+0.00326 cores=0
+[b1b_void] exx= 1.51% sigma=+0.00374 cores=0
+[b1b_void] exx= 1.76% sigma=+0.00422 cores=0
+[b1b_void] exx= 2.02% sigma=+0.00470 cores=0
+[b1b_void] exx= 2.27% sigma=+0.00517 cores=0
+[b1b_void] exx= 2.53% sigma=+0.00563 cores=0
+[b1b_void] exx= 2.78% sigma=+0.00609 cores=0
+[b1b_void] exx= 3.04% sigma=+0.00654 cores=0
+[b1b_void] exx= 3.30% sigma=+0.00698 cores=0
+[b1b_void] exx= 3.56% sigma=+0.00742 cores=0
+[b1b_void] exx= 3.82% sigma=+0.00785 cores=0
+[b1b_void] exx= 4.08% sigma=+0.00827 cores=0
+[b1b_void] exx= 4.34% sigma=+0.00868 cores=0
+[b1b_void] exx= 4.60% sigma=+0.00909 cores=0
+[b1b_void] exx= 4.86% sigma=+0.00948 cores=0
+[b1b_void] exx= 5.12% sigma=+0.00987 cores=0
+[b1b_void] exx= 5.38% sigma=+0.01024 cores=0
+[b1b_void] exx= 5.65% sigma=+0.01061 cores=0
+[b1b_void] exx= 5.91% sigma=+0.01096 cores=0
+[b1b_void] exx= 6.18% sigma=+0.01130 cores=0
+[b1b_void] exx= 6.44% sigma=+0.01163 cores=0
+[b1b_void] exx= 6.71% sigma=+0.01195 cores=0
+[b1b_void] exx= 6.97% sigma=+0.01226 cores=0
+[b1b_void] exx= 7.24% sigma=+0.01255 cores=0
+[b1b_void] exx= 7.51% sigma=+0.01283 cores=0
+[b1b_void] exx= 7.78% sigma=+0.01309 cores=0
+[b1b_void] exx= 8.05% sigma=+0.01334 cores=0
+[b1b_void] exx= 8.32% sigma=+0.01358 cores=0
+[b1b_void] exx= 8.59% sigma=+0.01380 cores=0
+[b1b_void] exx= 8.86% sigma=+0.01400 cores=0
+[b1b_void] exx= 9.13% sigma=+0.01419 cores=0
+[b1b_void] exx= 9.41% sigma=+0.01436 cores=0
+[b1b_void] exx= 9.68% sigma=+0.01452 cores=0
+[b1b_void] exx= 9.95% sigma=+0.01465 cores=0
+[b1b_void] exx=10.23% sigma=+0.01478 cores=0
+[b1b_void] exx=10.50% sigma=+0.01488 cores=0
+[b1b_void] done in 286s
+[b2_dipole] eps=0 cores=2
+[b2_dipole] exx= 0.25% sigma=+0.00035 cores=2
+[b2_dipole] exx= 0.50% sigma=+0.00087 cores=2
+[b2_dipole] exx= 0.75% sigma=+0.00139 cores=2
+[b2_dipole] exx= 1.00% sigma=+0.00191 cores=2
+[b2_dipole] exx= 1.26% sigma=+0.00241 cores=2
+[b2_dipole] exx= 1.51% sigma=+0.00292 cores=2
+[b2_dipole] exx= 1.76% sigma=+0.00342 cores=2
+[b2_dipole] exx= 2.02% sigma=+0.00391 cores=2
+[b2_dipole] exx= 2.27% sigma=+0.00440 cores=2
+[b2_dipole] exx= 2.53% sigma=+0.00488 cores=2
+[b2_dipole] exx= 2.78% sigma=+0.00535 cores=2
+[b2_dipole] exx= 3.04% sigma=+0.00581 cores=2
+[b2_dipole] exx= 3.30% sigma=+0.00625 cores=2
+[b2_dipole] exx= 3.56% sigma=+0.00668 cores=2
+[b2_dipole] exx= 3.82% sigma=+0.00712 cores=2
+[b2_dipole] exx= 4.08% sigma=+0.00755 cores=2
+[b2_dipole] exx= 4.34% sigma=+0.00798 cores=2
+[b2_dipole] exx= 4.60% sigma=+0.00837 cores=2
+[b2_dipole] exx= 4.86% sigma=+0.00877 cores=2
+[b2_dipole] exx= 5.12% sigma=+0.00916 cores=2
+[b2_dipole] exx= 5.38% sigma=+0.00955 cores=2
+[b2_dipole] exx= 5.65% sigma=+0.00991 cores=2
+[b2_dipole] exx= 5.91% sigma=+0.01026 cores=2
+[b2_dipole] exx= 6.18% sigma=+0.01061 cores=2
+[b2_dipole] exx= 6.44% sigma=+0.01094 cores=2
+[b2_dipole] exx= 6.71% sigma=+0.01126 cores=2
+[b2_dipole] exx= 6.97% sigma=+0.01157 cores=2
+[b2_dipole] exx= 7.24% sigma=+0.01187 cores=2
+[b2_dipole] exx= 7.51% sigma=+0.01214 cores=2
+[b2_dipole] exx= 7.78% sigma=+0.01242 cores=2
+[b2_dipole] exx= 8.05% sigma=+0.01268 cores=2
+[b2_dipole] exx= 8.32% sigma=+0.01291 cores=2
+[b2_dipole] exx= 8.59% sigma=+0.01314 cores=2
+[b2_dipole] exx= 8.86% sigma=+0.01335 cores=2
+[b2_dipole] exx= 9.13% sigma=+0.01354 cores=2
+[b2_dipole] exx= 9.41% sigma=+0.01373 cores=2
+[b2_dipole] exx= 9.68% sigma=+0.01390 cores=0
+[b2_dipole] exx= 9.95% sigma=+0.01410 cores=0
+[b2_dipole] exx=10.23% sigma=+0.01426 cores=0
+[b2_dipole] exx=10.50% sigma=+0.01440 cores=0
+[b2_dipole] done in 282s

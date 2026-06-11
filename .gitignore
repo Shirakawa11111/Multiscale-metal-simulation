@@ -1,0 +1,8 @@
+# bulky binary field snapshots stay local (key info = code/docs/figures/JSON)
+*.npz
+*.npy
+results/b_series_512_OLD_unstable_scheme/
+__pycache__/
+.pytest_cache/
+.DS_Store
+.matplotlib/
