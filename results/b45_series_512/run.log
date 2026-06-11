@@ -158,3 +158,87 @@
 [b5_rate_slow] exx= 8.05% sigma=+0.00260 cores=107
 [b5_rate_slow] exx= 8.32% sigma=+0.00255 cores=105
 [b5_rate_slow] exx= 8.59% sigma=+0.00262 cores=102
+[b4_pore_v2] eps=0 cores=6
+[b4_pore_v2] exx= 0.25% sigma=+0.00103 cores=8
+[b4_pore_v2] exx= 0.50% sigma=+0.00139 cores=4
+[b4_pore_v2] exx= 0.75% sigma=+0.00173 cores=10
+[b4_pore_v2] exx= 1.00% sigma=+0.00206 cores=2
+[b4_pore_v2] exx= 1.26% sigma=+0.00237 cores=6
+[b4_pore_v2] exx= 1.51% sigma=+0.00268 cores=6
+[b4_pore_v2] exx= 1.76% sigma=+0.00298 cores=4
+[b4_pore_v2] exx= 2.02% sigma=+0.00326 cores=12
+[b4_pore_v2] exx= 2.27% sigma=+0.00355 cores=12
+[b4_pore_v2] exx= 2.53% sigma=+0.00382 cores=6
+[b4_pore_v2] exx= 2.78% sigma=+0.00410 cores=6
+[b4_pore_v2] exx= 3.04% sigma=+0.00436 cores=6
+[b4_pore_v2] exx= 3.30% sigma=+0.00462 cores=10
+[b4_pore_v2] exx= 3.56% sigma=+0.00488 cores=2
+[b4_pore_v2] exx= 3.82% sigma=+0.00513 cores=2
+[b4_pore_v2] exx= 4.08% sigma=+0.00538 cores=6
+[b4_pore_v2] exx= 4.34% sigma=+0.00561 cores=4
+[b4_pore_v2] exx= 4.60% sigma=+0.00585 cores=5
+[b4_pore_v2] exx= 4.86% sigma=+0.00607 cores=10
+[b4_pore_v2] exx= 5.12% sigma=+0.00628 cores=9
+[b4_pore_v2] exx= 5.38% sigma=+0.00648 cores=12
+[b4_pore_v2] exx= 5.65% sigma=+0.00666 cores=11
+[b4_pore_v2] exx= 5.91% sigma=+0.00681 cores=7
+[b4_pore_v2] exx= 6.18% sigma=+0.00696 cores=21
+[b4_pore_v2] exx= 6.44% sigma=+0.00709 cores=20
+[b4_pore_v2] exx= 6.71% sigma=+0.00721 cores=16
+[b4_pore_v2] exx= 6.97% sigma=+0.00732 cores=22
+[b4_pore_v2] exx= 7.24% sigma=+0.00743 cores=21
+[b4_pore_v2] exx= 7.51% sigma=+0.00752 cores=28
+[b4_pore_v2] exx= 7.78% sigma=+0.00759 cores=15
+[b4_pore_v2] exx= 8.05% sigma=+0.00766 cores=17
+[b4_pore_v2] exx= 8.32% sigma=+0.00774 cores=17
+[b4_pore_v2] exx= 8.59% sigma=+0.00781 cores=21
+[b4_pore_v2] exx= 8.86% sigma=+0.00786 cores=15
+[b4_pore_v2] exx= 9.13% sigma=+0.00791 cores=24
+[b4_pore_v2] exx= 9.41% sigma=+0.00793 cores=19
+[b4_pore_v2] exx= 9.68% sigma=+0.00792 cores=16
+[b4_pore_v2] exx= 9.95% sigma=+0.00790 cores=15
+[b4_pore_v2] exx=10.23% sigma=+0.00793 cores=18
+[b4_pore_v2] exx=10.50% sigma=+0.00802 cores=18
+[b4_pore_v2] done in 70s
+[b4_noise_v2] eps=0 cores=0
+[b4_noise_v2] exx= 0.25% sigma=+0.00121 cores=0
+[b4_noise_v2] exx= 0.50% sigma=+0.00166 cores=0
+[b4_noise_v2] exx= 0.75% sigma=+0.00212 cores=0
+[b4_noise_v2] exx= 1.00% sigma=+0.00259 cores=0
+[b4_noise_v2] exx= 1.26% sigma=+0.00305 cores=0
+[b4_noise_v2] exx= 1.51% sigma=+0.00349 cores=0
+[b4_noise_v2] exx= 1.76% sigma=+0.00395 cores=0
+[b4_noise_v2] exx= 2.02% sigma=+0.00436 cores=0
+[b4_noise_v2] exx= 2.27% sigma=+0.00480 cores=0
+[b4_noise_v2] exx= 2.53% sigma=+0.00524 cores=0
+[b4_noise_v2] exx= 2.78% sigma=+0.00566 cores=0
+[b4_noise_v2] exx= 3.04% sigma=+0.00608 cores=0
+[b4_noise_v2] exx= 3.30% sigma=+0.00648 cores=0
+[b4_noise_v2] exx= 3.56% sigma=+0.00692 cores=0
+[b4_noise_v2] exx= 3.82% sigma=+0.00726 cores=0
+[b4_noise_v2] exx= 4.08% sigma=+0.00765 cores=0
+[b4_noise_v2] exx= 4.34% sigma=+0.00805 cores=0
+[b4_noise_v2] exx= 4.60% sigma=+0.00840 cores=0
+[b4_noise_v2] exx= 4.86% sigma=+0.00875 cores=0
+[b4_noise_v2] exx= 5.12% sigma=+0.00914 cores=0
+[b4_noise_v2] exx= 5.38% sigma=+0.00945 cores=0
+[b4_noise_v2] exx= 5.65% sigma=+0.00966 cores=0
+[b4_noise_v2] exx= 5.91% sigma=+0.00994 cores=2
+[b4_noise_v2] exx= 6.18% sigma=+0.01024 cores=1
+[b4_noise_v2] exx= 6.44% sigma=+0.01058 cores=2
+[b4_noise_v2] exx= 6.71% sigma=+0.01076 cores=2
+[b4_noise_v2] exx= 6.97% sigma=+0.01098 cores=4
+[b4_noise_v2] exx= 7.24% sigma=+0.01115 cores=2
+[b4_noise_v2] exx= 7.51% sigma=+0.01139 cores=4
+[b4_noise_v2] exx= 7.78% sigma=+0.01145 cores=4
+[b4_noise_v2] exx= 8.05% sigma=+0.01151 cores=4
+[b4_noise_v2] exx= 8.32% sigma=+0.01141 cores=5
+[b4_noise_v2] exx= 8.59% sigma=+0.01144 cores=8
+[b4_noise_v2] exx= 8.86% sigma=+0.01132 cores=10
+[b4_noise_v2] exx= 9.13% sigma=+0.01116 cores=14
+[b4_noise_v2] exx= 9.41% sigma=+0.01094 cores=18
+[b4_noise_v2] exx= 9.68% sigma=+0.01075 cores=17
+[b4_noise_v2] exx= 9.95% sigma=+0.01048 cores=15
+[b4_noise_v2] exx=10.23% sigma=+0.01032 cores=16
+[b4_noise_v2] exx=10.50% sigma=+0.01017 cores=13
+[b4_noise_v2] done in 98s

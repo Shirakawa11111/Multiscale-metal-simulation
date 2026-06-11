@@ -1,3 +1,43 @@
 box 42.5 nm, rho_sim=2.21e+15 m^-2 (target 2.05e+15)
 eps=0 cores=4
 exx= 0.25% sigma=+0.00069 cores=4
+exx= 0.50% sigma=+0.00120 cores=4
+exx= 0.75% sigma=+0.00171 cores=4
+exx= 1.00% sigma=+0.00221 cores=4
+exx= 1.26% sigma=+0.00272 cores=4
+exx= 1.51% sigma=+0.00321 cores=4
+exx= 1.76% sigma=+0.00371 cores=4
+exx= 2.02% sigma=+0.00419 cores=4
+exx= 2.27% sigma=+0.00467 cores=4
+exx= 2.53% sigma=+0.00515 cores=4
+exx= 2.78% sigma=+0.00561 cores=4
+exx= 3.04% sigma=+0.00608 cores=4
+exx= 3.30% sigma=+0.00653 cores=4
+exx= 3.56% sigma=+0.00698 cores=4
+exx= 3.82% sigma=+0.00742 cores=4
+exx= 4.08% sigma=+0.00785 cores=4
+exx= 4.34% sigma=+0.00827 cores=4
+exx= 4.60% sigma=+0.00868 cores=4
+exx= 4.86% sigma=+0.00908 cores=4
+exx= 5.12% sigma=+0.00948 cores=4
+exx= 5.38% sigma=+0.00986 cores=4
+exx= 5.65% sigma=+0.01024 cores=4
+exx= 5.91% sigma=+0.01060 cores=4
+exx= 6.18% sigma=+0.01095 cores=4
+exx= 6.44% sigma=+0.01129 cores=4
+exx= 6.71% sigma=+0.01161 cores=4
+exx= 6.97% sigma=+0.01193 cores=4
+exx= 7.24% sigma=+0.01223 cores=4
+exx= 7.51% sigma=+0.01251 cores=4
+exx= 7.78% sigma=+0.01279 cores=4
+exx= 8.05% sigma=+0.01305 cores=4
+exx= 8.32% sigma=+0.01329 cores=4
+exx= 8.59% sigma=+0.01352 cores=4
+exx= 8.86% sigma=+0.01373 cores=4
+exx= 9.13% sigma=+0.01393 cores=4
+exx= 9.41% sigma=+0.01411 cores=4
+exx= 9.68% sigma=+0.01428 cores=4
+exx= 9.95% sigma=+0.01443 cores=4
+exx=10.23% sigma=+0.01456 cores=4
+exx=10.50% sigma=+0.01467 cores=8
+done in 1229s
