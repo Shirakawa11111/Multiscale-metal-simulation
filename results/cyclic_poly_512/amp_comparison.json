@@ -1,0 +1,34 @@
+{
+ "amp1": {
+  "amp": 0.01,
+  "end_cores": [
+   156,
+   134,
+   130,
+   124,
+   121,
+   119,
+   116,
+   113
+  ],
+  "dissipation_first": 4.877799185935389e-06,
+  "dissipation_last": 1.052507818745736e-06,
+  "recovery_rate_pct_per_cycle": 3.4455128205128207
+ },
+ "amp2": {
+  "amp": 0.02,
+  "end_cores": [
+   130,
+   120,
+   117,
+   114,
+   113,
+   112,
+   110,
+   106
+  ],
+  "dissipation_first": 3.363275331849281e-05,
+  "dissipation_last": 1.802106945509267e-05,
+  "recovery_rate_pct_per_cycle": 2.3076923076923075
+ }
+}
