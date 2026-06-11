@@ -2,6 +2,23 @@
 
 > 跨迭代状态文件。每轮 /loop 迭代结束时更新。计划见 docs/RESEARCH_PLAN.md。
 
+## 迭代 8 — 2026-06-11
+
+### 已完成
+- ✅ **D2 续跑完成 — 增殖级联全程捕获（analysis_cascade.png / cascade.json）**：
+  - 屈服峰 σ=0.0148 @ 11.6% 应变（σ/E≈7%，理论强度量级，符合无源小盒）
+  - 增殖级联：4→8（10.5%）→ 雪崩 → **峰值 316 核心 @ ~17%**（ρ=1.75e17 m⁻²，初始的 79 倍）
+  - 软化到流动平台 σ=0.0073 = **恰好屈服峰的 49%**；级联后位错部分湮灭回落至 ~190
+  - 完整的"理论强度屈服→位错雪崩→流应力"故事，全部在 ROI 密度匹配条件下
+- ▶️ 噪声阈值扫描重启（0.03/0.045，pid 50193）——首次启动因 heredoc 把 CASES 追加到 __main__ 之后而 KeyError（教训：用 Edit 不用 >> 追加 Python 代码）
+- HPC 第 8 轮仍不可达
+
+### 下一步（迭代 9）
+1. 噪声形核相图（0.02/0.03/0.045/0.06 四点 + 形核应变）
+2. 论文骨架（academic-paper skill）：题目方向 "PFC simulation of dislocation mechanisms under tension: from glide to avalanche at DAMASK-informed densities"
+3. STAGE_REPORT 增补级联章节
+4. 长期：HPC 矩阵（r×率×密度）、3D 位错线检测
+
 ## 迭代 7 — 2026-06-11
 
 ### 已完成

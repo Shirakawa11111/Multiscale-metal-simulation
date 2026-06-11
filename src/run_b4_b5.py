@@ -36,6 +36,9 @@ CASES = {
     # depth 0.5 / 8a0 verified persistent to t=3000
     "b4_pore_v2":   dict(kind="pore2", relax=400, noise=0.0),
     "b4_noise_v2":  dict(kind="perfect", relax=400, noise=0.06),
+    # noise-threshold refinement points (phase diagram)
+    "b4_noise_p03":  dict(kind="perfect", relax=400, noise=0.03),
+    "b4_noise_p045": dict(kind="perfect", relax=400, noise=0.045),
 }
 
 
@@ -101,3 +104,4 @@ if __name__ == "__main__":
     names = sys.argv[1:] or list(CASES)
     for nm in names:
         run_case(nm, CASES[nm])
+

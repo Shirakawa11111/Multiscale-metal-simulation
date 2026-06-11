@@ -1,0 +1,10 @@
+{
+ "sigma_peak": 0.01478581389494719,
+ "eps_peak": 0.1161248480759669,
+ "sigma_flow_late": 0.0072863489821622055,
+ "softening_ratio": 0.4927932296410275,
+ "cores_max": 316,
+ "rho_max_m2": 1.7494505162831677e+17,
+ "rho_initial_m2": 2214494324409073.2,
+ "multiplication_onset_eps": 0.1050330101290684
+}
