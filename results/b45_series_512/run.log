@@ -1,0 +1,53 @@
+[b4_pore] eps=0 cores=1
+[b4_pore] exx= 0.25% sigma=+0.00124 cores=2
+[b4_pore] exx= 0.50% sigma=+0.00173 cores=2
+[b4_pore] exx= 0.75% sigma=+0.00222 cores=2
+[b4_pore] exx= 1.00% sigma=+0.00272 cores=0
+[b4_pore] exx= 1.26% sigma=+0.00320 cores=0
+[b4_pore] exx= 1.51% sigma=+0.00368 cores=0
+[b4_pore] exx= 1.76% sigma=+0.00416 cores=0
+[b4_pore] exx= 2.02% sigma=+0.00462 cores=0
+[b4_pore] exx= 2.27% sigma=+0.00509 cores=0
+[b4_pore] exx= 2.53% sigma=+0.00554 cores=0
+[b4_pore] exx= 2.78% sigma=+0.00599 cores=0
+[b4_pore] exx= 3.04% sigma=+0.00644 cores=0
+[b4_pore] exx= 3.30% sigma=+0.00688 cores=0
+[b4_pore] exx= 3.56% sigma=+0.00731 cores=0
+[b4_pore] exx= 3.82% sigma=+0.00773 cores=0
+[b4_pore] exx= 4.08% sigma=+0.00814 cores=0
+[b4_pore] exx= 4.34% sigma=+0.00855 cores=0
+[b4_pore] exx= 4.60% sigma=+0.00895 cores=0
+[b4_pore] exx= 4.86% sigma=+0.00934 cores=0
+[b4_pore] exx= 5.12% sigma=+0.00972 cores=0
+[b4_pore] exx= 5.38% sigma=+0.01008 cores=0
+[b4_pore] exx= 5.65% sigma=+0.01044 cores=0
+[b4_pore] exx= 5.91% sigma=+0.01079 cores=0
+[b4_pore] exx= 6.18% sigma=+0.01113 cores=0
+[b4_pore] exx= 6.44% sigma=+0.01145 cores=0
+[b4_pore] exx= 6.71% sigma=+0.01176 cores=0
+[b4_pore] exx= 6.97% sigma=+0.01206 cores=0
+[b4_pore] exx= 7.24% sigma=+0.01235 cores=0
+[b4_pore] exx= 7.51% sigma=+0.01262 cores=0
+[b4_pore] exx= 7.78% sigma=+0.01288 cores=0
+[b4_pore] exx= 8.05% sigma=+0.01313 cores=0
+[b4_pore] exx= 8.32% sigma=+0.01336 cores=0
+[b4_pore] exx= 8.59% sigma=+0.01357 cores=0
+[b4_pore] exx= 8.86% sigma=+0.01377 cores=0
+[b4_pore] exx= 9.13% sigma=+0.01395 cores=0
+[b4_pore] exx= 9.41% sigma=+0.01412 cores=0
+[b4_pore] exx= 9.68% sigma=+0.01427 cores=0
+[b4_pore] exx= 9.95% sigma=+0.01441 cores=0
+[b4_pore] exx=10.23% sigma=+0.01452 cores=0
+[b4_pore] exx=10.50% sigma=+0.01463 cores=0
+[b4_pore] done in 295s
+[b4_noise] eps=0 cores=0
+[b4_noise] exx= 0.25% sigma=+0.00128 cores=0
+[b4_noise] exx= 0.50% sigma=+0.00177 cores=0
+[b4_noise] exx= 0.75% sigma=+0.00226 cores=0
+[b4_noise] exx= 1.00% sigma=+0.00275 cores=0
+[b4_noise] exx= 1.26% sigma=+0.00324 cores=0
+[b4_noise] exx= 1.51% sigma=+0.00372 cores=0
+[b4_noise] exx= 1.76% sigma=+0.00420 cores=0
+[b4_noise] exx= 2.02% sigma=+0.00466 cores=0
+[b4_noise] exx= 2.27% sigma=+0.00513 cores=0
+[b4_noise] exx= 2.53% sigma=+0.00559 cores=0

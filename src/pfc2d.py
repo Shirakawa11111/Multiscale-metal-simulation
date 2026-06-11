@@ -152,9 +152,15 @@ class PFC2D:
         self.psi = self.one_mode_field(X, Y, ux=ux)
         self._fix_mean()
 
-    def add_void(self, cx_frac=0.5, cy_frac=0.5, radius=None, edge=None):
-        """Melt a disc (psi -> psi_bar, liquid) as a stress concentrator,
-        analogous to the arc notch in the 单晶铜拉伸模拟 project."""
+    def add_void(self, cx_frac=0.5, cy_frac=0.5, radius=None, edge=None,
+                 depth=0.0):
+        """Melt a disc as a stress concentrator (cf. the arc notch in the
+        单晶铜拉伸模拟 project). With depth == 0 the disc is set to psi_bar
+        and simply recrystallizes during relaxation (verified: useless as a
+        notch). depth > 0 also depletes the local mean density
+        (psi -> psi_bar - depth), putting the disc into the stable-liquid
+        region; conserved dynamics then keeps the pore open like a real
+        pore. Mass is intentionally NOT re-normalized."""
         if radius is None:
             radius = 3.0 * A_LATTICE
         if edge is None:
@@ -164,8 +170,9 @@ class PFC2D:
         X, Y = np.meshgrid(x, y)
         rr = np.sqrt((X - cx_frac * self.lx) ** 2 + (Y - cy_frac * self.ly) ** 2)
         w = 0.5 * (1.0 + np.tanh((rr - radius) / edge))  # 0 inside, 1 outside
-        self.psi = w * self.psi + (1.0 - w) * self.psi_bar
-        self._fix_mean()
+        self.psi = w * self.psi + (1.0 - w) * (self.psi_bar - depth)
+        if depth == 0.0:
+            self._fix_mean()
 
     def _fix_mean(self):
         self.psi += self.psi_bar - self.psi.mean()

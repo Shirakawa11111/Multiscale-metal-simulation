@@ -82,3 +82,45 @@
 [b2_dipole] exx=10.23% sigma=+0.01426 cores=0
 [b2_dipole] exx=10.50% sigma=+0.01440 cores=0
 [b2_dipole] done in 282s
+[b3_polycrystal] eps=0 cores=192
+[b3_polycrystal] exx= 0.25% sigma=+0.00077 cores=190
+[b3_polycrystal] exx= 0.50% sigma=+0.00109 cores=186
+[b3_polycrystal] exx= 0.75% sigma=+0.00134 cores=185
+[b3_polycrystal] exx= 1.00% sigma=+0.00155 cores=182
+[b3_polycrystal] exx= 1.26% sigma=+0.00173 cores=181
+[b3_polycrystal] exx= 1.51% sigma=+0.00187 cores=179
+[b3_polycrystal] exx= 1.76% sigma=+0.00203 cores=172
+[b3_polycrystal] exx= 2.02% sigma=+0.00216 cores=168
+[b3_polycrystal] exx= 2.27% sigma=+0.00229 cores=166
+[b3_polycrystal] exx= 2.53% sigma=+0.00242 cores=161
+[b3_polycrystal] exx= 2.78% sigma=+0.00255 cores=161
+[b3_polycrystal] exx= 3.04% sigma=+0.00269 cores=151
+[b3_polycrystal] exx= 3.30% sigma=+0.00280 cores=151
+[b3_polycrystal] exx= 3.56% sigma=+0.00289 cores=147
+[b3_polycrystal] exx= 3.82% sigma=+0.00296 cores=144
+[b3_polycrystal] exx= 4.08% sigma=+0.00303 cores=141
+[b3_polycrystal] exx= 4.34% sigma=+0.00306 cores=140
+[b3_polycrystal] exx= 4.60% sigma=+0.00306 cores=143
+[b3_polycrystal] exx= 4.86% sigma=+0.00308 cores=143
+[b3_polycrystal] exx= 5.12% sigma=+0.00313 cores=139
+[b3_polycrystal] exx= 5.38% sigma=+0.00323 cores=137
+[b3_polycrystal] exx= 5.65% sigma=+0.00332 cores=137
+[b3_polycrystal] exx= 5.91% sigma=+0.00335 cores=132
+[b3_polycrystal] exx= 6.18% sigma=+0.00334 cores=129
+[b3_polycrystal] exx= 6.44% sigma=+0.00334 cores=130
+[b3_polycrystal] exx= 6.71% sigma=+0.00332 cores=130
+[b3_polycrystal] exx= 6.97% sigma=+0.00330 cores=127
+[b3_polycrystal] exx= 7.24% sigma=+0.00325 cores=121
+[b3_polycrystal] exx= 7.51% sigma=+0.00327 cores=120
+[b3_polycrystal] exx= 7.78% sigma=+0.00334 cores=121
+[b3_polycrystal] exx= 8.05% sigma=+0.00340 cores=121
+[b3_polycrystal] exx= 8.32% sigma=+0.00345 cores=122
+[b3_polycrystal] exx= 8.59% sigma=+0.00356 cores=122
+[b3_polycrystal] exx= 8.86% sigma=+0.00366 cores=120
+[b3_polycrystal] exx= 9.13% sigma=+0.00377 cores=119
+[b3_polycrystal] exx= 9.41% sigma=+0.00384 cores=118
+[b3_polycrystal] exx= 9.68% sigma=+0.00387 cores=117
+[b3_polycrystal] exx= 9.95% sigma=+0.00387 cores=119
+[b3_polycrystal] exx=10.23% sigma=+0.00387 cores=122
+[b3_polycrystal] exx=10.50% sigma=+0.00385 cores=123
+[b3_polycrystal] done in 334s

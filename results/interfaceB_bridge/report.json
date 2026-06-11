@@ -1,0 +1,100 @@
+{
+ "scale_m_per_pfc_unit": 3.522991641745251e-11,
+ "a0_pfc": 7.255197456936871,
+ "b_cu_m": 2.556e-10,
+ "rois": [
+  {
+   "file": "interfaceB_cu_eq_user_300x3x300_c2000_omp64_dislotwin_probe_20260324_144021_matrix_control_80000_center_low_score_increment_80000.h5",
+   "roi_id": "matrix_control_80000_center_low_score",
+   "roi_type": "matrix_control",
+   "tstar_increment": 80000,
+   "rho_avg_m2": 1577392463038385.8,
+   "rho_p95_m2": 1807519107387955.0,
+   "rho_cell_max_m2": 2005355762757244.0,
+   "sigma_vm_max_MPa": 1382.0299572124725,
+   "ddd_target_density_range_m2": [
+    1577392463038385.8,
+    1807519107387955.0
+   ],
+   "rho_seed_rule": "use_density_as_scale_not_exact_line_count",
+   "pfc_boxes": {
+    "512^2": {
+     "L_nm": 14.16678996526736,
+     "n_dislocations_at_rho_avg": 0.31657941462235384,
+     "n_dislocations_at_rho_cell_max": 0.4024707663813676,
+     "rho_of_2_cores_m2": 9965224459840828.0
+    },
+    "2048^2": {
+     "L_nm": 56.66715986106944,
+     "n_dislocations_at_rho_avg": 5.065270633957661,
+     "n_dislocations_at_rho_cell_max": 6.439532262101881,
+     "rho_of_2_cores_m2": 622826528740051.8
+    }
+   },
+   "min_box_for_2_cores_at_rho_avg_um": 0.03560779796498628,
+   "min_grid_at_dx_pi4": 1287
+  },
+  {
+   "file": "interfaceB_cu_eq_user_300x3x300_c2000_omp64_dislotwin_probe_20260324_144021_state_hotspot_38400_component_2_increment_38400.h5",
+   "roi_id": "state_hotspot_38400_component_2",
+   "roi_type": "late_growth_hotspot",
+   "tstar_increment": 38400,
+   "rho_avg_m2": 1376525201867050.2,
+   "rho_p95_m2": 1811243668055169.5,
+   "rho_cell_max_m2": 2038768399917011.2,
+   "sigma_vm_max_MPa": 1380.8798836188398,
+   "ddd_target_density_range_m2": [
+    1468999571908211.8,
+    1879595190116783.0
+   ],
+   "rho_seed_rule": "use_density_as_scale_not_exact_line_count",
+   "pfc_boxes": {
+    "512^2": {
+     "L_nm": 14.16678996526736,
+     "n_dislocations_at_rho_avg": 0.2762657695096287,
+     "n_dislocations_at_rho_cell_max": 0.409176613759802,
+     "rho_of_2_cores_m2": 9965224459840828.0
+    },
+    "2048^2": {
+     "L_nm": 56.66715986106944,
+     "n_dislocations_at_rho_avg": 4.42025231215406,
+     "n_dislocations_at_rho_cell_max": 6.546825820156832,
+     "rho_of_2_cores_m2": 622826528740051.8
+    }
+   },
+   "min_box_for_2_cores_at_rho_avg_um": 0.03811736881739735,
+   "min_grid_at_dx_pi4": 1378
+  },
+  {
+   "file": "interfaceB_cu_eq_user_300x3x300_c2000_omp64_dislotwin_probe_20260324_144021_state_hotspot_80000_component_2_increment_80000.h5",
+   "roi_id": "state_hotspot_80000_component_2",
+   "roi_type": "stable_hotspot",
+   "tstar_increment": 80000,
+   "rho_avg_m2": 1475087928504724.2,
+   "rho_p95_m2": 1809644939102501.0,
+   "rho_cell_max_m2": 2052443998988023.0,
+   "sigma_vm_max_MPa": 1374.0613790898942,
+   "ddd_target_density_range_m2": [
+    1475087928504724.2,
+    1809644939102501.0
+   ],
+   "rho_seed_rule": "use_density_as_scale_not_exact_line_count",
+   "pfc_boxes": {
+    "512^2": {
+     "L_nm": 14.16678996526736,
+     "n_dislocations_at_rho_avg": 0.29604710550158253,
+     "n_dislocations_at_rho_cell_max": 0.41192127829317476,
+     "rho_of_2_cores_m2": 9965224459840828.0
+    },
+    "2048^2": {
+     "L_nm": 56.66715986106944,
+     "n_dislocations_at_rho_avg": 4.7367536880253205,
+     "n_dislocations_at_rho_cell_max": 6.590740452690796,
+     "rho_of_2_cores_m2": 622826528740051.8
+    }
+   },
+   "min_box_for_2_cores_at_rho_avg_um": 0.03682188720907426,
+   "min_grid_at_dx_pi4": 1331
+  }
+ ]
+}
