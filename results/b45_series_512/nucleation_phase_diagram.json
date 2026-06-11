@@ -1,0 +1,24 @@
+{
+ "points": [
+  {
+   "noise": 0.02,
+   "first_nucleation_pct": null
+  },
+  {
+   "noise": 0.03,
+   "first_nucleation_pct": null
+  },
+  {
+   "noise": 0.045,
+   "first_nucleation_pct": 9.68
+  },
+  {
+   "noise": 0.06,
+   "first_nucleation_pct": 5.91
+  }
+ ],
+ "threshold_band": [
+  0.03,
+  0.045
+ ]
+}
