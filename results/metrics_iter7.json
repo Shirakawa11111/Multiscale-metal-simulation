@@ -1,0 +1,107 @@
+{
+ "pore_v2": [
+  {
+   "file": "initial.npz",
+   "exx": 0.0,
+   "pore_r_over_a0": 0.0,
+   "cores_total": 6,
+   "cores_emitted": 6
+  },
+  {
+   "file": "event_0.25pct.npz",
+   "exx": 0.0024999999999999467,
+   "pore_r_over_a0": 0.0,
+   "cores_total": 8,
+   "cores_emitted": 8
+  },
+  {
+   "file": "event_0.50pct.npz",
+   "exx": 0.005006249999999879,
+   "pore_r_over_a0": 0.0,
+   "cores_total": 4,
+   "cores_emitted": 4
+  },
+  {
+   "file": "event_0.75pct.npz",
+   "exx": 0.007518765624999757,
+   "pore_r_over_a0": 0.0,
+   "cores_total": 10,
+   "cores_emitted": 10
+  },
+  {
+   "file": "event_1.00pct.npz",
+   "exx": 0.010037562539062295,
+   "pore_r_over_a0": 0.0,
+   "cores_total": 2,
+   "cores_emitted": 2
+  },
+  {
+   "file": "event_1.26pct.npz",
+   "exx": 0.012562656445409992,
+   "pore_r_over_a0": 0.0,
+   "cores_total": 6,
+   "cores_emitted": 6
+  },
+  {
+   "file": "event_1.76pct.npz",
+   "exx": 0.01763179824423977,
+   "pore_r_over_a0": 0.0,
+   "cores_total": 4,
+   "cores_emitted": 4
+  },
+  {
+   "file": "snap_2.02pct.npz",
+   "exx": 0.020175877739850412,
+   "pore_r_over_a0": 0.0,
+   "cores_total": 12,
+   "cores_emitted": 12
+  },
+  {
+   "file": "snap_4.08pct.npz",
+   "exx": 0.040758821522273836,
+   "pore_r_over_a0": 0.0,
+   "cores_total": 6,
+   "cores_emitted": 6
+  },
+  {
+   "file": "snap_6.18pct.npz",
+   "exx": 0.06175704426197748,
+   "pore_r_over_a0": 0.18322594196359493,
+   "cores_total": 21,
+   "cores_emitted": 19
+  },
+  {
+   "file": "snap_8.32pct.npz",
+   "exx": 0.08317892457643161,
+   "pore_r_over_a0": 0.0,
+   "cores_total": 17,
+   "cores_emitted": 17
+  },
+  {
+   "file": "final.npz",
+   "exx": 0.1050330101290684,
+   "pore_r_over_a0": 0.06107531398786498,
+   "cores_total": 18,
+   "cores_emitted": 16
+  },
+  {
+   "file": "snap_10.50pct.npz",
+   "exx": 0.1050330101290684,
+   "pore_r_over_a0": 0.06107531398786498,
+   "cores_total": 18,
+   "cores_emitted": 16
+  }
+ ],
+ "noise_v2": {
+  "noise_amp": 0.06,
+  "first_nucleation_exx": 0.05910927108426689,
+  "max_cores": 18,
+  "final_cores": 13
+ },
+ "c3_128": {
+  "modulus_early": 0.026629339651844573,
+  "n_atoms": 3290,
+  "single_crystal_modulus": 0.0353,
+  "ratio": 0.75437222809758
+ }
+}
