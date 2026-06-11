@@ -1,0 +1,3 @@
+box 42.5 nm, rho_sim=2.21e+15 m^-2 (target 2.05e+15)
+eps=0 cores=4
+exx= 0.25% sigma=+0.00069 cores=4

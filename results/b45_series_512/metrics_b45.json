@@ -1,0 +1,29 @@
+{
+ "fast (RELAX=100)": {
+  "relax": 100,
+  "flow_stress_at_8p5": 0.005699383379160798,
+  "cores_at_8p5": 148,
+  "cores_initial": 192
+ },
+ "base (RELAX=400)": {
+  "relax": 400,
+  "flow_stress_at_8p5": 0.003563430932596307,
+  "cores_at_8p5": 122,
+  "cores_initial": 192
+ },
+ "slow (RELAX=1600)": {
+  "relax": 1600,
+  "flow_stress_at_8p5": 0.00262,
+  "cores_at_8p5": 102,
+  "cores_initial": 192
+ },
+ "rate_exponent_m": 0.28030975740725417,
+ "pore v1 (dissolved)": {
+  "final_cores": 0,
+  "max_cores": 2
+ },
+ "noise 0.02": {
+  "final_cores": 0,
+  "max_cores": 0
+ }
+}
