@@ -130,27 +130,37 @@ class PFC2D:
         qy = 2.0 * np.pi * max(1, round(0.5 * self.ly / (2 * np.pi))) / self.ly
         return qx, qy
 
-    def init_dislocation_dipole(self, images=1):
-        """Seed a +b/-b edge dipole by phase winding (Skaugen et al. style):
-        ux = (b/2π) Σ_images [atan2(r - r1) - atan2(r - r2)], uy = 0.
-        The branch-cut jump equals one full Burgers vector (invisible to the
-        lattice), and the dipole far-field decays, so the box stays
-        periodic-compatible. Cores at (lx/2, ly/4) and (lx/2, 3·ly/4)."""
+    def init_dislocations(self, cores, images=1):
+        """Seed edge dislocations by phase winding (Skaugen et al. style):
+        ux = (b/2π) Σ_images Σ_i sign_i · atan2(y - yi, x - xi), uy = 0.
+        Each branch-cut jump equals one full Burgers vector (invisible to
+        the lattice). `cores` is a list of (x_frac, y_frac, sign); signs
+        must sum to zero for a periodic-compatible far field.
+
+        cores=[(0.5, 0.25, +1), (0.5, 0.75, -1)] reproduces the classic
+        vertical dipole; a quadrupole arrangement minimizes image
+        interactions for multi-dislocation seeding."""
+        if sum(s for _, _, s in cores) != 0:
+            raise ValueError("net Burgers vector must be zero (signs sum 0)")
         x = np.arange(self.nx) * self.dx
         y = np.arange(self.ny) * self.dy
         X, Y = np.meshgrid(x, y)
         qx, _ = self._snapped_q()
         b = 2.0 * np.pi / qx  # x-period of the snapped lattice
-        cx = self.lx / 2.0
-        y1, y2 = 0.25 * self.ly, 0.75 * self.ly
         ux = np.zeros_like(X)
         for sx in range(-images, images + 1):
             for sy in range(-images, images + 1):
-                ux += (np.arctan2(Y - y1 + sy * self.ly, X - cx + sx * self.lx)
-                       - np.arctan2(Y - y2 + sy * self.ly, X - cx + sx * self.lx))
+                for fx, fy, s in cores:
+                    ux += s * np.arctan2(Y - fy * self.ly + sy * self.ly,
+                                         X - fx * self.lx + sx * self.lx)
         ux *= b / (2.0 * np.pi)
         self.psi = self.one_mode_field(X, Y, ux=ux)
         self._fix_mean()
+
+    def init_dislocation_dipole(self, images=1):
+        """Classic +b/-b vertical dipole at (lx/2, ly/4) and (lx/2, 3ly/4)."""
+        self.init_dislocations([(0.5, 0.25, +1), (0.5, 0.75, -1)],
+                               images=images)
 
     def add_void(self, cx_frac=0.5, cy_frac=0.5, radius=None, edge=None,
                  depth=0.0):

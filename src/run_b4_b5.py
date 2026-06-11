@@ -32,6 +32,10 @@ CASES = {
     "b4_noise":     dict(kind="perfect", relax=400, noise=0.02),
     "b5_rate_fast": dict(kind="poly", relax=100, noise=0.0),
     "b5_rate_slow": dict(kind="poly", relax=1600, noise=0.0),
+    # v1 pore (depth 0.2, 4a0) dissolved via Gibbs-Thomson by ~6% strain;
+    # depth 0.5 / 8a0 verified persistent to t=3000
+    "b4_pore_v2":   dict(kind="pore2", relax=400, noise=0.0),
+    "b4_noise_v2":  dict(kind="perfect", relax=400, noise=0.06),
 }
 
 
@@ -41,6 +45,11 @@ def make_case(kind):
         m.init_crystal()
         m.step(DT, n=200)
         m.add_void(radius=4 * 7.255, depth=0.2)
+        m.step(DT, n=600)
+    elif kind == "pore2":
+        m.init_crystal()
+        m.step(DT, n=200)
+        m.add_void(radius=8 * 7.255, depth=0.5)
         m.step(DT, n=600)
     elif kind == "perfect":
         m.init_crystal()
