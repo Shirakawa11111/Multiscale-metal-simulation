@@ -1,1 +1,5 @@
 local queue: 18 cells, 11 workers (of 14 cores, 20% reserved)
+[1/18] end poly768_r-0.2_x100_s7 rc=0 (196s)
+[2/18] end poly768_r-0.2_x100_s11 rc=0 (196s)
+[3/18] end poly768_r-0.2_x400_s7 rc=0 (513s)
+[4/18] end poly768_r-0.2_x400_s11 rc=0 (514s)
