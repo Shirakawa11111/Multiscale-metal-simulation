@@ -7,7 +7,7 @@
 # Exit codes: 0 launched · 1 probe/ssh failure · 2 fewer than 64 CPUs free
 #             3 matrix already running
 set -eu
-HOST=rc@192.168.196.40
+HOST=rc@100.107.94.4
 ROOT=/home/rc/BO/pfc_matrix
 SSH="ssh -o ConnectTimeout=8 -o BatchMode=yes $HOST"
 
