@@ -39,6 +39,12 @@ def make_model(a):
     else:  # quad
         m.init_dislocations([(0.33, 0.25, +1), (0.33, 0.75, -1),
                              (0.67, 0.25, -1), (0.67, 0.75, +1)])
+        if a.perturb > 0:
+            # small random perturbation -> ensemble realizations for the
+            # otherwise-deterministic quadrupole (threshold statistics)
+            rng = np.random.default_rng(a.seed)
+            m.psi += a.perturb * rng.standard_normal(m.psi.shape)
+            m._fix_mean()
         m.step(DT, n=600)
     return m
 
@@ -82,6 +88,7 @@ def main():
     p.add_argument("--strain-to", type=float, default=0.16)
     p.add_argument("--amp", type=float, default=0.01)
     p.add_argument("--cycles", type=int, default=8)
+    p.add_argument("--perturb", type=float, default=0.0)
     p.add_argument("--out", required=True)
     a = p.parse_args()
 

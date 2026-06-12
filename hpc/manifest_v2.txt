@@ -1,0 +1,45 @@
+quadf_r-0.34_s7|--kind quad --r -0.34 --relax 400 --seed 7 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.34_s7
+quadf_r-0.34_s11|--kind quad --r -0.34 --relax 400 --seed 11 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.34_s11
+quadf_r-0.34_s13|--kind quad --r -0.34 --relax 400 --seed 13 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.34_s13
+quadf_r-0.32_s7|--kind quad --r -0.32 --relax 400 --seed 7 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.32_s7
+quadf_r-0.32_s11|--kind quad --r -0.32 --relax 400 --seed 11 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.32_s11
+quadf_r-0.32_s13|--kind quad --r -0.32 --relax 400 --seed 13 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.32_s13
+quadf_r-0.3_s7|--kind quad --r -0.3 --relax 400 --seed 7 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.3_s7
+quadf_r-0.3_s11|--kind quad --r -0.3 --relax 400 --seed 11 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.3_s11
+quadf_r-0.3_s13|--kind quad --r -0.3 --relax 400 --seed 13 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.3_s13
+quadf_r-0.28_s7|--kind quad --r -0.28 --relax 400 --seed 7 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.28_s7
+quadf_r-0.28_s11|--kind quad --r -0.28 --relax 400 --seed 11 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.28_s11
+quadf_r-0.28_s13|--kind quad --r -0.28 --relax 400 --seed 13 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.28_s13
+quadf_r-0.26_s7|--kind quad --r -0.26 --relax 400 --seed 7 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.26_s7
+quadf_r-0.26_s11|--kind quad --r -0.26 --relax 400 --seed 11 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.26_s11
+quadf_r-0.26_s13|--kind quad --r -0.26 --relax 400 --seed 13 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.26_s13
+quadf_r-0.24_s7|--kind quad --r -0.24 --relax 400 --seed 7 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.24_s7
+quadf_r-0.24_s11|--kind quad --r -0.24 --relax 400 --seed 11 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.24_s11
+quadf_r-0.24_s13|--kind quad --r -0.24 --relax 400 --seed 13 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.24_s13
+quadf_r-0.22_s7|--kind quad --r -0.22 --relax 400 --seed 7 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.22_s7
+quadf_r-0.22_s11|--kind quad --r -0.22 --relax 400 --seed 11 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.22_s11
+quadf_r-0.22_s13|--kind quad --r -0.22 --relax 400 --seed 13 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.22_s13
+quadf_r-0.2_s7|--kind quad --r -0.2 --relax 400 --seed 7 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.2_s7
+quadf_r-0.2_s11|--kind quad --r -0.2 --relax 400 --seed 11 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.2_s11
+quadf_r-0.2_s13|--kind quad --r -0.2 --relax 400 --seed 13 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.2_s13
+quadf_r-0.18_s7|--kind quad --r -0.18 --relax 400 --seed 7 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.18_s7
+quadf_r-0.18_s11|--kind quad --r -0.18 --relax 400 --seed 11 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.18_s11
+quadf_r-0.18_s13|--kind quad --r -0.18 --relax 400 --seed 13 --perturb 0.01 --strain-to 0.20 --out results_hpc/quadf_r-0.18_s13
+poly_r-0.23_x100_s7|--kind poly --r -0.23 --relax 100 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.23_x100_s7
+poly_r-0.23_x100_s11|--kind poly --r -0.23 --relax 100 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.23_x100_s11
+poly_r-0.23_x100_s13|--kind poly --r -0.23 --relax 100 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.23_x100_s13
+poly_r-0.23_x400_s7|--kind poly --r -0.23 --relax 400 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.23_x400_s7
+poly_r-0.23_x400_s11|--kind poly --r -0.23 --relax 400 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.23_x400_s11
+poly_r-0.23_x400_s13|--kind poly --r -0.23 --relax 400 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.23_x400_s13
+poly_r-0.23_x1600_s7|--kind poly --r -0.23 --relax 1600 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.23_x1600_s7
+poly_r-0.23_x1600_s11|--kind poly --r -0.23 --relax 1600 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.23_x1600_s11
+poly_r-0.23_x1600_s13|--kind poly --r -0.23 --relax 1600 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.23_x1600_s13
+poly_r-0.21_x100_s7|--kind poly --r -0.21 --relax 100 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.21_x100_s7
+poly_r-0.21_x100_s11|--kind poly --r -0.21 --relax 100 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.21_x100_s11
+poly_r-0.21_x100_s13|--kind poly --r -0.21 --relax 100 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.21_x100_s13
+poly_r-0.21_x400_s7|--kind poly --r -0.21 --relax 400 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.21_x400_s7
+poly_r-0.21_x400_s11|--kind poly --r -0.21 --relax 400 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.21_x400_s11
+poly_r-0.21_x400_s13|--kind poly --r -0.21 --relax 400 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.21_x400_s13
+poly_r-0.21_x1600_s7|--kind poly --r -0.21 --relax 1600 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.21_x1600_s7
+poly_r-0.21_x1600_s11|--kind poly --r -0.21 --relax 1600 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.21_x1600_s11
+poly_r-0.21_x1600_s13|--kind poly --r -0.21 --relax 1600 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.21_x1600_s13

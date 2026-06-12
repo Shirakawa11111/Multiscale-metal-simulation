@@ -1,0 +1,1 @@
+backend=pyfftw cfg={'kind': 'quad', 'r': -0.34, 'relax': 400, 'seed': 13, 'n': 512, 'strain_to': 0.2, 'amp': 0.01, 'cycles': 8, 'perturb': 0.01, 'out': 'results_hpc/quadf_r-0.34_s13'}

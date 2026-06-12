@@ -12,7 +12,7 @@ import os, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MANIFEST = os.path.join(ROOT, "hpc", "manifest.txt")
+MANIFEST = os.path.join(ROOT, "hpc", os.environ.get("MANIFEST", "manifest.txt"))
 OUTBASE = os.path.join(ROOT, "results_hpc")   # same layout as remote
 LOGDIR = os.path.join(ROOT, "results_local_queue", "logs")
 WORKERS = max(1, int((os.cpu_count() or 4) * 0.8))
