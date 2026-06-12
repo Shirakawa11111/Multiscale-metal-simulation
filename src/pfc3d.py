@@ -28,12 +28,25 @@ try:
     pyfftw.interfaces.cache.enable()
     FFT_BACKEND = "pyfftw"
 except ImportError:
-    _rfftn = np.fft.rfftn
+    try:
+        from scipy import fft as _sfft
 
-    def _irfftn(a, s):
-        return np.fft.irfftn(a, s=s)
+        _WORKERS = int(os.environ.get("PFC_FFT_THREADS", os.cpu_count() or 4))
 
-    FFT_BACKEND = "numpy"
+        def _rfftn(a):
+            return _sfft.rfftn(a, workers=_WORKERS)
+
+        def _irfftn(a, s):
+            return _sfft.irfftn(a, s=s, workers=_WORKERS)
+
+        FFT_BACKEND = "scipy"
+    except ImportError:
+        _rfftn = np.fft.rfftn
+
+        def _irfftn(a, s):
+            return np.fft.irfftn(a, s=s)
+
+        FFT_BACKEND = "numpy"
 
 A_BCC = 2.0 * np.pi * np.sqrt(2.0)   # BCC lattice constant for q0 = 1
 

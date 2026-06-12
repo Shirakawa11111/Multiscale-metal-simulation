@@ -1,0 +1,57 @@
+poly_r-0.35_x100_s7|--kind poly --r -0.35 --relax 100 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.35_x100_s7
+poly_r-0.35_x100_s11|--kind poly --r -0.35 --relax 100 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.35_x100_s11
+poly_r-0.35_x100_s13|--kind poly --r -0.35 --relax 100 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.35_x100_s13
+poly_r-0.35_x400_s7|--kind poly --r -0.35 --relax 400 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.35_x400_s7
+poly_r-0.35_x400_s11|--kind poly --r -0.35 --relax 400 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.35_x400_s11
+poly_r-0.35_x400_s13|--kind poly --r -0.35 --relax 400 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.35_x400_s13
+poly_r-0.35_x1600_s7|--kind poly --r -0.35 --relax 1600 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.35_x1600_s7
+poly_r-0.35_x1600_s11|--kind poly --r -0.35 --relax 1600 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.35_x1600_s11
+poly_r-0.35_x1600_s13|--kind poly --r -0.35 --relax 1600 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.35_x1600_s13
+poly_r-0.3_x100_s7|--kind poly --r -0.3 --relax 100 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.3_x100_s7
+poly_r-0.3_x100_s11|--kind poly --r -0.3 --relax 100 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.3_x100_s11
+poly_r-0.3_x100_s13|--kind poly --r -0.3 --relax 100 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.3_x100_s13
+poly_r-0.3_x400_s7|--kind poly --r -0.3 --relax 400 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.3_x400_s7
+poly_r-0.3_x400_s11|--kind poly --r -0.3 --relax 400 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.3_x400_s11
+poly_r-0.3_x400_s13|--kind poly --r -0.3 --relax 400 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.3_x400_s13
+poly_r-0.3_x1600_s7|--kind poly --r -0.3 --relax 1600 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.3_x1600_s7
+poly_r-0.3_x1600_s11|--kind poly --r -0.3 --relax 1600 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.3_x1600_s11
+poly_r-0.3_x1600_s13|--kind poly --r -0.3 --relax 1600 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.3_x1600_s13
+poly_r-0.25_x100_s7|--kind poly --r -0.25 --relax 100 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.25_x100_s7
+poly_r-0.25_x100_s11|--kind poly --r -0.25 --relax 100 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.25_x100_s11
+poly_r-0.25_x100_s13|--kind poly --r -0.25 --relax 100 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.25_x100_s13
+poly_r-0.25_x400_s7|--kind poly --r -0.25 --relax 400 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.25_x400_s7
+poly_r-0.25_x400_s11|--kind poly --r -0.25 --relax 400 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.25_x400_s11
+poly_r-0.25_x400_s13|--kind poly --r -0.25 --relax 400 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.25_x400_s13
+poly_r-0.25_x1600_s7|--kind poly --r -0.25 --relax 1600 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.25_x1600_s7
+poly_r-0.25_x1600_s11|--kind poly --r -0.25 --relax 1600 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.25_x1600_s11
+poly_r-0.25_x1600_s13|--kind poly --r -0.25 --relax 1600 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.25_x1600_s13
+poly_r-0.2_x100_s7|--kind poly --r -0.2 --relax 100 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.2_x100_s7
+poly_r-0.2_x100_s11|--kind poly --r -0.2 --relax 100 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.2_x100_s11
+poly_r-0.2_x100_s13|--kind poly --r -0.2 --relax 100 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.2_x100_s13
+poly_r-0.2_x400_s7|--kind poly --r -0.2 --relax 400 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.2_x400_s7
+poly_r-0.2_x400_s11|--kind poly --r -0.2 --relax 400 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.2_x400_s11
+poly_r-0.2_x400_s13|--kind poly --r -0.2 --relax 400 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.2_x400_s13
+poly_r-0.2_x1600_s7|--kind poly --r -0.2 --relax 1600 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.2_x1600_s7
+poly_r-0.2_x1600_s11|--kind poly --r -0.2 --relax 1600 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.2_x1600_s11
+poly_r-0.2_x1600_s13|--kind poly --r -0.2 --relax 1600 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.2_x1600_s13
+poly_r-0.15_x100_s7|--kind poly --r -0.15 --relax 100 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.15_x100_s7
+poly_r-0.15_x100_s11|--kind poly --r -0.15 --relax 100 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.15_x100_s11
+poly_r-0.15_x100_s13|--kind poly --r -0.15 --relax 100 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.15_x100_s13
+poly_r-0.15_x400_s7|--kind poly --r -0.15 --relax 400 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.15_x400_s7
+poly_r-0.15_x400_s11|--kind poly --r -0.15 --relax 400 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.15_x400_s11
+poly_r-0.15_x400_s13|--kind poly --r -0.15 --relax 400 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.15_x400_s13
+poly_r-0.15_x1600_s7|--kind poly --r -0.15 --relax 1600 --seed 7 --strain-to 0.16 --out results_hpc/poly_r-0.15_x1600_s7
+poly_r-0.15_x1600_s11|--kind poly --r -0.15 --relax 1600 --seed 11 --strain-to 0.16 --out results_hpc/poly_r-0.15_x1600_s11
+poly_r-0.15_x1600_s13|--kind poly --r -0.15 --relax 1600 --seed 13 --strain-to 0.16 --out results_hpc/poly_r-0.15_x1600_s13
+quad_r-0.35|--kind quad --r -0.35 --relax 400 --strain-to 0.20 --out results_hpc/quad_r-0.35
+quad_r-0.3|--kind quad --r -0.3 --relax 400 --strain-to 0.20 --out results_hpc/quad_r-0.3
+quad_r-0.25|--kind quad --r -0.25 --relax 400 --strain-to 0.20 --out results_hpc/quad_r-0.25
+quad_r-0.2|--kind quad --r -0.2 --relax 400 --strain-to 0.20 --out results_hpc/quad_r-0.2
+cyc_a0.005_s7|--kind cyc --amp 0.005 --seed 7 --out results_hpc/cyc_a0.005_s7
+cyc_a0.005_s11|--kind cyc --amp 0.005 --seed 11 --out results_hpc/cyc_a0.005_s11
+cyc_a0.01_s7|--kind cyc --amp 0.01 --seed 7 --out results_hpc/cyc_a0.01_s7
+cyc_a0.01_s11|--kind cyc --amp 0.01 --seed 11 --out results_hpc/cyc_a0.01_s11
+cyc_a0.02_s7|--kind cyc --amp 0.02 --seed 7 --out results_hpc/cyc_a0.02_s7
+cyc_a0.02_s11|--kind cyc --amp 0.02 --seed 11 --out results_hpc/cyc_a0.02_s11
+cyc_a0.03_s7|--kind cyc --amp 0.03 --seed 7 --out results_hpc/cyc_a0.03_s7
+cyc_a0.03_s11|--kind cyc --amp 0.03 --seed 11 --out results_hpc/cyc_a0.03_s11

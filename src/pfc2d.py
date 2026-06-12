@@ -29,12 +29,25 @@ try:
     pyfftw.interfaces.cache.enable()
     FFT_BACKEND = "pyfftw"
 except ImportError:
-    _rfft2 = np.fft.rfft2
+    try:
+        from scipy import fft as _sfft
 
-    def _irfft2(a, s):
-        return np.fft.irfft2(a, s=s)
+        _WORKERS = int(os.environ.get("PFC_FFT_THREADS", os.cpu_count() or 4))
 
-    FFT_BACKEND = "numpy"
+        def _rfft2(a):
+            return _sfft.rfft2(a, workers=_WORKERS)
+
+        def _irfft2(a, s):
+            return _sfft.irfft2(a, s=s, workers=_WORKERS)
+
+        FFT_BACKEND = "scipy"
+    except ImportError:
+        _rfft2 = np.fft.rfft2
+
+        def _irfft2(a, s):
+            return np.fft.irfft2(a, s=s)
+
+        FFT_BACKEND = "numpy"
 
 # one-mode triangular lattice: q0 = 1, atomic spacing a0 = 4π/√3
 A_LATTICE = 4.0 * np.pi / np.sqrt(3.0)

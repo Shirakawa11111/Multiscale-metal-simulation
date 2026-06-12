@@ -2,6 +2,23 @@
 
 > 跨迭代状态文件。每轮 /loop 迭代结束时更新。计划见 docs/RESEARCH_PLAN.md。
 
+## 迭代 16 — 2026-06-12（用户授权 HPC 64 CPU）
+
+### 用户新指令
+**可使用 HPC 的 64 个 CPU；条件：有 64 个空闲 CPU 即可开始。**
+
+### 已完成
+- ✅ HPC 部署包全套（`hpc/`）：
+  - `hpc_run_one.py` 统一单元驱动（poly/quad/cyc 三类）
+  - `make_manifest.py` → 57 运行矩阵（poly: r×率×种子 45；quad: r 阈值 4；cyc: 幅度×种子 8）
+  - `run_queue.sh` 远端队列（xargs -P 64、单线程 FFT 钉死、断点续跑 skip 逻辑）
+  - `deploy_and_launch.sh` 一键部署（**≥64 空闲 CPU 闸门**+已有任务检测+rsync+nohup）
+- ✅ 求解器 FFT 回退链补 scipy.fft（远端无 pyfftw 时多线程可用；已验证 backend=scipy 结果正确）
+- ✅ 驱动器本地端到端冒烟通过
+- ▶️ 部署链对抗审计工作流运行中（3 视角：shell/SSH、Python 路径、资源政策）
+- ▶️ **持续 Monitor 已武装**：每 60s 探测 HPC，上线且 ≥64 空闲即唤醒 → 跑 deploy_and_launch.sh
+- HPC 第 16 轮探测仍超时（等用户回到其局域网）
+
 ## 迭代 11-13 — 2026-06-11/12
 
 ### 已完成
