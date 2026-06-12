@@ -34,5 +34,5 @@ run_one() {
 }
 export -f run_one
 
-xargs -d '\n' -P "$MAXP" -I{} bash -c 'run_one "$@"' _ {} < hpc/manifest.txt
+xargs -d '\n' -P "$MAXP" -I{} bash -c 'run_one "$@"' _ {} < "${MANIFEST:-hpc/manifest.txt}"
 echo "queue done: $(date)"

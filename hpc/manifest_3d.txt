@@ -1,0 +1,16 @@
+p3d_r-0.35_x100_s7|--kind poly3d --n 128 --r -0.35 --relax 100 --seed 7 --strain-to 0.06 --out results_hpc/p3d_r-0.35_x100_s7
+p3d_r-0.35_x100_s11|--kind poly3d --n 128 --r -0.35 --relax 100 --seed 11 --strain-to 0.06 --out results_hpc/p3d_r-0.35_x100_s11
+p3d_r-0.35_x400_s7|--kind poly3d --n 128 --r -0.35 --relax 400 --seed 7 --strain-to 0.06 --out results_hpc/p3d_r-0.35_x400_s7
+p3d_r-0.35_x400_s11|--kind poly3d --n 128 --r -0.35 --relax 400 --seed 11 --strain-to 0.06 --out results_hpc/p3d_r-0.35_x400_s11
+p3d_r-0.3_x100_s7|--kind poly3d --n 128 --r -0.3 --relax 100 --seed 7 --strain-to 0.06 --out results_hpc/p3d_r-0.3_x100_s7
+p3d_r-0.3_x100_s11|--kind poly3d --n 128 --r -0.3 --relax 100 --seed 11 --strain-to 0.06 --out results_hpc/p3d_r-0.3_x100_s11
+p3d_r-0.3_x400_s7|--kind poly3d --n 128 --r -0.3 --relax 400 --seed 7 --strain-to 0.06 --out results_hpc/p3d_r-0.3_x400_s7
+p3d_r-0.3_x400_s11|--kind poly3d --n 128 --r -0.3 --relax 400 --seed 11 --strain-to 0.06 --out results_hpc/p3d_r-0.3_x400_s11
+p3d_r-0.25_x100_s7|--kind poly3d --n 128 --r -0.25 --relax 100 --seed 7 --strain-to 0.06 --out results_hpc/p3d_r-0.25_x100_s7
+p3d_r-0.25_x100_s11|--kind poly3d --n 128 --r -0.25 --relax 100 --seed 11 --strain-to 0.06 --out results_hpc/p3d_r-0.25_x100_s11
+p3d_r-0.25_x400_s7|--kind poly3d --n 128 --r -0.25 --relax 400 --seed 7 --strain-to 0.06 --out results_hpc/p3d_r-0.25_x400_s7
+p3d_r-0.25_x400_s11|--kind poly3d --n 128 --r -0.25 --relax 400 --seed 11 --strain-to 0.06 --out results_hpc/p3d_r-0.25_x400_s11
+p3d_r-0.2_x100_s7|--kind poly3d --n 128 --r -0.2 --relax 100 --seed 7 --strain-to 0.06 --out results_hpc/p3d_r-0.2_x100_s7
+p3d_r-0.2_x100_s11|--kind poly3d --n 128 --r -0.2 --relax 100 --seed 11 --strain-to 0.06 --out results_hpc/p3d_r-0.2_x100_s11
+p3d_r-0.2_x400_s7|--kind poly3d --n 128 --r -0.2 --relax 400 --seed 7 --strain-to 0.06 --out results_hpc/p3d_r-0.2_x400_s7
+p3d_r-0.2_x400_s11|--kind poly3d --n 128 --r -0.2 --relax 400 --seed 11 --strain-to 0.06 --out results_hpc/p3d_r-0.2_x400_s11

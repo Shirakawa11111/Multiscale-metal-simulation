@@ -26,6 +26,36 @@ DT = 0.5
 DEPS = 0.0025
 
 
+def run_poly3d(a):
+    """3D BCC polycrystal tension (kind=poly3d): quench -> volume-conserving
+    tension. Dislocation-line analysis is done offline (export_xyz + OVITO);
+    here we record stress/energy and atom-peak counts."""
+    from pfc3d import PFC3D, A_BCC, find_peaks_3d
+    n_cells = max(2, round(a.n * np.pi / 4 / A_BCC))
+    dx = n_cells * A_BCC / a.n          # commensurate box
+    m = PFC3D(a.n, a.n, a.n, dx=dx, r=a.r, psi_bar=-0.25)
+    m.init_random(noise=0.05, seed=a.seed)
+    m.step(DT, n=2000)
+    n0 = len(find_peaks_3d(m.psi, m.dx, m.dy, m.dz))
+    m.save(os.path.join(a.out, "initial.npz"))
+    rows = [dict(exx=0.0, sigma=m.stress(), F=m.free_energy(), peaks=n0)]
+    print(f"quenched: peaks={n0}", flush=True)
+    n_steps = int(round(a.strain_to / DEPS))
+    for i in range(n_steps):
+        m.apply_strain(DEPS, volume_conserving=True)
+        m.step(DT, n=a.relax)
+        pk = (len(find_peaks_3d(m.psi, m.dx, m.dy, m.dz))
+              if i % 4 == 3 else None)
+        rows.append(dict(exx=m.exx, sigma=m.stress(), F=m.free_energy(),
+                         peaks=pk))
+        print(f"exx={m.exx*100:.2f}% sigma={rows[-1]['sigma']:+.6f}"
+              + (f" peaks={pk}" if pk else ""), flush=True)
+        if i % 8 == 7:
+            m.save(os.path.join(a.out, f"snap_{m.exx*100:.2f}pct.npz"))
+    m.save(os.path.join(a.out, "final.npz"))
+    return rows
+
+
 def detect(m):
     pts = find_peaks(m.psi, m.dx, m.dy)
     return find_dislocations(pts, m.lx, m.ly)
@@ -80,7 +110,8 @@ def run_cyclic(m, a, rows):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--kind", choices=["poly", "quad", "cyc"], required=True)
+    p.add_argument("--kind", choices=["poly", "quad", "cyc", "poly3d"],
+                   required=True)
     p.add_argument("--r", type=float, default=-0.25)
     p.add_argument("--relax", type=int, default=400)
     p.add_argument("--seed", type=int, default=7)
@@ -95,6 +126,15 @@ def main():
     os.makedirs(a.out, exist_ok=True)
     t0 = time.time()
     print(f"backend={FFT_BACKEND} cfg={vars(a)}", flush=True)
+    if a.kind == "poly3d":
+        rows = run_poly3d(a)
+        tmp = os.path.join(a.out, "summary.json.tmp")
+        with open(tmp, "w") as f:
+            json.dump(dict(rows=rows, cfg=vars(a), backend=FFT_BACKEND,
+                           wall_s=time.time() - t0), f, indent=1)
+        os.replace(tmp, os.path.join(a.out, "summary.json"))
+        print(f"done in {time.time()-t0:.0f}s", flush=True)
+        return
     m = make_model(a)
     d0 = detect(m)
     m.save(os.path.join(a.out, "initial.npz"))
