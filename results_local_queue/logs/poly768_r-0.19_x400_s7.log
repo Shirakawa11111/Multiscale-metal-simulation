@@ -1,0 +1,1 @@
+backend=pyfftw cfg={'kind': 'poly', 'r': -0.19, 'relax': 400, 'seed': 7, 'n': 768, 'strain_to': 0.12, 'amp': 0.01, 'cycles': 8, 'perturb': 0.0, 'out': 'results_hpc/poly768_r-0.19_x400_s7'}
