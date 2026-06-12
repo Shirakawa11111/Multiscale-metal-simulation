@@ -101,6 +101,24 @@ def lattice_spacing(pts, lx, ly):
     return float(np.median(d[:, 1]))
 
 
+def pore_radius(pts, lx, ly, dx, dy, gap=1.3, probe_step=4,
+                a0=4 * np.pi / np.sqrt(3)):
+    """Effective pore radius from the atom-density void: area of the region
+    farther than gap*a0 from any density peak. Robust where amplitude
+    thresholds fail (validated against b4_pore_v2 visuals)."""
+    if len(pts) == 0:
+        return 0.0
+    tiled = np.vstack([pts + np.array([sx * lx, sy * ly])
+                       for sx in (-1, 0, 1) for sy in (-1, 0, 1)])
+    tree = cKDTree(tiled)
+    x = np.arange(0, lx, probe_step * dx)
+    y = np.arange(0, ly, probe_step * dy)
+    X, Y = np.meshgrid(x, y)
+    d, _ = tree.query(np.column_stack([X.ravel(), Y.ravel()]))
+    area = (d > gap * a0).sum() * (probe_step * dx) * (probe_step * dy)
+    return float(np.sqrt(area / np.pi)) if area > 0 else 0.0
+
+
 def density_spacing(pts, lx, ly):
     """Lattice constant inferred from areal peak density assuming a perfect
     triangular lattice: area/atom = (√3/2) a²  =>  a = sqrt(2A/(√3 N)).
