@@ -1,0 +1,10 @@
+backend=pyfftw cfg={'kind': 'poly', 'r': -0.25, 'relax': 400, 'seed': 7, 'n': 512, 'strain_to': 0.16, 'amp': 0.01, 'cycles': 8, 'out': 'results_hpc/poly_r-0.25_x400_s7'}
+exx=2.02% cores=168
+exx=4.08% cores=141
+exx=6.18% cores=129
+exx=8.32% cores=122
+exx=10.50% cores=123
+exx=12.73% cores=115
+exx=15.01% cores=104
+exx=17.33% cores=97
+done in 264s

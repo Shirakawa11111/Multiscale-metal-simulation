@@ -1,0 +1,10 @@
+backend=pyfftw cfg={'kind': 'cyc', 'r': -0.25, 'relax': 400, 'seed': 11, 'n': 512, 'strain_to': 0.16, 'amp': 0.02, 'cycles': 8, 'out': 'results_hpc/cyc_a0.02_s11'}
+cycle 0: cores=154
+cycle 1: cores=136
+cycle 2: cores=121
+cycle 3: cores=116
+cycle 4: cores=113
+cycle 5: cores=113
+cycle 6: cores=111
+cycle 7: cores=108
+done in 655s
