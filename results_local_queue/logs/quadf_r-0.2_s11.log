@@ -1,0 +1,12 @@
+backend=pyfftw cfg={'kind': 'quad', 'r': -0.2, 'relax': 400, 'seed': 11, 'n': 512, 'strain_to': 0.2, 'amp': 0.01, 'cycles': 8, 'perturb': 0.01, 'out': 'results_hpc/quadf_r-0.2_s11'}
+exx=2.02% cores=4
+exx=4.08% cores=4
+exx=6.18% cores=4
+exx=8.32% cores=0
+exx=10.50% cores=0
+exx=12.73% cores=6
+exx=15.01% cores=27
+exx=17.33% cores=31
+exx=19.69% cores=12
+exx=22.11% cores=8
+done in 269s
