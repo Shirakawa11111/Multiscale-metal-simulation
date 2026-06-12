@@ -100,9 +100,13 @@ def main():
         run_tension(m, a, rows)
 
     m.save(os.path.join(a.out, "final.npz"))
-    with open(os.path.join(a.out, "summary.json"), "w") as f:
+    # atomic write: summary.json existence is the queue's resume-skip marker,
+    # so a partial file from a killed worker must never be left behind
+    tmp = os.path.join(a.out, "summary.json.tmp")
+    with open(tmp, "w") as f:
         json.dump(dict(rows=rows, cfg=vars(a), backend=FFT_BACKEND,
                        wall_s=time.time() - t0), f, indent=1)
+    os.replace(tmp, os.path.join(a.out, "summary.json"))
     print(f"done in {time.time()-t0:.0f}s", flush=True)
 
 
