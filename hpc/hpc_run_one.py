@@ -56,6 +56,36 @@ def run_poly3d(a):
     return rows
 
 
+def run_bicrystal3d(a):
+    """Σ5 twist bicrystal tension (kind=bicrystal3d): size-series check of
+    the no-emission finding. --n must give an integer number of in-plane
+    cells; we use 5*k cells (Σ5 commensurate) via dx. Bounded to the affine
+    validity window by --strain-to (default 0.08). CSP line analysis offline.
+    """
+    from pfc3d import PFC3D, A_BCC
+    k = a.cells               # in-plane BCC cells; must be a multiple of 5
+    assert k % 5 == 0, "Sigma-5 needs in-plane cells divisible by 5"
+    dx = k * A_BCC / a.n      # exactly k cells across nx=ny
+    nz = a.n * 2 if a.nz == 0 else a.nz
+    m = PFC3D(a.n, a.n, nz, dx=dx, r=a.r, psi_bar=-0.25)
+    m.init_bicrystal_csl()
+    m.step(DT, n=800)
+    m.save(os.path.join(a.out, "initial.npz"))
+    rows = [dict(exx=0.0, sigma=m.stress(), F=m.free_energy(),
+                 cells_inplane=k)]
+    print(f"bicrystal {a.n}x{a.n}x{nz}, {k} in-plane cells", flush=True)
+    for i in range(int(round(a.strain_to / DEPS))):
+        m.apply_strain(DEPS, volume_conserving=True)
+        m.step(DT, n=a.relax)
+        rows.append(dict(exx=m.exx, sigma=m.stress(), F=m.free_energy()))
+        print(f"exx={m.exx*100:.2f}% sigma={rows[-1]['sigma']:+.6f}",
+              flush=True)
+        if i % 8 == 7:
+            m.save(os.path.join(a.out, f"snap_{m.exx*100:.2f}pct.npz"))
+    m.save(os.path.join(a.out, "final.npz"))
+    return rows
+
+
 def detect(m):
     pts = find_peaks(m.psi, m.dx, m.dy)
     return find_dislocations(pts, m.lx, m.ly)
@@ -110,8 +140,11 @@ def run_cyclic(m, a, rows):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--kind", choices=["poly", "quad", "cyc", "poly3d"],
+    p.add_argument("--kind",
+                   choices=["poly", "quad", "cyc", "poly3d", "bicrystal3d"],
                    required=True)
+    p.add_argument("--cells", type=int, default=5)   # bicrystal in-plane cells
+    p.add_argument("--nz", type=int, default=0)        # 0 => 2*n
     p.add_argument("--r", type=float, default=-0.25)
     p.add_argument("--relax", type=int, default=400)
     p.add_argument("--seed", type=int, default=7)
@@ -126,8 +159,8 @@ def main():
     os.makedirs(a.out, exist_ok=True)
     t0 = time.time()
     print(f"backend={FFT_BACKEND} cfg={vars(a)}", flush=True)
-    if a.kind == "poly3d":
-        rows = run_poly3d(a)
+    if a.kind in ("poly3d", "bicrystal3d"):
+        rows = run_poly3d(a) if a.kind == "poly3d" else run_bicrystal3d(a)
         tmp = os.path.join(a.out, "summary.json.tmp")
         with open(tmp, "w") as f:
             json.dump(dict(rows=rows, cfg=vars(a), backend=FFT_BACKEND,

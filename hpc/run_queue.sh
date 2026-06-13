@@ -6,10 +6,13 @@ set -u
 cd "$(dirname "$0")/.."
 
 MAXP=${MAXP:-64}
-export PFC_FFT_THREADS=1
+# FFT threads per worker (default 1). MAXP*THREADS must stay <= the core
+# budget; only pyfftw/scipy.fft honour it (BLAS pinned to 1 to avoid nesting).
+export PFC_FFT_THREADS=${PFC_FFT_THREADS:-1}
 export OMP_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 export MKL_NUM_THREADS=1
+echo "threads/worker=$PFC_FFT_THREADS  budget=$((MAXP*PFC_FFT_THREADS)) cores"
 
 PY=/home/rc/anaconda3/bin/python3
 [ -x "$PY" ] || PY=$(command -v python3)
