@@ -258,6 +258,38 @@ class PFC2D:
             self.time += dt
         self.psi = psi
 
+    def step_mpfc(self, dt, n=1, beta=10.0):
+        """Modified-PFC step (Stefanovic-Haataja-Provatas, PRL 96:225504):
+        beta d2psi/dt2 + dpsi/dt = laplacian(delta F/delta psi). The inertial
+        beta term injects fast acoustic/elastic relaxation, separating the
+        elastic timescale from the slow diffusive (plastic) one — the standard
+        fix for plain conserved PFC's diffusion-only strain relaxation. With
+        beta=0 this reduces EXACTLY to step() (verified algebraically).
+
+        Used to cross-check that rate-sensitivity / yield results are not
+        artifacts of diffusion-only elastic relaxation.
+        """
+        shape = self.psi.shape
+        psi = self.psi
+        psi_prev = getattr(self, "_psi_prev", None)
+        if psi_prev is None or psi_prev.shape != shape:
+            psi_prev = psi.copy()
+        a = beta / dt ** 2
+        b = 1.0 / dt
+        for _ in range(n):
+            C = 3.0 * float(np.max(psi * psi))
+            nl_h = _rfft2(psi ** 3)
+            psi_h = _rfft2(psi)
+            psi_prev_h = _rfft2(psi_prev)
+            rhs = (a * (2.0 * psi_h - psi_prev_h) + b * psi_h
+                   - self.k2 * (nl_h - C * psi_h))
+            psi_new_h = rhs / (a + b + self.k2 * (self.lin + C))
+            psi_prev = psi
+            psi = _irfft2(psi_new_h, shape)
+            self.time += dt
+        self.psi = psi
+        self._psi_prev = psi_prev
+
     def stress(self, deps=1e-4):
         """Work-conjugate driving stress along the area-conserving tension
         path: sigma = d f / d exx at fixed psi (virtual affine deformation

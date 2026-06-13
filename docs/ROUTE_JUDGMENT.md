@@ -147,3 +147,20 @@ This project has assembled a clean, internally-consistent PFC mechanism corpus, 
 - Salvalaglio & Elder (2022, Modelling Simul. Mater. Sci. Eng. 30, 053001): APFC overview; explicitly tabulates one-mode (triangular, BCC) vs multi-mode (square, BCC two-mode, FCC seven-amplitude two-mode); confirms FCC is reachable but quantitative metal-specific work needs extended parametrization. Directly supports both our limitation claim and the 'method upgrade is known' verdict.
 - Stefanovic, Haataja & Provatas (2009, Phys. Rev. E 80, 046107): MPFC nanocrystalline deformation; elastic-then-glide yield at ~1% strain, grain-size-dependent strength — confirmatory backdrop for our 2D mechanism zoo (glide, yield, polycrystal flow).
 - Berry, Rottler, Sinclair & Provatas (2015, Phys. Rev. B 92, 134101; arXiv:1509.02565): constant-STRESS PFC creep; Nabarro-Herring m approx 1 (p approx 2), dislocation-creep m approx 2.8-5.8 (extrapolating to ~4), Coble (m=1, p=3) only with premelting noise. The most direct precedent for — and a caution against — our rate-sensitivity numbers.
+---
+
+## 附录 A — 运动学分解结果（2026-06-13，回应 must-fix #3）
+
+对 r=-0.35（冷）与 r=-0.25（近旋节线）的多晶快照做缺陷载体分解
+（GB 渗流网络 vs 晶内孤立簇，连通分量法）：
+
+| r | intra-frac (4%→17%) | 孤立簇数 (4%→17%) | GB-frac |
+|---|---|---|---|
+| -0.35 | 0.132→0.058 | 114→68 | ~0.005 |
+| -0.25 | 0.112→0.058 | 111→62 | ~0.005 |
+
+**结论（诚实）**：两个 r 的载体结构与应变演化**几乎相同**——缺陷载体类型不随 r 变化，
+随 r 变的只是流应力幅度（旋节线软化）。**这证伪"滑移→晶界蠕变载体转变"的解读**。
+→ m(r) 必须报为"率敏感性单调趋势 + 接近旋节线的软化"，**删去机制转变标签**（与 must-fix #3 一致）。
+注：连通分量法对 link 阈值敏感（GB 网络被碎片化），但"载体 r-不变"是同阈值对比结论，对此鲁棒；
+严格 D²min 非仿射位移分解仍列为发表前补充。图：`results_hpc/ANALYSIS/kinematic_decomp.png`
