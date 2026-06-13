@@ -163,6 +163,34 @@ class PFC3D:
         self.psi = self.psi_bar + amp * ((1 - w) * f_lo + w * f_hi)
         self._fix_mean()
 
+    def init_bicrystal_csl(self, amp=0.25):
+        """Σ5 twist bicrystal: lower grain unrotated, upper grain twisted about
+        z by θ = atan(3/4) ≈ 36.87°. With exactly 5 BCC cells in x and y, the
+        rotated wave vectors map onto the FFT grid (3,4,5 Pythagorean triple),
+        so BOTH grains are box-commensurate and the only defects are at the
+        single (001) twist boundary — no spurious bulk mismatch (cf. the
+        non-CSL init_bicrystal). Requires nx == ny with 5 cells in-plane;
+        caller must build the box with that commensurate dx (see
+        run_bicrystal_csl)."""
+        x = np.arange(self.nx) * self.dx
+        y = np.arange(self.ny) * self.dy
+        z = np.arange(self.nz) * self.dz
+        Z, Y, X = np.meshgrid(z, y, x, indexing="ij")
+        qx, qy, qz = self._snapped_q()
+        c, s = 4.0 / 5.0, 3.0 / 5.0          # cos, sin of the Σ5 twist
+
+        def bcc(Xr, Yr, Zr):
+            return (np.cos(qx * Xr) * np.cos(qy * Yr)
+                    + np.cos(qy * Yr) * np.cos(qz * Zr)
+                    + np.cos(qz * Zr) * np.cos(qx * Xr))
+
+        f_lo = bcc(X, Y, Z)
+        f_hi = bcc(c * X - s * Y, s * X + c * Y, Z)
+        xi = 1.5 * A_BCC
+        w = 0.5 * (1.0 + np.tanh((Z - self.lz / 2.0) / xi))
+        self.psi = self.psi_bar + amp * ((1 - w) * f_lo + w * f_hi)
+        self._fix_mean()
+
     def _fix_mean(self):
         self.psi += self.psi_bar - self.psi.mean()
 

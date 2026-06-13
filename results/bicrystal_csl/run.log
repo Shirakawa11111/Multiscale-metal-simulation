@@ -1,0 +1,12 @@
+eps=0: atoms=500 lines=2 frac=0.260 bulk_dis=0
+exx= 0.25% sigma=-0.000167 lines=2 bulk_dis=0
+exx= 0.50% sigma=-0.000056 lines=2 bulk_dis=0
+exx= 0.75% sigma=+0.000055 lines=2 bulk_dis=0
+exx= 1.00% sigma=+0.000165 lines=2 bulk_dis=0
+exx= 1.26% sigma=+0.000273 lines=2 bulk_dis=0
+exx= 1.51% sigma=+0.000380 lines=2 bulk_dis=0
+exx= 1.76% sigma=+0.000484 lines=2 bulk_dis=0
+exx= 2.02% sigma=+0.000586 lines=2 bulk_dis=0
+exx= 2.27% sigma=+0.000686 lines=2 bulk_dis=0
+exx= 2.53% sigma=+0.000784 lines=2 bulk_dis=0
+exx= 2.78% sigma=+0.000880 lines=2 bulk_dis=0

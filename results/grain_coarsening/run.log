@@ -1,0 +1,5 @@
+anneal=3000: atoms=3290 frac=0.670 lines=1 F=0.021695 (96s)
+anneal=7000: atoms=3270 frac=0.657 lines=1 F=0.021658 (223s)
+anneal=15000: atoms=3261 frac=0.637 lines=1 F=0.021640 (480s)
+anneal=30000: atoms=3277 frac=0.628 lines=1 F=0.021622 (981s)
+done in 981s

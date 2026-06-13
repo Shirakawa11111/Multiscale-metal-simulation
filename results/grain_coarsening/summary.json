@@ -1,0 +1,47 @@
+{
+ "rows": [
+  {
+   "anneal_steps": 3000,
+   "atoms": 3290,
+   "disordered_frac": 0.6699088145896657,
+   "n_lines": 1,
+   "F": 0.021695445960884022,
+   "top_sizes": [
+    2202
+   ]
+  },
+  {
+   "anneal_steps": 7000,
+   "atoms": 3270,
+   "disordered_frac": 0.6574923547400612,
+   "n_lines": 1,
+   "F": 0.02165812785437571,
+   "top_sizes": [
+    2148
+   ]
+  },
+  {
+   "anneal_steps": 15000,
+   "atoms": 3261,
+   "disordered_frac": 0.6369211898190739,
+   "n_lines": 1,
+   "F": 0.021639748642237115,
+   "top_sizes": [
+    2074
+   ]
+  },
+  {
+   "anneal_steps": 30000,
+   "atoms": 3277,
+   "disordered_frac": 0.6283185840707964,
+   "n_lines": 1,
+   "F": 0.021622130366776154,
+   "top_sizes": [
+    2056
+   ]
+  }
+ ],
+ "seed": 11,
+ "n": 128,
+ "wall_s": 981.1850078105927
+}
