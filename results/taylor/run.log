@@ -1,0 +1,14 @@
+PFC shear modulus mu = 0.0545
+  n_dip=2 seed=7: cores=4 rho=2.47e-05 tau_flow=0.00390
+  n_dip=2 seed=11: cores=4 rho=2.47e-05 tau_flow=0.00373
+  n_dip=4 seed=7: cores=8 rho=4.95e-05 tau_flow=0.00334
+  n_dip=4 seed=11: cores=8 rho=4.95e-05 tau_flow=0.00342
+  n_dip=8 seed=7: cores=14 rho=8.66e-05 tau_flow=0.00281
+  n_dip=8 seed=11: cores=14 rho=8.66e-05 tau_flow=0.00280
+  n_dip=16 seed=7: cores=21 rho=1.30e-04 tau_flow=0.00302
+  n_dip=16 seed=11: cores=22 rho=1.36e-04 tau_flow=0.00263
+  n_dip=24 seed=7: cores=26 rho=1.61e-04 tau_flow=0.00291
+  n_dip=24 seed=11: cores=36 rho=2.23e-04 tau_flow=0.00273
+
+TAYLOR FIT: tau_flow = 0.00419 + alpha*mu*b*sqrt(rho), alpha = -0.287, R^2 = 0.740  (metals: alpha~0.3-0.5)
+done in 432s
