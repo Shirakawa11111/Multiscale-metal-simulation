@@ -159,6 +159,44 @@ class PFC3D:
         self.psi = self.psi_bar + amp * f
         self._fix_mean()
 
+    def _bcc_field(self, X, Y, Z, amp=0.25):
+        qx, qy, qz = self._snapped_q()
+        f = (np.cos(qx * X) * np.cos(qy * Y)
+             + np.cos(qy * Y) * np.cos(qz * Z)
+             + np.cos(qz * Z) * np.cos(qx * X))
+        return self.psi_bar + amp * f
+
+    def init_dislocation_lines(self, lines, amp=0.25):
+        """Seed straight dislocation lines by 3D phase winding. Each line:
+        dict(axis='x'|'y'|'z', pos=(a,b) [the two transverse fractional coords],
+             burgers='x'|'y'|'z', sign=+1|-1). The winding angle theta rotates
+        in the plane perpendicular to the line axis about (pos); the
+        displacement is along the Burgers direction, u = (b/2pi)*sign*theta.
+        Net Burgers per component must cancel (PBC). Forest = lines on
+        different axes so they thread each other's glide planes -> junction
+        tests (the 3D process 2D PFC cannot do)."""
+        x = np.arange(self.nx) * self.dx
+        y = np.arange(self.ny) * self.dy
+        z = np.arange(self.nz) * self.dz
+        Z, Y, X = np.meshgrid(z, y, x, indexing="ij")
+        qx, _, _ = self._snapped_q()
+        bmag = 2.0 * np.pi / qx
+        coords = {"x": (X, self.lx), "y": (Y, self.ly), "z": (Z, self.lz)}
+        U = {"x": np.zeros_like(X), "y": np.zeros_like(X), "z": np.zeros_like(X)}
+        net = {"x": 0.0, "y": 0.0, "z": 0.0}
+        for ln in lines:
+            ax = ln["axis"]
+            transv = [a for a in ("x", "y", "z") if a != ax]
+            (C0, L0), (C1, L1) = coords[transv[0]], coords[transv[1]]
+            p0, p1 = ln["pos"]
+            theta = np.arctan2(C1 - p1 * L1, C0 - p0 * L0)
+            U[ln["burgers"]] += ln["sign"] * theta * bmag / (2.0 * np.pi)
+            net[ln["burgers"]] += ln["sign"]
+        if any(abs(v) > 1e-9 for v in net.values()):
+            raise ValueError(f"net Burgers per component must cancel: {net}")
+        self.psi = self._bcc_field(X - U["x"], Y - U["y"], Z - U["z"], amp=amp)
+        self._fix_mean()
+
     def init_bicrystal(self, tilt_deg=15.0, amp=0.25):
         """Two BCC grains meeting at a flat (001) boundary at z=lz/2; the
         upper grain is rotated by `tilt_deg` about z. A clean single grain
