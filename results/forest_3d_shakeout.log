@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Users/bojingkai/Desktop/PFC_Multiscale_Extension/src/run_forest_3d.py", line 90, in <module>
+    main()
+  File "/Users/bojingkai/Desktop/PFC_Multiscale_Extension/src/run_forest_3d.py", line 61, in main
+    m = build()
+        ^^^^^^^
+  File "/Users/bojingkai/Desktop/PFC_Multiscale_Extension/src/run_forest_3d.py", line 54, in build
+    m.step_mpfc(DT, n=500, beta=BETA)
+    ^^^^^^^^^^^
+AttributeError: 'PFC3D' object has no attribute 'step_mpfc'

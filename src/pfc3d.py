@@ -274,6 +274,30 @@ class PFC3D:
             self.time += dt
         self.psi = psi
 
+    def step_mpfc(self, dt, n=1, beta=10.0):
+        """Modified-PFC (Stefanovic inertial term) for fast elastic relaxation;
+        beta=0 reduces exactly to step(). See pfc2d.step_mpfc."""
+        shape = self.psi.shape
+        psi = self.psi
+        psi_prev = getattr(self, "_psi_prev", None)
+        if psi_prev is None or psi_prev.shape != shape:
+            psi_prev = psi.copy()
+        a = beta / dt ** 2
+        b = 1.0 / dt
+        for _ in range(n):
+            C = 3.0 * float(np.max(psi * psi))
+            nl_h = _rfftn(psi ** 3)
+            psi_h = _rfftn(psi)
+            psi_prev_h = _rfftn(psi_prev)
+            rhs = (a * (2.0 * psi_h - psi_prev_h) + b * psi_h
+                   - self.k2 * (nl_h - C * psi_h))
+            psi_new_h = rhs / (a + b + self.k2 * (self.lin + C))
+            psi_prev = psi
+            psi = _irfftn(psi_new_h, shape)
+            self.time += dt
+        self.psi = psi
+        self._psi_prev = psi_prev
+
     def free_energy(self):
         psi_h = _rfftn(self.psi)
         lin_term = _irfftn(self.lin * psi_h, self.psi.shape)
