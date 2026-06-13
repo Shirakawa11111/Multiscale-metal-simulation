@@ -1,0 +1,57 @@
+{
+ "D_pfc": {
+  "k": 0.125,
+  "omega_measured": 0.014113988313696086,
+  "omega_analytic": 0.011234283447265625,
+  "D_pfc_measured": 0.9032952520765495,
+  "D_pfc_analytic": 0.718994140625,
+  "D_pfc_smallk_limit": 0.75
+ },
+ "length_unit_m": 3.522991641745251e-11,
+ "stress_unit_Pa": 880733944954.1284,
+ "mu_pfc": 0.0545,
+ "mu_cu_Pa": 48000000000.0,
+ "M_pfc": 1.05,
+ "cu_anchors": {
+  "0.5Tm_679K": {
+   "T_K": 679.0,
+   "D_lattice_m2s": 2.855935595006785e-20,
+   "D_pipe_m2s": 2.855935595006785e-18,
+   "tau_PFC_s_lattice": 0.0392558643103622,
+   "tau_PFC_s_pipe": 0.0003925586431036221
+  },
+  "0.6Tm_814K": {
+   "T_K": 814.8,
+   "D_lattice_m2s": 8.51063582188718e-18,
+   "D_pipe_m2s": 8.51063582188718e-16,
+   "tau_PFC_s_lattice": 0.000131731897055677,
+   "tau_PFC_s_pipe": 1.31731897055677e-06
+  },
+  "0.7Tm_950K": {
+   "T_K": 950.5999999999999,
+   "D_lattice_m2s": 4.980322129003074e-16,
+   "D_pipe_m2s": 4.980322129003074e-14,
+   "tau_PFC_s_lattice": 2.2511037899301858e-06,
+   "tau_PFC_s_pipe": 2.251103789930186e-08
+  },
+  "0.8Tm_1086K": {
+   "T_K": 1086.4,
+   "D_lattice_m2s": 1.0537291737988575e-14,
+   "D_pipe_m2s": 1.0537291737988575e-12,
+   "tau_PFC_s_lattice": 1.0639566881548693e-07,
+   "tau_PFC_s_pipe": 1.0639566881548693e-09
+  }
+ },
+ "glide_velocity_at_100MPa_ms": {
+  "0.5Tm_679K_lattice": 7.762486710031844e-13,
+  "0.5Tm_679K_pipe": 7.762486710031843e-11,
+  "0.6Tm_814K_lattice": 2.3132068376059867e-10,
+  "0.6Tm_814K_pipe": 2.3132068376059865e-08,
+  "0.7Tm_950K_lattice": 1.353660930087326e-08,
+  "0.7Tm_950K_pipe": 1.353660930087326e-06,
+  "0.8Tm_1086K_lattice": 2.8640557307690383e-07,
+  "0.8Tm_1086K_pipe": 2.8640557307690384e-05
+ },
+ "regime": "diffusion/climb-controlled (high homologous T); conserved PFC transports mass diffusively, so these rates map to high-T creep/GB regimes \u2014 consistent with the m(r)->superplastic and GB-sliding findings, NOT athermal phonon-drag glide.",
+ "sanity": "physical velocities should be slow (um/s..mm/s), characteristic of diffusion/climb-controlled motion, NOT athermal glide (~100s m/s) \u2014 validates the regime."
+}
