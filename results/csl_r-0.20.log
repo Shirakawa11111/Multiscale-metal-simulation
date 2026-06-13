@@ -1,2 +1,102 @@
 eps=0: atoms=500 lines=6 frac=0.220 bulk_dis=0
 exx= 0.25% sigma=-0.000056 lines=2 bulk_dis=0
+exx= 0.50% sigma=+0.000003 lines=2 bulk_dis=0
+exx= 0.75% sigma=+0.000072 lines=2 bulk_dis=0
+exx= 1.00% sigma=+0.000142 lines=7 bulk_dis=0
+exx= 1.26% sigma=+0.000212 lines=7 bulk_dis=0
+exx= 1.51% sigma=+0.000280 lines=7 bulk_dis=0
+exx= 1.76% sigma=+0.000346 lines=2 bulk_dis=0
+exx= 2.02% sigma=+0.000411 lines=2 bulk_dis=0
+exx= 2.27% sigma=+0.000475 lines=2 bulk_dis=0
+exx= 2.53% sigma=+0.000537 lines=2 bulk_dis=0
+exx= 2.78% sigma=+0.000598 lines=2 bulk_dis=0
+exx= 3.04% sigma=+0.000657 lines=2 bulk_dis=0
+exx= 3.30% sigma=+0.000714 lines=2 bulk_dis=0
+exx= 3.56% sigma=+0.000770 lines=2 bulk_dis=0
+exx= 3.82% sigma=+0.000823 lines=2 bulk_dis=0
+exx= 4.08% sigma=+0.000875 lines=2 bulk_dis=0
+exx= 4.34% sigma=+0.000925 lines=2 bulk_dis=0
+exx= 4.60% sigma=+0.000973 lines=2 bulk_dis=0
+exx= 4.86% sigma=+0.001020 lines=2 bulk_dis=0
+exx= 5.12% sigma=+0.001065 lines=11 bulk_dis=0
+exx= 5.38% sigma=+0.001109 lines=11 bulk_dis=0
+exx= 5.65% sigma=+0.001151 lines=11 bulk_dis=0
+exx= 5.91% sigma=+0.001193 lines=11 bulk_dis=0
+exx= 6.18% sigma=+0.001233 lines=11 bulk_dis=0
+exx= 6.44% sigma=+0.001272 lines=11 bulk_dis=0
+exx= 6.71% sigma=+0.001311 lines=6 bulk_dis=0
+exx= 6.97% sigma=+0.001352 lines=2 bulk_dis=0
+exx= 7.24% sigma=+0.001384 lines=2 bulk_dis=0
+exx= 7.51% sigma=+0.001406 lines=2 bulk_dis=0
+exx= 7.78% sigma=+0.001429 lines=2 bulk_dis=0
+exx= 8.05% sigma=+0.001452 lines=2 bulk_dis=0
+exx= 8.32% sigma=+0.001474 lines=1 bulk_dis=0
+exx= 8.59% sigma=+0.001495 lines=1 bulk_dis=0
+exx= 8.86% sigma=+0.001513 lines=1 bulk_dis=0
+exx= 9.13% sigma=+0.001527 lines=1 bulk_dis=0
+exx= 9.41% sigma=+0.001541 lines=1 bulk_dis=0
+exx= 9.68% sigma=+0.001554 lines=1 bulk_dis=0
+exx= 9.95% sigma=+0.001564 lines=1 bulk_dis=0
+exx=10.23% sigma=+0.001569 lines=1 bulk_dis=0
+exx=10.50% sigma=+0.001568 lines=1 bulk_dis=0
+exx=10.78% sigma=+0.001564 lines=1 bulk_dis=0
+exx=11.06% sigma=+0.001559 lines=1 bulk_dis=0
+exx=11.33% sigma=+0.001553 lines=1 bulk_dis=0
+exx=11.61% sigma=+0.001541 lines=1 bulk_dis=0
+exx=11.89% sigma=+0.001512 lines=1 bulk_dis=0
+exx=12.17% sigma=+0.001464 lines=1 bulk_dis=0
+exx=12.45% sigma=+0.001420 lines=1 bulk_dis=0
+exx=12.73% sigma=+0.001389 lines=1 bulk_dis=0
+exx=13.01% sigma=+0.001367 lines=1 bulk_dis=0
+exx=13.30% sigma=+0.001347 lines=1 bulk_dis=0
+exx=13.58% sigma=+0.001324 lines=1 bulk_dis=0
+exx=13.86% sigma=+0.001294 lines=1 bulk_dis=0
+exx=14.15% sigma=+0.001256 lines=1 bulk_dis=0
+exx=14.43% sigma=+0.001218 lines=1 bulk_dis=0
+exx=14.72% sigma=+0.001181 lines=1 bulk_dis=0
+exx=15.01% sigma=+0.001141 lines=2 bulk_dis=0
+exx=15.29% sigma=+0.001091 lines=1 bulk_dis=0
+exx=15.58% sigma=+0.001030 lines=1 bulk_dis=0
+exx=15.87% sigma=+0.000958 lines=1 bulk_dis=0
+exx=16.16% sigma=+0.000892 lines=1 bulk_dis=0
+exx=16.45% sigma=+0.000847 lines=1 bulk_dis=0
+exx=16.74% sigma=+0.000818 lines=1 bulk_dis=0
+exx=17.04% sigma=+0.000793 lines=1 bulk_dis=0
+exx=17.33% sigma=+0.000763 lines=1 bulk_dis=0
+exx=17.62% sigma=+0.000714 lines=1 bulk_dis=0
+exx=17.92% sigma=+0.000644 lines=1 bulk_dis=0
+exx=18.21% sigma=+0.000583 lines=1 bulk_dis=0
+exx=18.51% sigma=+0.000563 lines=1 bulk_dis=0
+exx=18.80% sigma=+0.000556 lines=2 bulk_dis=0
+exx=19.10% sigma=+0.000552 lines=1 bulk_dis=0
+exx=19.40% sigma=+0.000548 lines=1 bulk_dis=0
+exx=19.69% sigma=+0.000545 lines=1 bulk_dis=0
+exx=19.99% sigma=+0.000544 lines=1 bulk_dis=0
+exx=20.29% sigma=+0.000545 lines=1 bulk_dis=0
+exx=20.59% sigma=+0.000547 lines=1 bulk_dis=0
+exx=20.90% sigma=+0.000545 lines=1 bulk_dis=0
+exx=21.20% sigma=+0.000539 lines=1 bulk_dis=0
+exx=21.50% sigma=+0.000532 lines=1 bulk_dis=0
+exx=21.81% sigma=+0.000542 lines=1 bulk_dis=0
+exx=22.11% sigma=+0.000571 lines=1 bulk_dis=0
+exx=22.42% sigma=+0.000608 lines=1 bulk_dis=0
+exx=22.72% sigma=+0.000648 lines=1 bulk_dis=0
+exx=23.03% sigma=+0.000689 lines=1 bulk_dis=0
+exx=23.34% sigma=+0.000728 lines=1 bulk_dis=0
+exx=23.64% sigma=+0.000762 lines=1 bulk_dis=0
+exx=23.95% sigma=+0.000790 lines=1 bulk_dis=0
+exx=24.26% sigma=+0.000810 lines=1 bulk_dis=0
+exx=24.57% sigma=+0.000821 lines=1 bulk_dis=0
+exx=24.88% sigma=+0.000826 lines=2 bulk_dis=0
+exx=25.20% sigma=+0.000825 lines=2 bulk_dis=0
+exx=25.51% sigma=+0.000823 lines=2 bulk_dis=0
+exx=25.82% sigma=+0.000817 lines=2 bulk_dis=0
+exx=26.14% sigma=+0.000804 lines=2 bulk_dis=0
+exx=26.45% sigma=+0.000781 lines=1 bulk_dis=0
+exx=26.77% sigma=+0.000743 lines=1 bulk_dis=0
+exx=27.09% sigma=+0.000686 lines=1 bulk_dis=0
+exx=27.40% sigma=+0.000609 lines=1 bulk_dis=0
+exx=27.72% sigma=+0.000485 lines=1 bulk_dis=0
+exx=28.04% sigma=+0.000330 lines=1 bulk_dis=0
+exx=28.36% sigma=+0.000222 lines=1 bulk_dis=0
+done in 345s

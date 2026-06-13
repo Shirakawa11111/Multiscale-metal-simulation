@@ -1,10 +1,12 @@
-"""Gate C4: 3D dislocation-line detector validation.
+"""Gate C4: 3D dislocation-line detector validation (CSP metric).
 
 C4a (perfect BCC): disordered fraction < 2%, zero lines.
 C4b (BCC with a melted cylindrical void): the void rim is flagged as a
   connected disordered region (>=1 line cluster, disordered_frac jumps).
-C4c (strained perfect crystal): detector is strain-invariant — a uniformly
-  strained perfect crystal must still report ~0 lines (per-atom rescaling).
+C4c (strained perfect crystal, 2%): detector reports ~0 lines.
+C4d (synthetic affine invariance): an ideal BCC lattice under a known 15%
+  volume-conserving affine F must give CSP ~ 0 (the property that makes the
+  metric valid under large strain, unlike a fixed-distance metric).
 """
 
 import sys, os, time
@@ -66,10 +68,29 @@ def main():
           f"lines={rs['n_lines']}")
     c4c = rs["n_lines"] == 0 and rs["disordered_frac"] < 0.03
 
+    # --- C4d synthetic affine invariance ---
+    from defect_analysis_3d import disorder_metric
+    nc = 5
+    base = []
+    for i in range(nc):
+        for j in range(nc):
+            for k in range(nc):
+                base.append([i, j, k])
+                base.append([i + 0.5, j + 0.5, k + 0.5])
+    bp = np.array(base, dtype=float)
+    bbox = np.array([nc, nc, nc], dtype=float)
+    ex = 0.15
+    fy = 1.0 / np.sqrt(1 + ex)
+    F = np.diag([1 + ex, fy, fy])
+    csp_strained = disorder_metric(bp @ F.T, bbox * np.array([1 + ex, fy, fy]),
+                                   a0=1.0)
+    print(f"[C4d affine] CSP max at 15% affine strain = {csp_strained.max():.2e}")
+    c4d = csp_strained.max() < 1e-3
+
     print(f"wall {time.time()-t0:.1f}s")
-    for tag, ok in [("C4a", c4a), ("C4b", c4b), ("C4c", c4c)]:
+    for tag, ok in [("C4a", c4a), ("C4b", c4b), ("C4c", c4c), ("C4d", c4d)]:
         print(f"GATE {tag}:", "PASS" if ok else "FAIL")
-    return 0 if (c4a and c4b and c4c) else 1
+    return 0 if (c4a and c4b and c4c and c4d) else 1
 
 
 if __name__ == "__main__":

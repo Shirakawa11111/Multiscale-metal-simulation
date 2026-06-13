@@ -31,38 +31,64 @@ def _tiled(pts, box):
     return np.vstack(imgs), np.concatenate(idx)
 
 
-def disorder_metric(pts, box, a0=A_BCC):
-    """Per-atom structural disorder: RMS gap between the sorted 14 nearest
-    neighbour distances and the ideal BCC two-shell distances
-    (8 x sqrt(3)/2 a, 6 x a), normalised by a0. Robust to global strain via
-    per-atom rescaling to the atom's own mean first-shell distance."""
-    if len(pts) < 15:
-        return np.zeros(len(pts))
+def disorder_metric(pts, box, a0=A_BCC, n_neigh=8):
+    """Per-atom centrosymmetry parameter (Kelchner et al. 1998).
+
+    CSP = sum over the n_neigh/2 best antipodal neighbour pairs of
+    |r_a + r_b|^2, normalised by the mean squared bond length. For ANY
+    affine deformation F, an antipodal pair (r, -r) maps to (F r, -F r) whose
+    sum is still zero, so CSP is exactly 0 for a perfectly crystalline atom at
+    arbitrary (even anisotropic, volume-conserving) strain — unlike a
+    fixed-ideal distance metric, which spuriously flags strained-but-perfect
+    lattices. CSP is nonzero only at genuine defects (cores, surfaces, GBs).
+
+    n_neigh=8 uses the BCC first shell (8 atoms = 4 antipodal pairs)."""
+    n = len(pts)
+    if n < n_neigh + 1:
+        return np.zeros(n)
     tiled, src = _tiled(pts, box)
     tree = cKDTree(tiled)
-    d, _ = tree.query(pts, k=15)        # self + 14
-    d = d[:, 1:]                         # drop self
-    ideal = np.array([np.sqrt(3) / 2] * 8 + [1.0] * 6) * a0
-    # normalise each atom by its own scale (first 8 neighbours' mean / ideal)
-    scale = d[:, :8].mean(axis=1) / (np.sqrt(3) / 2 * a0)
-    scale[scale == 0] = 1.0
-    dn = d / scale[:, None]
-    return np.sqrt(np.mean((dn - ideal) ** 2, axis=1)) / a0
+    d, idx = tree.query(pts, k=n_neigh + 1)   # self + n_neigh
+    csp = np.zeros(n)
+    for i in range(n):
+        nbr = tiled[idx[i, 1:]] - pts[i]      # n_neigh relative vectors
+        mean_sq = np.mean(np.sum(nbr ** 2, axis=1)) + 1e-12
+        used = np.zeros(len(nbr), dtype=bool)
+        s = 0.0
+        order = np.argsort(-np.sum(nbr ** 2, axis=1))  # longest first
+        for a in order:
+            if used[a]:
+                continue
+            # best antipode: minimise |r_a + r_b|
+            cand = np.where(~used)[0]
+            cand = cand[cand != a]
+            if len(cand) == 0:
+                break
+            sums = np.sum((nbr[a] + nbr[cand]) ** 2, axis=1)
+            b = cand[np.argmin(sums)]
+            used[a] = used[b] = True
+            s += sums.min()
+        csp[i] = s / mean_sq
+    return csp
 
 
-# Absolute disorder cutoff: a perfect (sub-grid-refined) BCC crystal sits at
-# ~0.031 (max ~0.042, from residual grid quantization); a melted void rim is
-# ~0.13. 0.06 cleanly separates them and, being absolute, does not flag the
-# tail of a defect-free crystal the way an adaptive mean+2std threshold does.
-DISORDER_CUTOFF = 0.06
+# Absolute CSP cutoff: a perfect BCC crystal sits at CSP ~0.04 (max ~0.06,
+# from sub-grid peak-refinement noise) AT ANY AFFINE STRAIN (CSP is
+# affine-invariant — verified synthetically to 1e-5 at 15% strain); genuine
+# defects (void rims, GB cores) read ~1-5. 0.3 separates them with wide
+# margin and, being affine-invariant, does NOT flag a strained-but-perfect
+# lattice (the failure mode of the earlier fixed-distance metric).
+DISORDER_CUTOFF = 0.3
 
 
-def find_dislocation_lines(pts, box, thresh=DISORDER_CUTOFF, link=0.9,
+def find_dislocation_lines(pts, box, thresh=DISORDER_CUTOFF, link=1.2,
                            a0=A_BCC):
     """Cluster disordered atoms into dislocation lines.
 
-    thresh: absolute disorder cutoff (default DISORDER_CUTOFF = 0.06).
-    link:   atoms within link*a0 join the same line cluster.
+    thresh: absolute CSP cutoff (default DISORDER_CUTOFF = 0.3).
+    link:   atoms within link*a0 join the same line cluster (1.2 connects
+            defect atoms across the slightly dilated cores/void rims, where
+            spacing exceeds the bulk nearest-neighbour distance).
     Returns dict(n_lines, disordered_frac, line_sizes, line_extents, labels,
                  disorder).
     """
