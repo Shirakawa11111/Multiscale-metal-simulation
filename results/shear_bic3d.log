@@ -1,0 +1,17 @@
+[n128c10_r-0.25] g=0 atoms=4000 lines=2 interior_dis=0.000
+[n128c10_r-0.25] gxz= 1.00% tau=+0.000217 lines=2 interior_dis=0.000 atoms=3948
+[n128c10_r-0.25] gxz= 2.00% tau=+0.000419 lines=2 interior_dis=0.000 atoms=3920
+[n128c10_r-0.25] gxz= 3.00% tau=+0.000613 lines=2 interior_dis=0.000 atoms=3920
+[n128c10_r-0.25] gxz= 4.00% tau=+0.000786 lines=2 interior_dis=0.000 atoms=3920
+[n128c10_r-0.25] gxz= 5.00% tau=+0.000774 lines=2 interior_dis=0.000 atoms=3920
+[n128c10_r-0.25] gxz= 6.00% tau=+0.000821 lines=2 interior_dis=0.000 atoms=3960
+[n128c10_r-0.25] gxz= 7.00% tau=+0.000970 lines=2 interior_dis=0.000 atoms=3860
+[n128c10_r-0.25] gxz= 8.00% tau=+0.001094 lines=2 interior_dis=0.000 atoms=3840
+[n128c10_r-0.25] gxz= 9.00% tau=+0.001071 lines=2 interior_dis=0.000 atoms=3840
+[n128c10_r-0.25] gxz=10.00% tau=+0.001053 lines=2 interior_dis=0.000 atoms=3840
+[n128c10_r-0.25] gxz=11.00% tau=+0.001159 lines=2 interior_dis=0.000 atoms=3840
+[n128c10_r-0.25] gxz=12.00% tau=+0.001181 lines=2 interior_dis=0.000 atoms=3840
+[n128c10_r-0.25] gxz=13.00% tau=+0.001195 lines=2 interior_dis=0.000 atoms=3840
+[n128c10_r-0.25] gxz=14.00% tau=+0.001207 lines=2 interior_dis=0.000 atoms=3840
+[n128c10_r-0.25] gxz=15.00% tau=+0.001262 lines=4 interior_dis=0.000 atoms=3840
+[n128c10_r-0.25] done in 859s
