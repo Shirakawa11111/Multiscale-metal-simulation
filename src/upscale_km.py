@@ -1,4 +1,12 @@
-"""Loop-closure demonstration: assemble the three PFC-measured, dimensionless
+"""!!! RETRACTED AS A LOOP-CLOSURE (2026-06-13, see docs/CORRECTIONS.md) !!!
+This script's k1 = k2*sqrt(rho0)*1.3 makes k2=2*y_ann cancel exactly, so the
+saturation density (2.535e15) is independent of y_ann (verified for y_ann=1..100b)
+and the mobility M never enters the ODE. The Taylor alpha=0.35 is from literature,
+contradicting the project's own PFC forest fit alpha=-0.287. The 2.5e15 m^-2 and
+197 MPa numbers are NOT PFC-calibrated predictions. Kept only to show the KM
+recovery-term FORM; do not cite its numbers as loop closure.
+
+Loop-closure demonstration: assemble the three PFC-measured, dimensionless
 constitutive parameters into a Kocks-Mecking (KM) dislocation-density-evolution
 law and UPSCALE — integrate from the DAMASK ROI initial density to predict the
 hardening curve rho(gamma) and flow stress tau(gamma). This is the actual

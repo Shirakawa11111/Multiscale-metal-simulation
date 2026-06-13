@@ -3,8 +3,16 @@ PFC mobility / KM rates into physical units (with the honest regime caveat).
 
 Conserved PFC dynamics  dpsi/dt = laplacian(delta F/delta psi)  relaxes a
 small long-wavelength density perturbation at wavevector k as
-   psi_k(t) ~ exp(-omega(k) t),   omega(k) = k^2 * L(k),  L(k)=r+(1-k^2)^2.
-For k->0,  omega ~ D_PFC * k^2  with  D_PFC = L(0) = r + 1  (PFC length^2/time).
+   psi_k(t) ~ exp(-omega(k) t),   omega(k) = k^2 * L_eff(k),
+with the operator linearized about the CONSERVED MEAN psi_bar (NOT about 0):
+   L_eff(k) = r + (1-k^2)^2 + 3*psi_bar^2   (cubic term -> 3 psi_bar^2 shift).
+For k->0,  D_PFC = L_eff(0) = r + 1 + 3*psi_bar^2  (= 0.9375 at psi_bar=-0.25).
+
+CORRECTION (2026-06-13, adversarial review): an earlier version used
+D_PFC = r+1 = 0.75 (linearized about 0, dropping 3*psi_bar^2) and wrongly
+blamed the measured-vs-analytic gap on finite-k. Verified by a psi_bar sweep:
+the MEASURED D (0.903 at psi_bar=-0.25) matches the corrected formula (0.906),
+not 0.75. The measurement was right; the old analytic anchor was buggy.
 So the model's intrinsic diffusivity is known/measurable; matching it to a
 physical diffusion coefficient D_phys [m^2/s] fixes the time unit:
    tau_PFC = D_PFC * (length_unit)^2 / D_phys     [seconds per PFC time unit].
@@ -53,14 +61,15 @@ def measure_D_pfc(r=-0.25):
     ts = np.array(ts)
     good = amps > amps[0] * 1e-3
     rate = -np.polyfit(ts[good], np.log(amps[good]), 1)[0]   # omega measured
-    omega_analytic = k ** 2 * (r + (1 - k ** 2) ** 2)
+    psi_bar = -0.25
+    L_eff = r + (1 - k ** 2) ** 2 + 3 * psi_bar ** 2          # corrected
+    omega_analytic = k ** 2 * L_eff
     D_pfc_measured = rate / k ** 2
-    D_pfc_analytic = r + (1 - k ** 2) ** 2
     return dict(k=k, omega_measured=float(rate),
                 omega_analytic=float(omega_analytic),
                 D_pfc_measured=float(D_pfc_measured),
-                D_pfc_analytic=float(D_pfc_analytic),
-                D_pfc_smallk_limit=float(r + 1))
+                D_pfc_analytic=float(L_eff),
+                D_pfc_smallk_limit=float(r + 1 + 3 * psi_bar ** 2))
 
 
 def main():
