@@ -35,20 +35,24 @@ BETA = 10.0
 
 def build():
     rng = np.random.default_rng(SEED)
-    lines = [
-        # mobile dipole: z-lines, Burgers +-x, on two glide planes (y offset)
-        dict(axis="z", pos=(0.5, 0.35), burgers="x", sign=+1),
-        dict(axis="z", pos=(0.5, 0.65), burgers="x", sign=-1),
-    ]
-    # forest: pairs of lines along x and y, Burgers along z (thread x-z plane),
-    # net Burgers cancels within each pair
-    for i in range(NF):
-        ax = "x" if i % 2 == 0 else "y"
+    # Seed NF line-dipole pairs spread over the three axes with Burgers
+    # transverse to each line axis, so lines on intersecting systems can
+    # junction. Measure the COLLECTIVE shear flow stress vs density (robust;
+    # no fragile single mobile line). Wide 0.45-fractional dipole separation
+    # resists premature annihilation.
+    burg = {"z": "x", "x": "z", "y": "z"}
+    axes = ["z", "x", "y"]
+    lines = []
+    for i in range(max(NF, 1)):
+        ax = axes[i % 3]
         a = rng.uniform(0.15, 0.85)
-        b = rng.uniform(0.15, 0.45)
-        lines.append(dict(axis=ax, pos=(a, b), burgers="z", sign=+1))
-        lines.append(dict(axis=ax, pos=(a, min(0.85, b + 0.4)),
-                          burgers="z", sign=-1))
+        b = rng.uniform(0.12, 0.40)
+        lines.append(dict(axis=ax, pos=(a, b), burgers=burg[ax], sign=+1))
+        lines.append(dict(axis=ax, pos=(a, b + 0.45), burgers=burg[ax],
+                          sign=-1))
+    if NF == 0:   # baseline: one wide z-line dipole
+        lines = [dict(axis="z", pos=(0.5, 0.27), burgers="x", sign=+1),
+                 dict(axis="z", pos=(0.5, 0.73), burgers="x", sign=-1)]
     m = PFC3D(N, N, N, dx=DX, r=-0.25, psi_bar=-0.25)
     m.init_dislocation_lines(lines)
     m.step_mpfc(DT, n=500, beta=BETA)

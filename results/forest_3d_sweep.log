@@ -1,0 +1,31 @@
+[nf0] seeded: frac=0.251 lines=1 atoms=1503
+[nf0] gxz=1.0% tau=+0.000187 frac=0.105 lines=1
+[nf0] gxz=2.0% tau=+0.000557 frac=0.000 lines=0
+[nf0] gxz=3.0% tau=+0.000843 frac=0.000 lines=0
+[nf0] gxz=4.0% tau=+0.001121 frac=0.000 lines=0
+[nf0] gxz=5.0% tau=+0.001394 frac=0.000 lines=0
+[nf0] gxz=6.0% tau=+0.001663 frac=0.000 lines=0
+[nf0] gxz=7.0% tau=+0.001926 frac=0.000 lines=0
+[nf0] gxz=8.0% tau=+0.002183 frac=0.000 lines=0
+[nf0] tau_flow=0.00179 done 107s
+[nf6] seeded: frac=0.738 lines=1 atoms=1422
+[nf6] gxz=1.0% tau=+0.000166 frac=0.678 lines=1
+[nf6] gxz=2.0% tau=+0.000370 frac=0.606 lines=1
+[nf6] gxz=3.0% tau=+0.000479 frac=0.576 lines=2
+[nf6] gxz=4.0% tau=+0.000695 frac=0.571 lines=1
+[nf6] gxz=5.0% tau=+0.000983 frac=0.553 lines=1
+[nf6] gxz=6.0% tau=+0.001426 frac=0.715 lines=1
+[nf6] gxz=7.0% tau=+0.001999 frac=0.947 lines=1
+[nf6] gxz=8.0% tau=+0.002271 frac=0.990 lines=1
+[nf6] tau_flow=0.00167 done 104s
+[nf12] seeded: frac=0.849 lines=1 atoms=1424
+[nf12] gxz=1.0% tau=+0.000169 frac=0.839 lines=1
+[nf12] gxz=2.0% tau=+0.000286 frac=0.853 lines=1
+[nf12] gxz=3.0% tau=+0.000336 frac=0.860 lines=1
+[nf12] gxz=4.0% tau=+0.000424 frac=0.876 lines=1
+[nf12] gxz=5.0% tau=+0.000508 frac=0.879 lines=1
+[nf12] gxz=6.0% tau=+0.000557 frac=0.890 lines=1
+[nf12] gxz=7.0% tau=+0.000628 frac=0.906 lines=1
+[nf12] gxz=8.0% tau=+0.000719 frac=0.929 lines=1
+[nf12] tau_flow=0.00060 done 105s
+ALL_FOREST3D_DONE
