@@ -17,13 +17,15 @@ import numpy as np
 from pfc3d import PFC3D, A_BCC, find_peaks_3d
 from defect_analysis_3d import find_dislocation_lines
 
-OUT = os.path.join(os.path.dirname(__file__), "..", "results",
-                   "bicrystal_csl")
+R = float(os.environ.get("BICRYSTAL_R", "-0.25"))
+STRAIN_TO = float(os.environ.get("BICRYSTAL_STRAIN", "0.08"))
+TAG = os.environ.get("BICRYSTAL_TAG", "bicrystal_csl")
+OUT = os.path.join(os.path.dirname(__file__), "..", "results", TAG)
 NX = 80          # 5 in-plane cells (Σ5 commensurate)
 NZ = 160         # 10 cells along z (two 5-cell grains)
 DX = 5 * A_BCC / NX
 DEPS = 0.0025
-N_STRAIN = 32    # -> 8%
+N_STRAIN = int(round(STRAIN_TO / DEPS))
 RELAX = 200
 DT = 0.5
 
@@ -42,7 +44,7 @@ def analyze(m):
 def main():
     os.makedirs(OUT, exist_ok=True)
     t0 = time.time()
-    m = PFC3D(NX, NX, NZ, dx=DX, r=-0.25, psi_bar=-0.25)
+    m = PFC3D(NX, NX, NZ, dx=DX, r=R, psi_bar=-0.25)
     m.init_bicrystal_csl()
     m.step(DT, n=800)            # relax the GB
     m.save(os.path.join(OUT, "initial.npz"))
