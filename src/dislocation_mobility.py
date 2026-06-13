@@ -33,9 +33,13 @@ OUT = os.path.join(os.path.dirname(__file__), "..", "results", "mobility")
 
 def seeded_dipole(n=256, r=-0.25, relax=600, mpfc=False, beta=10.0):
     m = PFC2D(n, n, r=r, psi_bar=-0.25)
-    # horizontal edge dipole: cores at (lx/4, ly/2) and (3lx/4, ly/2),
-    # opposite sign -> a glide-apart pair under +x resolved shear
-    m.init_dislocations([(0.25, 0.5, +1), (0.75, 0.5, -1)])
+    # Edge dipole separated along Y (perpendicular to the x-glide direction),
+    # so the two opposite-sign edges sit on DIFFERENT horizontal glide planes
+    # (y=0.3 ly, y=0.7 ly). Under applied epsilon_xy shear they glide in
+    # OPPOSITE x-directions on their own planes; their mutual interaction at
+    # large Delta-y is weak and mostly climb (slow), so the measured x-glide
+    # velocity reflects the APPLIED resolved stress, not pair annihilation.
+    m.init_dislocations([(0.5, 0.3, +1), (0.5, 0.7, -1)])
     (m.step_mpfc(0.5, n=relax, beta=beta) if mpfc else m.step(0.5, n=relax))
     return m
 
@@ -45,73 +49,106 @@ def core_positions(m):
     return d["cores"]
 
 
-def measure_mobility(mpfc, label):
+def _match_core_x(cores, y_target, ly):
+    """x-position of the core nearest a given glide-plane y (periodic)."""
+    if len(cores) == 0:
+        return None
+    dy = np.abs((cores[:, 1] - y_target + ly / 2) % ly - ly / 2)
+    return float(cores[np.argmin(dy)][0])
+
+
+def measure_mobility(mpfc, label, gamma_hold=0.03):
+    """Apply a FIXED shear gamma_hold, then hold it and let the two edges glide
+    at constant resolved stress; track each core's absolute x vs time and fit
+    v. Mobility M = v / (tau * b)."""
     m = seeded_dipole(mpfc=mpfc)
     c0 = core_positions(m)
     if len(c0) < 2:
         return dict(label=label, ok=False, note="dipole not stable")
+    y_lo, y_hi = 0.3 * m.ly, 0.7 * m.ly
+    # ramp to a fixed shear quickly, then hold
+    for _ in range(int(gamma_hold / 0.0025)):
+        m.apply_shear(0.0025)
+        (m.step_mpfc(0.5, n=40, beta=10.0) if mpfc else m.step(0.5, n=40))
+    tau = m.shear_stress()
+    # now hold gamma fixed and watch glide
+    x_lo0 = _match_core_x(core_positions(m), y_lo, m.ly)
+    x_hi0 = _match_core_x(core_positions(m), y_hi, m.ly)
     track = []
-    dt = 0.5
-    relax = 200
-    for i in range(20):
-        m.apply_shear(0.002)            # +x resolved shear increment
-        (m.step_mpfc(dt, n=relax, beta=10.0) if mpfc else m.step(dt, n=relax))
+    t0 = m.time
+    for i in range(24):
+        (m.step_mpfc(0.5, n=60, beta=10.0) if mpfc else m.step(0.5, n=60))
         cores = core_positions(m)
-        tau = m.shear_stress()
-        # mean |x| glide of the cores from start (min-image)
-        if len(cores) >= 2:
-            xs = np.sort(cores[:, 0])
-            sep = xs[-1] - xs[0]
-            track.append((m.gamma, tau, sep, m.time, len(cores)))
+        xl = _match_core_x(cores, y_lo, m.ly)
+        xh = _match_core_x(cores, y_hi, m.ly)
+        if xl is None or xh is None:
+            break
+        # unwrapped glide distance of each core from its start (min-image)
+        dlo = ((xl - x_lo0 + m.lx / 2) % m.lx - m.lx / 2)
+        dhi = ((xh - x_hi0 + m.lx / 2) % m.lx - m.lx / 2)
+        glide = 0.5 * (abs(dlo) + abs(dhi))   # mean |glide| of the two
+        track.append((m.time - t0, glide, len(cores)))
     track = np.array(track)
-    # glide velocity: d(sep)/d(time) once moving; mobility M = v/(tau*b)
-    if len(track) < 5:
-        return dict(label=label, ok=False, note="lost cores")
+    if len(track) < 6:
+        return dict(label=label, ok=False, note="lost cores", tau=float(tau))
     b = A_LATTICE
-    v = np.gradient(track[:, 2], track[:, 3])      # d sep / d time
-    tau = track[:, 1]
-    moving = np.abs(v) > 1e-4
-    M = float(np.median(v[moving] / (tau[moving] * b))) if moving.any() else 0.0
-    return dict(label=label, ok=True, mobility_M=M,
-                gamma=track[:, 0].tolist(), tau=tau.tolist(),
-                sep=track[:, 2].tolist(), v=v.tolist(),
-                n_cores=track[:, 4].tolist())
+    # steady glide velocity = slope of glide-distance vs time (robust fit)
+    v = float(np.polyfit(track[:, 0], track[:, 1], 1)[0])
+    M = v / (tau * b) if tau != 0 else float("nan")
+    return dict(label=label, ok=True, mobility_M=float(M), v=v,
+                tau=float(tau), gamma_hold=gamma_hold,
+                t=track[:, 0].tolist(), glide=track[:, 1].tolist(),
+                n_cores=track[:, 2].tolist())
+
+
+def _free_energy_density(m):
+    from pfc2d import _rfft2, _irfft2
+    psi_h = _rfft2(m.psi)
+    lin_term = _irfft2(m.lin * psi_h, m.psi.shape)
+    return 0.5 * m.psi * lin_term + 0.25 * m.psi ** 4
 
 
 def elastic_field():
-    """Azimuthal distortion decay around a single core (1/r test).
-    Use one core of a widely-separated dipole, sample local lattice shear
-    (gradient of the phase) in annuli and fit amplitude*(1/r)+c."""
+    """Elastic-energy decay around a core (1/r^2 test). A dislocation's elastic
+    strain ~ b/(2 pi r), so its excess free-energy DENSITY ~ strain^2 ~ 1/r^2.
+    We coarse-grain the local f over a unit cell, take the azimuthal mean of the
+    excess-over-bulk vs r, and fit A/r^2. (Cleaner & more physical than a
+    grad-psi proxy.)"""
+    from scipy.ndimage import uniform_filter
     m = seeded_dipole(relax=800)
     cores = core_positions(m)
     if len(cores) < 1:
         return dict(ok=False)
     cx, cy = cores[0]
-    # local "distortion" proxy: magnitude of grad(psi) deviation from bulk
-    gy, gx = np.gradient(m.psi, m.dy, m.dx)
-    gmag = np.sqrt(gx ** 2 + gy ** 2)
+    f = _free_energy_density(m)
+    w = max(3, int(round(A_LATTICE / m.dx)))      # coarse-grain over a cell
+    fcg = uniform_filter(f, size=w, mode="wrap")
+    bulk = np.median(fcg)
     x = (np.arange(m.nx) * m.dx)[None, :]
     y = (np.arange(m.ny) * m.dy)[:, None]
     rr = np.sqrt(((x - cx + m.lx / 2) % m.lx - m.lx / 2) ** 2
                  + ((y - cy + m.ly / 2) % m.ly - m.ly / 2) ** 2)
-    bins = np.linspace(2 * A_LATTICE, 0.4 * m.lx, 12)
+    bins = np.linspace(1.5 * A_LATTICE, 0.35 * m.lx, 12)
     prof = []
-    bulk = np.median(gmag)
     for lo, hi in zip(bins[:-1], bins[1:]):
         sel = (rr >= lo) & (rr < hi)
-        if sel.sum():
-            prof.append((0.5 * (lo + hi), float(np.mean(gmag[sel]) - bulk)))
+        if sel.sum() > 5:
+            prof.append((0.5 * (lo + hi), float(np.mean(fcg[sel]) - bulk)))
     prof = np.array(prof)
-    # fit excess distortion ~ A/r
     pos = prof[:, 1] > 0
     if pos.sum() >= 4:
-        A, c = np.polyfit(1.0 / prof[pos, 0], prof[pos, 1], 1)
-        r2 = 1 - (np.var(prof[pos, 1] - (A / prof[pos, 0] + c))
-                  / (np.var(prof[pos, 1]) + 1e-12))
+        rp, ep = prof[pos, 0], prof[pos, 1]
+        # fit log(excess) = log A - p log r ; report exponent p (elastic -> 2)
+        p_fit, logA = np.polyfit(np.log(rp), np.log(ep), 1)
+        pexp = -p_fit
+        pred = np.exp(logA) * rp ** p_fit
+        r2 = 1 - np.var(ep - pred) / (np.var(ep) + 1e-12)
     else:
-        A, c, r2 = float("nan"), float("nan"), float("nan")
-    return dict(ok=True, r=prof[:, 0].tolist(), distortion=prof[:, 1].tolist(),
-                inv_r_amp=float(A), r2_of_1overr_fit=float(r2))
+        pexp, r2 = float("nan"), float("nan")
+    return dict(ok=True, r=prof[:, 0].tolist(),
+                excess_energy=prof[:, 1].tolist(),
+                decay_exponent_p=float(pexp), r2_of_powerlaw=float(r2),
+                note="elastic dislocation -> p~2 (energy density ~ 1/r^2)")
 
 
 def main():
@@ -120,7 +157,9 @@ def main():
     ef = elastic_field()
     with open(os.path.join(OUT, "elastic_field.json"), "w") as f:
         json.dump(ef, f, indent=1)
-    print(f"[elastic field] 1/r fit R^2 = {ef.get('r2_of_1overr_fit')}", flush=True)
+    print(f"[elastic field] energy-density decay exponent p = "
+          f"{ef.get('decay_exponent_p')} (elastic->2), R^2="
+          f"{ef.get('r2_of_powerlaw')}", flush=True)
 
     res = {}
     for mpfc, label in [(False, "diffusive"), (True, "mpfc_beta10")]:
@@ -137,21 +176,21 @@ def main():
         import matplotlib.pyplot as plt
         fig, ax = plt.subplots(1, 2, figsize=(13, 5))
         if ef.get("ok"):
-            r = np.array(ef["r"]); dd = np.array(ef["distortion"])
-            ax[0].plot(r, dd, "o", label="measured excess distortion")
-            A = ef["inv_r_amp"]
-            ax[0].plot(r, A / r, "-", label=f"A/r fit (R2={ef['r2_of_1overr_fit']:.2f})")
-            ax[0].set_xlabel("r from core"); ax[0].set_ylabel("excess distortion")
-            ax[0].set_title("edge dislocation elastic field (1/r test)")
-            ax[0].legend(); ax[0].grid(alpha=0.3)
+            r = np.array(ef["r"]); dd = np.array(ef["excess_energy"])
+            ax[0].loglog(r, np.abs(dd), "o", label="excess energy density")
+            p = ef["decay_exponent_p"]
+            ax[0].set_xlabel("r from core"); ax[0].set_ylabel("excess f")
+            ax[0].set_title(f"elastic field: energy~1/r^{p:.1f} "
+                            f"(R2={ef['r2_of_powerlaw']:.2f}, elastic->2)")
+            ax[0].legend(); ax[0].grid(alpha=0.3, which="both")
         for label, r in res.items():
-            if r["ok"]:
-                ax[1].plot(np.array(r["tau"]), np.array(r["v"]), "o-",
-                           label=f"{label} (M={r['mobility_M']:.3f})")
-        ax[1].set_xlabel("resolved shear stress tau")
-        ax[1].set_ylabel("glide velocity v")
-        ax[1].set_title("dislocation mobility v(tau)")
-        ax[1].legend(); ax[1].grid(alpha=0.3)
+            if r.get("ok"):
+                ax[1].plot(np.array(r["t"]), np.array(r["glide"]), "o-",
+                           label=f"{label}: M={r['mobility_M']:.3f}, tau={r['tau']:.4f}")
+        ax[1].set_xlabel("time (held shear)")
+        ax[1].set_ylabel("mean glide distance")
+        ax[1].set_title("dislocation glide under constant resolved stress")
+        ax[1].legend(fontsize=8); ax[1].grid(alpha=0.3)
         fig.savefig(os.path.join(OUT, "mobility.png"), dpi=140,
                     bbox_inches="tight")
     except Exception as ex:

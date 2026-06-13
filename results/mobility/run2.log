@@ -1,0 +1,4 @@
+[elastic field] energy-density decay exponent p = nan (elastic->2), R^2=nan
+[diffusive] mobility M = 0.9297624955450362 ok=True
+[mpfc_beta10] mobility M = 1.0510694199089499 ok=True
+done in 8s
