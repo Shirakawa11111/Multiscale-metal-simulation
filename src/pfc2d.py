@@ -174,29 +174,45 @@ class PFC2D:
 
     def init_dislocations(self, cores, images=1):
         """Seed edge dislocations by phase winding (Skaugen et al. style):
-        ux = (b/2π) Σ_images Σ_i sign_i · atan2(y - yi, x - xi), uy = 0.
-        Each branch-cut jump equals one full Burgers vector (invisible to
-        the lattice). `cores` is a list of (x_frac, y_frac, sign); signs
-        must sum to zero for a periodic-compatible far field.
+        u(r) = (b/2π) Σ_i sign_i · θ_i(r) · (cos α_i, sin α_i), where θ is the
+        winding angle about each core and α_i is the Burgers-vector direction.
+        Each branch-cut jump equals one full Burgers vector (invisible to the
+        lattice).
 
-        cores=[(0.5, 0.25, +1), (0.5, 0.75, -1)] reproduces the classic
-        vertical dipole; a quadrupole arrangement minimizes image
-        interactions for multi-dislocation seeding."""
-        if sum(s for _, _, s in cores) != 0:
-            raise ValueError("net Burgers vector must be zero (signs sum 0)")
+        `cores` is a list of (x_frac, y_frac, sign[, burgers_deg]); a 3-tuple
+        defaults to burgers_deg=0 (Burgers along x). The triangular lattice has
+        three glide systems at 0°/60°/120°, so a forest on intersecting systems
+        is built by mixing burgers_deg in {0,60,120}. Net Burgers per system
+        must sum to zero for periodic-compatible far fields."""
+        norm = []
+        for c in cores:
+            if len(c) == 3:
+                norm.append((c[0], c[1], c[2], 0.0))
+            else:
+                norm.append(tuple(c))
+        # net Burgers (vector) must cancel for PBC compatibility
+        bx = sum(s * np.cos(np.radians(a)) for _, _, s, a in norm)
+        by = sum(s * np.sin(np.radians(a)) for _, _, s, a in norm)
+        if abs(bx) > 1e-9 or abs(by) > 1e-9:
+            raise ValueError("net Burgers vector must be zero")
         x = np.arange(self.nx) * self.dx
         y = np.arange(self.ny) * self.dy
         X, Y = np.meshgrid(x, y)
         qx, _ = self._snapped_q()
-        b = 2.0 * np.pi / qx  # x-period of the snapped lattice
+        b = 2.0 * np.pi / qx
         ux = np.zeros_like(X)
+        uy = np.zeros_like(Y)
         for sx in range(-images, images + 1):
             for sy in range(-images, images + 1):
-                for fx, fy, s in cores:
-                    ux += s * np.arctan2(Y - fy * self.ly + sy * self.ly,
-                                         X - fx * self.lx + sx * self.lx)
+                for fx, fy, s, adeg in norm:
+                    th = np.arctan2(Y - fy * self.ly + sy * self.ly,
+                                    X - fx * self.lx + sx * self.lx)
+                    a = np.radians(adeg)
+                    ux += s * th * np.cos(a)
+                    uy += s * th * np.sin(a)
         ux *= b / (2.0 * np.pi)
-        self.psi = self.one_mode_field(X, Y, ux=ux)
+        uy *= b / (2.0 * np.pi)
+        self.psi = self.one_mode_field(X, Y, ux=ux, uy=uy)
         self._fix_mean()
 
     def init_dislocation_dipole(self, images=1):
