@@ -1,0 +1,9 @@
+  gamma=0.060: tau_app=0.00310 tau_eff=0.00266 v=0.02573 glide=4.1b
+  gamma=0.070: tau_app=0.00359 tau_eff=0.00316 v=0.03386 glide=4.0b
+  gamma=0.085: tau_app=0.00431 tau_eff=0.00388 v=0.04087 glide=5.0b
+  gamma=0.100: tau_app=0.00500 tau_eff=0.00456 v=0.04921 glide=6.0b
+  gamma=0.115: tau_app=0.00565 tau_eff=0.00522 v=0.05879 glide=7.0b
+  gamma=0.130: tau_app=0.00626 tau_eff=0.00583 v=0.07025 glide=8.9b
+
+PROPER MOBILITY (vs tau_eff): M=1.539, R^2=0.962; free-fit intercept=-0.01021 (≈0 confirms no spurious threshold)
+done in 341s
