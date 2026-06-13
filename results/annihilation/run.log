@@ -1,0 +1,11 @@
+  d/b=0.5: annihilated=True (cores=0)
+  d/b=1.0: annihilated=True (cores=0)
+  d/b=1.5: annihilated=True (cores=0)
+  d/b=2.0: annihilated=True (cores=0)
+  d/b=3.0: annihilated=True (cores=0)
+  d/b=4.0: annihilated=True (cores=0)
+  d/b=6.0: annihilated=True (cores=0)
+  d/b=8.0: annihilated=False (cores=2)
+
+ANNIHILATION DISTANCE y_ann = 7.0 b (metals: ~1-6 b) -- transferable CP recovery parameter
+done in 16s

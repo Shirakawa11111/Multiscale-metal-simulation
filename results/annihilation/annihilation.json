@@ -1,0 +1,47 @@
+{
+ "y_ann_over_b": 7.0,
+ "scan": [
+  {
+   "d_over_b": 0.5,
+   "annihilated": true,
+   "n_cores": 0
+  },
+  {
+   "d_over_b": 1.0,
+   "annihilated": true,
+   "n_cores": 0
+  },
+  {
+   "d_over_b": 1.5,
+   "annihilated": true,
+   "n_cores": 0
+  },
+  {
+   "d_over_b": 2.0,
+   "annihilated": true,
+   "n_cores": 0
+  },
+  {
+   "d_over_b": 3.0,
+   "annihilated": true,
+   "n_cores": 0
+  },
+  {
+   "d_over_b": 4.0,
+   "annihilated": true,
+   "n_cores": 0
+  },
+  {
+   "d_over_b": 6.0,
+   "annihilated": true,
+   "n_cores": 0
+  },
+  {
+   "d_over_b": 8.0,
+   "annihilated": false,
+   "n_cores": 2
+  }
+ ],
+ "b": 7.255197456936871,
+ "note": "annihilation distance in units of Burgers vector; Kocks-Mecking/dislotwin recovery parameter (typical metals y_ann ~ 1-6 b). Dimensionless -> transferable to CP with no time calibration."
+}
