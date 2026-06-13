@@ -58,6 +58,7 @@ class PFC3D:
         self.r = r
         self.psi_bar = psi_bar
         self.exx = self.eyy = self.ezz = 0.0
+        self.gxz = 0.0         # simple shear x += gxz*z (resolved across z-GB)
         self.psi = np.full((nz, ny, nx), psi_bar)
         self.time = 0.0
         self._update_k()
@@ -92,7 +93,9 @@ class PFC3D:
         ky = 2 * np.pi * np.fft.fftfreq(self.ny, d=self.dy)
         kz = 2 * np.pi * np.fft.fftfreq(self.nz, d=self.dz)
         KZ, KY, KX = np.meshgrid(kz, ky, kx, indexing="ij")
-        self.k2 = KX ** 2 + KY ** 2 + KZ ** 2
+        # simple xz shear F=[[1,0,g],[0,1,0],[0,0,1]] -> F^-T k = (kx,ky,kz-g*kx)
+        KZP = KZ - self.gxz * KX
+        self.k2 = KX ** 2 + KY ** 2 + KZP ** 2
         self.lin = self.r + (1.0 - self.k2) ** 2
 
     def apply_strain(self, dexx, volume_conserving=True):
@@ -102,6 +105,28 @@ class PFC3D:
             f_t = 1.0 / np.sqrt(1.0 + self.exx)
             self.eyy = self.ezz = f_t - 1.0
         self._update_k()
+
+    def apply_shear(self, dg):
+        """Simple xz shear gamma_xz += dg (x += gamma*z). Applies resolved
+        shear across a (001) twist GB; volume-preserving and free of the
+        Bain/amorphization path of uniaxial BCC tension (the ~10-12% ceiling
+        from M17), so it can probe GB glide/emission to larger strain."""
+        self.gxz += dg
+        self._update_k()
+
+    def shear_stress(self, dg=1e-4):
+        g0 = self.gxz
+        try:
+            self.gxz = g0 + dg
+            self._update_k()
+            fp = self.free_energy()
+            self.gxz = g0 - dg
+            self._update_k()
+            fm = self.free_energy()
+        finally:
+            self.gxz = g0
+            self._update_k()
+        return (fp - fm) / (2.0 * dg)
 
     # ---------- initial conditions ----------
     def init_random(self, noise=0.05, seed=0):
@@ -239,7 +264,7 @@ class PFC3D:
         np.savez_compressed(
             path, psi=self.psi, r=self.r, psi_bar=self.psi_bar,
             dx0=self.dx0, exx=self.exx, eyy=self.eyy, ezz=self.ezz,
-            time=self.time)
+            gxz=self.gxz, time=self.time)
 
     @classmethod
     def load(cls, path):
@@ -250,6 +275,7 @@ class PFC3D:
         m.psi = d["psi"]
         m.exx, m.eyy, m.ezz = (float(d["exx"]), float(d["eyy"]),
                                float(d["ezz"]))
+        m.gxz = float(d["gxz"]) if "gxz" in d else 0.0
         m.time = float(d["time"])
         m._update_k()
         return m

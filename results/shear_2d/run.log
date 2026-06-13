@@ -1,0 +1,36 @@
+[shear_quad] gamma=0 cores=4
+[shear_quad] gamma= 1.00% tau=+0.00048 cores=4
+[shear_quad] gamma= 2.00% tau=+0.00095 cores=4
+[shear_quad] gamma= 3.00% tau=+0.00138 cores=4
+[shear_quad] gamma= 4.00% tau=+0.00178 cores=4
+[shear_quad] gamma= 5.00% tau=+0.00215 cores=4
+[shear_quad] gamma= 6.00% tau=+0.00251 cores=2
+[shear_quad] gamma= 7.00% tau=+0.00293 cores=2
+[shear_quad] gamma= 8.00% tau=+0.00333 cores=2
+[shear_quad] gamma= 9.00% tau=+0.00371 cores=2
+[shear_quad] gamma=10.00% tau=+0.00406 cores=2
+[shear_quad] gamma=11.00% tau=+0.00448 cores=0
+[shear_quad] gamma=12.00% tau=+0.00493 cores=0
+[shear_quad] gamma=13.00% tau=+0.00537 cores=0
+[shear_quad] gamma=14.00% tau=+0.00580 cores=0
+[shear_quad] gamma=15.00% tau=+0.00620 cores=0
+[shear_quad] gamma=16.00% tau=+0.00659 cores=0
+[shear_quad] done in 85s
+[shear_poly] gamma=0 cores=192
+[shear_poly] gamma= 1.00% tau=+0.00039 cores=186
+[shear_poly] gamma= 2.00% tau=+0.00060 cores=174
+[shear_poly] gamma= 3.00% tau=+0.00078 cores=165
+[shear_poly] gamma= 4.00% tau=+0.00093 cores=162
+[shear_poly] gamma= 5.00% tau=+0.00110 cores=156
+[shear_poly] gamma= 6.00% tau=+0.00123 cores=153
+[shear_poly] gamma= 7.00% tau=+0.00136 cores=150
+[shear_poly] gamma= 8.00% tau=+0.00143 cores=149
+[shear_poly] gamma= 9.00% tau=+0.00157 cores=142
+[shear_poly] gamma=10.00% tau=+0.00165 cores=139
+[shear_poly] gamma=11.00% tau=+0.00177 cores=135
+[shear_poly] gamma=12.00% tau=+0.00182 cores=130
+[shear_poly] gamma=13.00% tau=+0.00189 cores=132
+[shear_poly] gamma=14.00% tau=+0.00188 cores=130
+[shear_poly] gamma=15.00% tau=+0.00188 cores=129
+[shear_poly] gamma=16.00% tau=+0.00195 cores=131
+[shear_poly] done in 103s
