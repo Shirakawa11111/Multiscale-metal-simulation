@@ -61,6 +61,7 @@ class PFC2D:
         self.psi_bar = psi_bar
         self.exx = 0.0         # accumulated true strain factors (box stretch)
         self.eyy = 0.0
+        self.gamma = 0.0       # simple-shear x += gamma*y (engineering shear)
         self.psi = np.full((ny, nx), psi_bar)
         self.time = 0.0
         self._update_k()
@@ -90,7 +91,12 @@ class PFC2D:
         kx = 2.0 * np.pi * np.fft.rfftfreq(self.nx, d=self.dx)
         ky = 2.0 * np.pi * np.fft.fftfreq(self.ny, d=self.dy)
         KX, KY = np.meshgrid(kx, ky)
-        self.k2 = KX ** 2 + KY ** 2
+        # Physical wavevector under deformation gradient F: k_phys = F^-T k_grid,
+        # so the FFT stays on the rectangular reference grid and only the metric
+        # changes. For simple shear F=[[1,gamma],[0,1]], F^-T=[[1,0],[-gamma,1]]:
+        # k_phys = (kx, ky - gamma*kx). Axial stretch already folds into dx,dy.
+        kyp = KY - self.gamma * KX
+        self.k2 = KX ** 2 + kyp ** 2
         self.lin = self.r + (1.0 - self.k2) ** 2  # linear operator L(k)
 
     def apply_strain(self, dexx, area_conserving=True):
@@ -101,6 +107,29 @@ class PFC2D:
         if area_conserving:
             self.eyy = 1.0 / (1.0 + self.exx) - 1.0
         self._update_k()
+
+    def apply_shear(self, dgamma):
+        """Increment simple (engineering) shear gamma += dgamma. Volume- and
+        axis-length-preserving; the natural driver for dislocation glide and
+        free of the Bain/amorphization path that uniaxial tension takes in
+        one-mode BCC. The Resolved shear couples directly to glide systems."""
+        self.gamma += dgamma
+        self._update_k()
+
+    def shear_stress(self, dg=1e-4):
+        """Work-conjugate shear stress tau = dF/dgamma at fixed psi."""
+        g0 = self.gamma
+        try:
+            self.gamma = g0 + dg
+            self._update_k()
+            fp = self.free_energy()
+            self.gamma = g0 - dg
+            self._update_k()
+            fm = self.free_energy()
+        finally:
+            self.gamma = g0
+            self._update_k()
+        return (fp - fm) / (2.0 * dg)
 
     # ---------- initial conditions ----------
     def init_random(self, noise=0.05, seed=0):
@@ -258,7 +287,8 @@ class PFC2D:
     def save(self, path):
         np.savez_compressed(
             path, psi=self.psi, r=self.r, psi_bar=self.psi_bar,
-            dx0=self.dx0, exx=self.exx, eyy=self.eyy, time=self.time)
+            dx0=self.dx0, exx=self.exx, eyy=self.eyy, gamma=self.gamma,
+            time=self.time)
 
     @classmethod
     def load(cls, path):
@@ -268,6 +298,7 @@ class PFC2D:
         m.psi = d["psi"]
         m.exx = float(d["exx"])
         m.eyy = float(d["eyy"])
+        m.gamma = float(d["gamma"]) if "gamma" in d else 0.0
         m.time = float(d["time"])
         m._update_k()
         return m
