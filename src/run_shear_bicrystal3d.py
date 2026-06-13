@@ -27,10 +27,13 @@ RELAX = 200
 DT = 0.5
 
 
-def analyze(m):
+def analyze(m, poly=False):
     pts = find_peaks_3d(m.psi, m.dx, m.dy, m.dz)
     box = np.array([m.lx, m.ly, m.lz])
     r = find_dislocation_lines(pts, box)
+    if poly:
+        # no GB plane in a polycrystal: report total CSP-disordered fraction
+        return r, len(pts), float(r["disordered_frac"])
     zc = pts[:, 2]
     dgb = np.minimum(np.abs(zc - m.lz / 2), np.minimum(zc, m.lz - zc))
     interior = dgb > 6 * A_BCC
@@ -42,11 +45,16 @@ def analyze(m):
 def main():
     os.makedirs(OUT, exist_ok=True)
     t0 = time.time()
-    m = PFC3D(N, N, NZ, dx=DX, r=R, psi_bar=-0.25)
-    m.init_bicrystal_csl()
-    m.step(DT, n=800)
+    if os.environ.get("SBIC_KIND") == "poly":
+        m = PFC3D(N, N, N, dx=DX, r=R, psi_bar=-0.25)
+        m.init_random(noise=0.05, seed=int(os.environ.get("SBIC_SEED", "7")))
+        m.step(DT, n=2000)
+    else:
+        m = PFC3D(N, N, NZ, dx=DX, r=R, psi_bar=-0.25)
+        m.init_bicrystal_csl()
+        m.step(DT, n=800)
     m.save(os.path.join(OUT, "initial.npz"))
-    r, npts, bulk = analyze(m)
+    r, npts, bulk = analyze(m, poly=(os.environ.get("SBIC_KIND")=="poly"))
     rows = [dict(gxz=0.0, tau=m.shear_stress(), F=m.free_energy(),
                  atoms=npts, n_lines=r["n_lines"], interior_dis=bulk)]
     print(f"[{TAG}] g=0 atoms={npts} lines={r['n_lines']} interior_dis={bulk:.3f}",
@@ -54,7 +62,7 @@ def main():
     for i in range(N_STEPS):
         m.apply_shear(DGAMMA)
         m.step(DT, n=RELAX)
-        r, npts, bulk = analyze(m)
+        r, npts, bulk = analyze(m, poly=(os.environ.get("SBIC_KIND")=="poly"))
         rows.append(dict(gxz=m.gxz, tau=m.shear_stress(), F=m.free_energy(),
                          atoms=npts, n_lines=r["n_lines"], interior_dis=bulk))
         if i % 4 == 3:

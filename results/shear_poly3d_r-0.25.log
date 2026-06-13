@@ -1,0 +1,17 @@
+[poly_r-0.25] g=0 atoms=1896 lines=1 interior_dis=0.986
+[poly_r-0.25] gxz= 1.00% tau=+0.000099 lines=1 interior_dis=0.987 atoms=1899
+[poly_r-0.25] gxz= 2.00% tau=+0.000184 lines=1 interior_dis=0.985 atoms=1896
+[poly_r-0.25] gxz= 3.00% tau=+0.000262 lines=1 interior_dis=0.986 atoms=1895
+[poly_r-0.25] gxz= 4.00% tau=+0.000327 lines=1 interior_dis=0.981 atoms=1890
+[poly_r-0.25] gxz= 5.00% tau=+0.000389 lines=1 interior_dis=0.982 atoms=1887
+[poly_r-0.25] gxz= 6.00% tau=+0.000455 lines=1 interior_dis=0.981 atoms=1887
+[poly_r-0.25] gxz= 7.00% tau=+0.000507 lines=1 interior_dis=0.981 atoms=1883
+[poly_r-0.25] gxz= 8.00% tau=+0.000555 lines=1 interior_dis=0.985 atoms=1884
+[poly_r-0.25] gxz= 9.00% tau=+0.000581 lines=1 interior_dis=0.981 atoms=1882
+[poly_r-0.25] gxz=10.00% tau=+0.000601 lines=1 interior_dis=0.988 atoms=1884
+[poly_r-0.25] gxz=11.00% tau=+0.000637 lines=1 interior_dis=0.982 atoms=1885
+[poly_r-0.25] gxz=12.00% tau=+0.000684 lines=1 interior_dis=0.979 atoms=1887
+[poly_r-0.25] gxz=13.00% tau=+0.000722 lines=1 interior_dis=0.982 atoms=1889
+[poly_r-0.25] gxz=14.00% tau=+0.000759 lines=1 interior_dis=0.979 atoms=1890
+[poly_r-0.25] gxz=15.00% tau=+0.000783 lines=1 interior_dis=0.981 atoms=1891
+[poly_r-0.25] done in 480s
