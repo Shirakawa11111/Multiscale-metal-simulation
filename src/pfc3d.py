@@ -134,6 +134,35 @@ class PFC3D:
         self.psi = self.psi_bar + amp * f
         self._fix_mean()
 
+    def init_bicrystal(self, tilt_deg=15.0, amp=0.25):
+        """Two BCC grains meeting at a flat (001) boundary at z=lz/2; the
+        upper grain is rotated by `tilt_deg` about z. A clean single grain
+        boundary lets the M12 detector resolve individual GB-emitted
+        dislocation lines under tension (unlike a quenched polycrystal whose
+        GB network percolates). Grains are large (= box halves), so lines
+        are spatially isolated."""
+        x = np.arange(self.nx) * self.dx
+        y = np.arange(self.ny) * self.dy
+        z = np.arange(self.nz) * self.dz
+        Z, Y, X = np.meshgrid(z, y, x, indexing="ij")
+        qx, qy, qz = self._snapped_q()
+        th = np.deg2rad(tilt_deg)
+        c, s = np.cos(th), np.sin(th)
+
+        def bcc(Xr, Yr, Zr):
+            return (np.cos(qx * Xr) * np.cos(qy * Yr)
+                    + np.cos(qy * Yr) * np.cos(qz * Zr)
+                    + np.cos(qz * Zr) * np.cos(qx * Xr))
+
+        f_lo = bcc(X, Y, Z)
+        Xr = c * X - s * Y
+        Yr = s * X + c * Y
+        f_hi = bcc(Xr, Yr, Z)
+        xi = 1.5 * A_BCC
+        w = 0.5 * (1.0 + np.tanh((Z - self.lz / 2.0) / xi))  # 0 lower,1 upper
+        self.psi = self.psi_bar + amp * ((1 - w) * f_lo + w * f_hi)
+        self._fix_mean()
+
     def _fix_mean(self):
         self.psi += self.psi_bar - self.psi.mean()
 
