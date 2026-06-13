@@ -1,0 +1,6 @@
+f3d_n256c20_nf0_s7|--kind forest3d --n 256 --cells 20 --nf 0 --seed 7 --out results_hpc/f3d_n256c20_nf0_s7
+f3d_n256c20_nf0_s11|--kind forest3d --n 256 --cells 20 --nf 0 --seed 11 --out results_hpc/f3d_n256c20_nf0_s11
+f3d_n256c20_nf4_s7|--kind forest3d --n 256 --cells 20 --nf 4 --seed 7 --out results_hpc/f3d_n256c20_nf4_s7
+f3d_n256c20_nf4_s11|--kind forest3d --n 256 --cells 20 --nf 4 --seed 11 --out results_hpc/f3d_n256c20_nf4_s11
+f3d_n256c20_nf8_s7|--kind forest3d --n 256 --cells 20 --nf 8 --seed 7 --out results_hpc/f3d_n256c20_nf8_s7
+f3d_n256c20_nf8_s11|--kind forest3d --n 256 --cells 20 --nf 8 --seed 11 --out results_hpc/f3d_n256c20_nf8_s11
