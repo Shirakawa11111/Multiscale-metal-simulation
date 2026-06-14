@@ -1,0 +1,12 @@
+  pinned=False nf=4: tau_flow=0.00232
+  pinned=False nf=12: tau_flow=0.00195
+  pinned=False nf=20: tau_flow=0.00178
+  pinned=False: d(tau)/d(sqrt(N))=-0.000172 => softens
+  pinned=True nf=4: tau_flow=0.00251
+  pinned=True nf=12: tau_flow=0.00226
+  pinned=True nf=20: tau_flow=0.00242
+  pinned=True: d(tau)/d(sqrt(N))=-0.000034 => softens
+
+VERDICT: pinned forest still SOFTENS/bypassed -> crystallography/fundamental block, dynamics fix insufficient
+  free slope=-0.000172, pinned slope=-0.000034
+done in 712s

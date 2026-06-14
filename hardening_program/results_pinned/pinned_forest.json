@@ -1,0 +1,44 @@
+{
+ "free": {
+  "rows": [
+   {
+    "n_forest": 4,
+    "seeded": 12,
+    "flow_stress": 0.0023238613484329387
+   },
+   {
+    "n_forest": 12,
+    "seeded": 28,
+    "flow_stress": 0.0019482005364085397
+   },
+   {
+    "n_forest": 20,
+    "seeded": 44,
+    "flow_stress": 0.0017837510144919078
+   }
+  ],
+  "taylor_slope": -0.00017248181697615515,
+  "hardens": false
+ },
+ "pinned": {
+  "rows": [
+   {
+    "n_forest": 4,
+    "seeded": 12,
+    "flow_stress": 0.0025102792749190014
+   },
+   {
+    "n_forest": 12,
+    "seeded": 28,
+    "flow_stress": 0.0022579559850223474
+   },
+   {
+    "n_forest": 20,
+    "seeded": 44,
+    "flow_stress": 0.0024222004330514205
+   }
+  ],
+  "taylor_slope": -3.4238959865247594e-05,
+  "hardens": false
+ }
+}
