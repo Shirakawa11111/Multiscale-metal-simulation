@@ -1,0 +1,7 @@
+[climb_suppressed] sub_steps=20: tau_flow=0.00106 frac 0.342->0.287 lines 5->5
+[climb_active] sub_steps=300: tau_flow=0.00146 frac 0.342->0.000 lines 5->0
+
+VERDICT: DYNAMICS IS THE LEVER: climb-suppressed retains junction/defects and/or is harder -> proceed to Stage 2 (climb-suppressed + two-mode FCC)
+  climb-suppressed: tau_flow=0.00106 frac_end=0.287
+  climb-active:     tau_flow=0.00146 frac_end=0.000
+done in 144s
