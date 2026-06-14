@@ -1,0 +1,10 @@
+loaded 27 reconstructed dislocation lines
+seeding 26 edge dislocations from reconstruction (net-zero, uniform Burgers x)
+  t=0 seeded: detected cores=57 (target 26)
+  after relax: cores=14 (config stable if ~retained)
+  exx=1.0% sigma=+0.00266 cores=12
+  exx=2.0% sigma=+0.00451 cores=10
+  exx=3.0% sigma=+0.00623 cores=10
+  exx=4.1% sigma=+0.00783 cores=10
+figure saved
+done in 18s

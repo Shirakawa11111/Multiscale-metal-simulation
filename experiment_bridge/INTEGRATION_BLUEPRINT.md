@@ -1,0 +1,31 @@
+# 实验-模拟衔接蓝图：STEM 4D 重建 ↔ PFC 多尺度
+
+## 动机
+PFC 多尺度探索最深的缺陷 = 无实验真值锚定（应力无量纲、密度合成、无 MPa 标定）。
+用户已有 STEM 单晶 Cu 拉伸位错的**降噪 + 3D/4D 重建**——提供同材料同尺度的真实位错构型与动力学。
+衔接 = 补上锚 + 把方法论统一成"实验锚定的多尺度位错模型"。
+
+## 三条数据通路（两端工具已就位）
+1. **真值播种（已 demo 通）**：STEM 重建 3D 位错线（3d_scatter/points_3d*.txt）
+   → `init_dislocations`(2D) / `init_dislocation_lines`(3D) 相位绕动播种 → PFC/DDD 演化。
+   端到端 demo：27 条真实重建线 → 播种 26 位错 → 弛豫 → 拉伸演化出 σ(ε)。✅ 管道通。
+2. **验证/标定**：STEM 测得密度/构型/动力学 → 标定 DAMASK ROI 密度、PFC 无量纲量；
+   4D 测得的位错速度/湮灭 → 直接验证 PFC 迁移率律(M=1.54)与湮灭恢复。
+3. **模拟反哺降噪**：PFC 生成已知构型的合成 STEM 图 → 降噪/重建网络的训练/验证（仿真增强）。
+
+## 统一论文主线
+**实验锚定的单晶铜多尺度位错模型**：STEM 4D 重建提供真值，标定/验证 PFC 桥接的
+DAMASK→DDD→MD 链；缺陷导入算法（相位绕动）是"重建线→模拟"的共用桥。
+
+## 错配与处理（诚实）
+- **区制**：STEM 室温拉伸=无热滑移主导；PFC 物理正确区=高温蠕变。→ STEM 真值最直接验证
+  DAMASK/DDD 层（原生处理无热 FCC）；PFC 在恢复/动力学处贡献；4D 载荷步间弛豫=PFC 直接对标处。
+- **FCC vs BCC**：STEM 是 FCC Cu；PFC 用单模 BCC。定量 PFC 层需 XPFC-FCC；否则 PFC 定性、
+  由 DDD/DAMASK 承接真值。
+- **盒子尺寸**：忠实同化需盒子分辨真实位错间距（否则近距对湮灭，已在 512² demo 观察到）→ 大盒(HPC)。
+- **Burgers 号/矢量**：demo 用均匀+交替号保净零；真号需实验 g·b 分析。
+
+## 已建工具
+- `experiment_bridge/stem_to_pfc.py`：STEM→PFC 同化管道（读重建线、映射、播种、弛豫、拉伸）
+- 缺陷导入：`init_dislocations`（任意 Burgers，2D）、`init_dislocation_lines`（3D）
+- 检测：5\|7（三角）、CSP（3D，仿射不变）
