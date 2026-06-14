@@ -132,14 +132,17 @@ def main():
         else float(np.abs(stress[-1]))
     flow_std = float(np.std(np.abs(stress[mask]))) if mask.any() else 0.0
     rho_flow = float(np.mean(dens[mask])) if mask.any() else rho_total
+    # depinning proxy: peak stress (the stress at which the probes first break
+    # through the forest, before steady serrated flow)
+    tau_peak = float(np.max(np.abs(stress)))
     alpha_pt = flow / (MU * B_CU * np.sqrt(rho_forest))
 
     out = dict(num_lines=NUM_LINES, n_lines=int(n_lines), k_probe=int(k_probe),
                n_nodes=int(n_nodes), n_pinned=int(pinned),
                rho_total=float(rho_total), rho_forest=float(rho_forest),
                rho_flow=rho_flow, flow_stress=flow, flow_std=flow_std,
-               alpha_point=float(alpha_pt), erate=ERATE, max_strain=MAX_STRAIN,
-               curve=res.tolist())
+               tau_peak=tau_peak, alpha_point=float(alpha_pt), erate=ERATE,
+               max_strain=MAX_STRAIN, curve=res.tolist())
     with open(os.path.join(wdir, "result.json"), "w") as f:
         json.dump(out, f)
     print(f"  num_lines={NUM_LINES} n_lines={n_lines} k_probe={k_probe} "
