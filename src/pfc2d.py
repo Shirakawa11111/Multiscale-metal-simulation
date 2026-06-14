@@ -62,6 +62,7 @@ class PFC2D:
         self.exx = 0.0         # accumulated true strain factors (box stretch)
         self.eyy = 0.0
         self.gamma = 0.0       # simple-shear x += gamma*y (engineering shear)
+        self.glide_kc = 0.0    # >0: climb-suppressed (high-pass) mobility kernel
         self.psi = np.full((ny, nx), psi_bar)
         self.time = 0.0
         self._update_k()
@@ -98,6 +99,15 @@ class PFC2D:
         kyp = KY - self.gamma * KX
         self.k2 = KX ** 2 + kyp ** 2
         self.lin = self.r + (1.0 - self.k2) ** 2  # linear operator L(k)
+        # mobility kernel G(k): standard conserved PFC uses G=k^2 (the laplacian
+        # in dpsi/dt = lap(mu)). glide_kc>0 makes it HIGH-PASS,
+        # G = k^4/(k^2+kc^2), suppressing long-range mass transport (climb)
+        # while keeping lattice-scale rearrangement (glide) — the Stage-2
+        # climb-suppressed dynamics. kc sets the climb-suppression length 2pi/kc.
+        if self.glide_kc > 0:
+            self.mob = self.k2 ** 2 / (self.k2 + self.glide_kc ** 2)
+        else:
+            self.mob = self.k2
 
     def apply_strain(self, dexx, area_conserving=True):
         """Increment box strain: stretch x by (1+dexx); optionally contract y
@@ -268,8 +278,8 @@ class PFC2D:
             # remainder (psi^3 - C psi) contractive
             C = 3.0 * float(np.max(psi * psi))
             nl_h = _rfft2(psi ** 3)
-            psi_h = ((psi_h - dt * self.k2 * (nl_h - C * psi_h))
-                     / (1.0 + dt * self.k2 * (self.lin + C)))
+            psi_h = ((psi_h - dt * self.mob * (nl_h - C * psi_h))
+                     / (1.0 + dt * self.mob * (self.lin + C)))
             psi = _irfft2(psi_h, shape)
             self.time += dt
         self.psi = psi
@@ -298,8 +308,8 @@ class PFC2D:
             psi_h = _rfft2(psi)
             psi_prev_h = _rfft2(psi_prev)
             rhs = (a * (2.0 * psi_h - psi_prev_h) + b * psi_h
-                   - self.k2 * (nl_h - C * psi_h))
-            psi_new_h = rhs / (a + b + self.k2 * (self.lin + C))
+                   - self.mob * (nl_h - C * psi_h))
+            psi_new_h = rhs / (a + b + self.mob * (self.lin + C))
             psi_prev = psi
             psi = _irfft2(psi_new_h, shape)
             self.time += dt

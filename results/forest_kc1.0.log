@@ -1,0 +1,15 @@
+mu (MPFC) = 0.0545
+  n_forest=0 seed=7: cores=4 rho=4.40e-05 tau_flow=0.00332
+  n_forest=0 seed=11: cores=4 rho=4.40e-05 tau_flow=0.00332
+  n_forest=4 seed=7: cores=11 rho=1.21e-04 tau_flow=0.00303
+  n_forest=4 seed=11: cores=12 rho=1.32e-04 tau_flow=0.00278
+  n_forest=8 seed=7: cores=16 rho=1.76e-04 tau_flow=0.00259
+  n_forest=8 seed=11: cores=20 rho=2.20e-04 tau_flow=0.00268
+  n_forest=16 seed=7: cores=29 rho=3.19e-04 tau_flow=0.00216
+  n_forest=16 seed=11: cores=37 rho=4.07e-04 tau_flow=0.00252
+  n_forest=24 seed=7: cores=43 rho=4.73e-04 tau_flow=0.00240
+  n_forest=24 seed=11: cores=42 rho=4.62e-04 tau_flow=0.00253
+
+FOREST HARDENING: alpha = -0.150, R^2 = 0.764
+  -> still SOFTENS (alpha<0): needs XPFC-FCC / two-mode
+done in 931s
