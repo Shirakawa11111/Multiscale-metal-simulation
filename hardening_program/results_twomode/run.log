@@ -1,0 +1,16 @@
+two-mode square shear modulus mu=0.1967
+  kc=0.0 nf=0: seeded=4 tau_flow=0.01122
+  kc=0.0 nf=6: seeded=16 tau_flow=0.00845
+  kc=0.0 nf=12: seeded=28 tau_flow=0.00619
+  kc=0.0 nf=20: seeded=44 tau_flow=0.00510
+  kc=0.0: d(tau)/d(sqrt(N)) = -0.001363 => softens
+  kc=1.0 nf=0: seeded=4 tau_flow=0.01166
+  kc=1.0 nf=6: seeded=16 tau_flow=0.00850
+  kc=1.0 nf=12: seeded=28 tau_flow=0.00671
+  kc=1.0 nf=20: seeded=44 tau_flow=0.00573
+  kc=1.0: d(tau)/d(sqrt(N)) = -0.001307 => softens
+
+DUAL-FIX VERDICT:
+  two-mode + climb_kc=0.0: still softens (slope=-0.001363)
+  two-mode + climb_kc=1.0: still softens (slope=-0.001307)
+done in 1513s

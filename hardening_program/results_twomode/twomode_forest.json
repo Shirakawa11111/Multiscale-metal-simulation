@@ -1,0 +1,55 @@
+{
+ "kc0.0": {
+  "rows": [
+   {
+    "n_forest": 0,
+    "seeded_cores": 4,
+    "flow_stress": 0.011218931930527405
+   },
+   {
+    "n_forest": 6,
+    "seeded_cores": 16,
+    "flow_stress": 0.008452495419829863
+   },
+   {
+    "n_forest": 12,
+    "seeded_cores": 28,
+    "flow_stress": 0.006191055067885945
+   },
+   {
+    "n_forest": 20,
+    "seeded_cores": 44,
+    "flow_stress": 0.005099181765646298
+   }
+  ],
+  "taylor_slope": -0.0013629082953583466,
+  "hardens": false
+ },
+ "kc1.0": {
+  "rows": [
+   {
+    "n_forest": 0,
+    "seeded_cores": 4,
+    "flow_stress": 0.01165931976164113
+   },
+   {
+    "n_forest": 6,
+    "seeded_cores": 16,
+    "flow_stress": 0.008503300219376488
+   },
+   {
+    "n_forest": 12,
+    "seeded_cores": 28,
+    "flow_stress": 0.006708818042022219
+   },
+   {
+    "n_forest": 20,
+    "seeded_cores": 44,
+    "flow_stress": 0.005728530056003176
+   }
+  ],
+  "taylor_slope": -0.0013066539386391552,
+  "hardens": false
+ },
+ "mu": 0.1967048091244816
+}
