@@ -1,0 +1,6 @@
+{
+ "rho_sat_m2": 1577392463038385.8,
+ "svm_max_MPa": 1200.053687223414,
+ "regime": "athermal monotonic storage; 0 recovery; mismatched to PFC creep regime",
+ "conclusion": "strict predictive validation not applicable to this dataset (regime mismatch, empirically confirmed across 3 ROIs)"
+}
