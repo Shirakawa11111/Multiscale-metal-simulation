@@ -1,0 +1,40 @@
+{
+ "regime": "high-homologous-T diffusion/climb-controlled creep",
+ "T_K": 950.5999999999999,
+ "rho_m2": 1500000000000000.0,
+ "creep_curve": {
+  "tau_MPa": [
+   20.0,
+   40.0,
+   70.0,
+   100.0,
+   150.0,
+   200.0,
+   300.0
+  ],
+  "eps_dot_s": [
+   0.1466837051174718,
+   0.2933674102349436,
+   0.5133929679111513,
+   0.733418525587359,
+   1.1001277883810385,
+   1.466837051174718,
+   2.200255576762077
+  ]
+ },
+ "stress_exponent_n": 1.000000000000001,
+ "apparent_activation_energy_eV": 2.0000000000000013,
+ "comparison": {
+  "n_expected": "viscous/diffusional ~1 (Orowan with fixed rho); dislocation-climb creep ~3-5 if rho~tau^2 added",
+  "Q_expected_eV": 2.0,
+  "note": "Q_app should recover the input self-diffusion Q (2.0 eV) -> confirms the creep activation is diffusion-controlled, the regime PFC physically represents."
+ },
+ "inputs": {
+  "M_PFC": 1.54,
+  "tau_c_PFC": 0.00065,
+  "D_PFC": 0.9375,
+  "stress_unit_Pa": 880733944954.1284,
+  "len_m": 3.522991641745251e-11,
+  "sources": "M/tau_c from PFC mobility; D_PFC from corrected dispersion; rho from DAMASK ROI; Q/D0 Cu literature \u2014 all independent, non-circular"
+ }
+}
