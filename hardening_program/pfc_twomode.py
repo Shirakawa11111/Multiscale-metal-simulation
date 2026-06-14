@@ -19,8 +19,48 @@ from pfc2d import PFC2D, _rfft2, _irfft2
 
 
 class TwoModePFC(PFC2D):
-    def __init__(self, nx, ny, dx=np.pi / 4, r=-0.20, psi_bar=-0.30):
+    # robust square-lattice regime from the (r,psi_bar) stability scan
+    # (gap=0.023, amp=1.31, melt-quench crystallizes): r=-0.45, psi_bar=-0.30
+    def __init__(self, nx, ny, dx=np.pi / 4, r=-0.45, psi_bar=-0.30):
         super().__init__(nx, ny, dx=dx, r=r, psi_bar=psi_bar)
+
+    def square_field(self, X, Y, amp=0.35, amp2=0.18, ux=None, uy=None):
+        q = 2 * np.pi * max(1, round(1.0 * self.lx / (2 * np.pi))) / self.lx
+        Xe = X - (ux if ux is not None else 0.0)
+        Ye = Y - (uy if uy is not None else 0.0)
+        f1 = np.cos(q * Xe) + np.cos(q * Ye)
+        f2 = np.cos(q * (Xe + Ye)) + np.cos(q * (Xe - Ye))
+        return self.psi_bar + amp * f1 + amp2 * f2
+
+    def init_dislocations_square(self, cores, images=1):
+        """Phase-winding dislocations in the two-mode SQUARE lattice. cores:
+        (x_frac, y_frac, sign[, burgers_deg]); square slip systems are at
+        0/90 deg (<10>) and 45/135 deg (<11>) — richer junction geometry than
+        one-mode triangular. Net Burgers vector must cancel."""
+        norm = [(c[0], c[1], c[2], c[3] if len(c) > 3 else 0.0) for c in cores]
+        bx = sum(s * np.cos(np.radians(a)) for _, _, s, a in norm)
+        by = sum(s * np.sin(np.radians(a)) for _, _, s, a in norm)
+        if abs(bx) > 1e-9 or abs(by) > 1e-9:
+            raise ValueError("net Burgers vector must be zero")
+        x = np.arange(self.nx) * self.dx
+        y = np.arange(self.ny) * self.dy
+        X, Y = np.meshgrid(x, y)
+        q = 2 * np.pi * max(1, round(1.0 * self.lx / (2 * np.pi))) / self.lx
+        b = 2 * np.pi / q
+        ux = np.zeros_like(X)
+        uy = np.zeros_like(Y)
+        for sx in range(-images, images + 1):
+            for sy in range(-images, images + 1):
+                for fx, fy, s, adeg in norm:
+                    th = np.arctan2(Y - fy * self.ly + sy * self.ly,
+                                    X - fx * self.lx + sx * self.lx)
+                    a = np.radians(adeg)
+                    ux += s * th * np.cos(a)
+                    uy += s * th * np.sin(a)
+        ux *= b / (2 * np.pi)
+        uy *= b / (2 * np.pi)
+        self.psi = self.square_field(X, Y, ux=ux, uy=uy)
+        self._fix_mean()
 
     def _update_k(self):
         kx = 2.0 * np.pi * np.fft.rfftfreq(self.nx, d=self.dx)
