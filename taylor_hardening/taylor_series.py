@@ -138,6 +138,10 @@ def main():
                            rho_flow=rho_flow, flow_stress=flow,
                            flow_std=flow_std, n_pts=int(len(strain))))
         allres[str(nl)] = res.tolist()
+        # per-density result (one process per density avoids a pyexadis
+        # double-free when multiple networks are built in one process)
+        with open(os.path.join(OUT, f"d{nl}", "result.json"), "w") as f:
+            json.dump(dict(series[-1], curve=res.tolist()), f)
         a, r2 = save(series, allres)   # incremental save after each density
         print(f"  rho0={rho0:.3e} rho_flow={rho_flow:.3e} "
               f"flow_stress={flow/1e6:.1f}+/-{flow_std/1e6:.1f} MPa "
