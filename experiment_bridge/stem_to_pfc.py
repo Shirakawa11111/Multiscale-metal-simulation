@@ -28,10 +28,11 @@ import numpy as np
 from pfc2d import PFC2D, A_LATTICE
 from defect_analysis import find_peaks, find_dislocations
 
-RECON = os.path.join(os.path.dirname(__file__), "..", "..", "3D重建算法论文",
-                     "3d_scatter")
+RECON = os.path.join(os.path.dirname(__file__), "recon_data")
+if not os.path.isdir(RECON):
+    RECON = os.path.join(os.path.dirname(__file__), "..", "..", "3D重建算法论文", "3d_scatter")
 OUT = os.path.join(os.path.dirname(__file__), "results")
-N = 512
+N = int(os.environ.get('BRIDGE_N','512'))
 DT = 0.5
 
 
