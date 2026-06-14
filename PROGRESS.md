@@ -2,6 +2,23 @@
 
 > 跨迭代状态文件。每轮 /loop 迭代结束时更新。计划见 docs/RESEARCH_PLAN.md。
 
+## 迭代 30+ — 2026-06-14（DDD 定量封顶：复现 Taylor 硬化 + Kocks–Mecking 稳态）
+主线结论已成形（详见 `taylor_hardening/RESULTS.md` 与 git log）：
+- **PFC 原理上无法森林硬化**（所有变体软化；机制=攀移解锁+Orowan 绕过）。
+- **DDD（ExaDiS，HPC `rc@100.107.94.4`，~/BO/exadis_src）是区制正确的方法**，且定量复现位错塑性两大支柱：
+  1. **Kocks–Mecking 动态稳态**：任意初始密度收敛到共同 ρ_ss（`km_steady_state.png`）。PFC 无稳态。
+  2. **Taylor 加工硬化定律**：forest-probe（钉扎森林+固定 2 探针）给 τ_c=αμb√ρ_f，**α=1.39, R²=0.87**（`forest_taylor_fixed.png`）。α>体材料 0.3–0.5 是稀疏/小盒/少滑移系（强障碍）区制，属尺度问题。
+- **图像→模拟闭环成功（用 DDD）**：真实 STEM 重建网络端到端跑通、加载下增殖 2.4×、且落在同一 Taylor 区制（α_eff≈1.0，`stem_on_taylor_line.png`）。
+- 关键方法学教训：①初始密度系列测不出 Taylor（湮灭抹掉杠杆，反得 KM 稳态）②forest-probe 须用**固定探针数**（分数探针的载流子混杂使 τ 平坦）③pyexadis 一进程只能建一个网络（多建触发 double-free）→ 一密度一进程。
+- 关键文件：`taylor_hardening/`（forest_probe.py, run_*_series.sh, aggregate_*.py, plot_km.py, overlay_stem_taylor.py, RESULTS.md）。HPC ExaDiS：`DDD_FFT_MODEL`+`Trapezoid`（~0.03s/步，远快于 Subcycling）。
+
+### 下一步（迭代 31 起）
+1. （可选，贵）大系统 + 多滑移把 α 推向体材料 0.3–0.5（已知尺度问题，非原理）。
+2. 用 academic skill 把整条弧（PFC 失败→DDD 成功→定量 Taylor+KM+STEM 闭环）写成论文式综合叙述。
+3. 把验证后的 DDD 介观本构（α、ρ_ss(rate)）回接多尺度链 DAMASK→DDD→MD→PFC。
+
+---
+
 ## 迭代 21-24 — 2026-06-13（剪切协议 + 晶界定论）
 
 ### 已完成
