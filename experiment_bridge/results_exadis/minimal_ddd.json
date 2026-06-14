@@ -1,0 +1,11 @@
+{
+ "n_nodes": 270,
+ "n_interior": 216,
+ "n_segs": 243,
+ "applied_MPa": 100.0,
+ "steps": 200,
+ "mean_glide_b": 28.251945188296485,
+ "max_glide_b": 71.99605922659217,
+ "moved_fraction": 0.9907407407407407,
+ "note": "real STEM-reconstructed network glides under PK force on its {111} planes -> athermal-glide regime confirmed (vs PFC diffusive). Junctions/multiplication/hardening are ExaDiS's validated job (deployment pending)."
+}
