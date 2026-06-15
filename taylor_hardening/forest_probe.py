@@ -69,14 +69,15 @@ def connected_components(n_nodes, seg_nodeids):
 def main():
     pyexadis.initialize()
     os.makedirs(OUT, exist_ok=True)
-    wdir = os.path.join(OUT, f"n{NUM_LINES}")
+    wdir = os.path.join(OUT, f"n{NUM_LINES}_s{os.environ.get('SEED','1234')}")
     os.makedirs(wdir, exist_ok=True)
     state = {"crystal": "fcc", "burgmag": B_CU, "mu": MU, "nu": 0.324, "a": 6.0,
              "maxseg": MAXSEG, "minseg": MINSEG, "rtol": 10.0, "rann": 10.0,
              "nextdt": 1e-10, "maxdt": 1e-9}
 
+    SEED = int(os.environ.get("SEED", "1234"))
     G = ExaDisNet()
-    G.generate_line_config("fcc", LBOX, NUM_LINES, maxseg=MAXSEG, seed=1234)
+    G.generate_line_config("fcc", LBOX, NUM_LINES, maxseg=MAXSEG, seed=SEED)
     data = G.export_data()
     nodeids = data["segs"]["nodeids"]
     n_nodes = data["nodes"]["positions"].shape[0]
@@ -101,8 +102,20 @@ def main():
     G2.import_data(data)
     net = DisNetManager(G2)
     rho_total = dislocation_density(net, state["burgmag"])
-    # forest density = pinned fraction of total
-    rho_forest = rho_total * pinned / n_nodes
+    # forest density by pinned LINE LENGTH (not node fraction): sum lengths of
+    # segments whose both endpoints are pinned, as a fraction of total length
+    pos = data["nodes"]["positions"]
+    pin_mask = (data["nodes"]["constraints"][:, 0] == int(NodeConstraints.PINNED_NODE))
+    tot_len = pinned_len = 0.0
+    for s in nodeids:
+        a, b = int(s[0]), int(s[1])
+        L = float(np.linalg.norm(pos[a] - pos[b]))
+        tot_len += L
+        if pin_mask[a] and pin_mask[b]:
+            pinned_len += L
+    len_frac = pinned_len / tot_len if tot_len > 0 else pinned / n_nodes
+    rho_forest = rho_total * len_frac          # line-length forest density
+    rho_forest_nodefrac = rho_total * pinned / n_nodes   # old proxy, for comparison
 
     calforce = CalForce(force_mode="DDD_FFT_MODEL", state=state, Ngrid=NGRID,
                         cell=net.cell)
@@ -138,8 +151,9 @@ def main():
     alpha_pt = flow / (MU * B_CU * np.sqrt(rho_forest)) if rho_forest > 0 else 0.0
 
     out = dict(num_lines=NUM_LINES, n_lines=int(n_lines), k_probe=int(k_probe),
-               n_nodes=int(n_nodes), n_pinned=int(pinned),
+               seed=SEED, n_nodes=int(n_nodes), n_pinned=int(pinned),
                rho_total=float(rho_total), rho_forest=float(rho_forest),
+               rho_forest_nodefrac=float(rho_forest_nodefrac),
                rho_flow=rho_flow, flow_stress=flow, flow_std=flow_std,
                tau_peak=tau_peak, alpha_point=float(alpha_pt), erate=ERATE,
                max_strain=MAX_STRAIN, curve=res.tolist())
