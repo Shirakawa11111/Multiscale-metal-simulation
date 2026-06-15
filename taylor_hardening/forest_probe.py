@@ -135,7 +135,7 @@ def main():
     # depinning proxy: peak stress (the stress at which the probes first break
     # through the forest, before steady serrated flow)
     tau_peak = float(np.max(np.abs(stress)))
-    alpha_pt = flow / (MU * B_CU * np.sqrt(rho_forest))
+    alpha_pt = flow / (MU * B_CU * np.sqrt(rho_forest)) if rho_forest > 0 else 0.0
 
     out = dict(num_lines=NUM_LINES, n_lines=int(n_lines), k_probe=int(k_probe),
                n_nodes=int(n_nodes), n_pinned=int(pinned),
