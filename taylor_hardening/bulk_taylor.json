@@ -1,0 +1,38 @@
+{
+ "taylor_alpha": 1.699236068883651,
+ "r2": -4.507124685911673,
+ "n_points": 4,
+ "mu": 54600000000.0,
+ "b": 2.55e-10,
+ "points": [
+  {
+   "rho_forest": 4077893778469.1313,
+   "rho_flow": 4250369747787.611,
+   "flow_stress": 79086805.50884956,
+   "num_lines": 50,
+   "k_probe": 2
+  },
+  {
+   "rho_forest": 8325699797707.81,
+   "rho_flow": 8500163049062.049,
+   "flow_stress": 83716560.37518038,
+   "num_lines": 100,
+   "k_probe": 2
+  },
+  {
+   "rho_forest": 16821311836185.166,
+   "rho_flow": 17004393753541.076,
+   "flow_stress": 92971728.5977337,
+   "num_lines": 200,
+   "k_probe": 2
+  },
+  {
+   "rho_forest": 25316923874662.52,
+   "rho_flow": 25514751498582.42,
+   "flow_stress": 100922144.8400162,
+   "num_lines": 300,
+   "k_probe": 2
+  }
+ ],
+ "note": "Forest-probe Taylor: pinned forest at controlled rho_f + mobile probes; flow stress = tau_c = alpha mu b sqrt(rho_f)."
+}
