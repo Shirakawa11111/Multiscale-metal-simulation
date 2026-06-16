@@ -7,7 +7,7 @@
 - **PFC 原理上无法森林硬化**（所有变体软化；机制=攀移解锁+Orowan 绕过）。
 - **DDD（ExaDiS，HPC `rc@100.107.94.4`，~/BO/exadis_src）是区制正确的方法**，且定量复现位错塑性两大支柱：
   1. **Kocks–Mecking 动态稳态**：任意初始密度收敛到共同 ρ_ss（`km_steady_state.png`）。PFC 无稳态。
-  2. **Taylor 加工硬化定律**：forest-probe（钉扎森林+固定 2 探针）给 τ_c=αμb√ρ_f，**α=1.39, R²=0.87**（`forest_taylor_fixed.png`）。α>体材料 0.3–0.5 是稀疏/小盒/少滑移系（强障碍）区制，属尺度问题。
+  2. **Taylor 加工硬化定律**：forest-probe（钉扎森林+固定探针）给 τ_c=τ₀+αμb√ρ_f。经 5 审同行评审（`taylor_hardening/PEER_REVIEW.md`）修正后：α 是扣除**实测**载流子基线 τ₀ 后的 √ρ 斜率。**3 种子复现：α=0.83±0.42（各 0.37/0.74/1.37），在低端包络体材料 0.3–0.5，但散布过大非定量测定**（`multiseed_taylor.png`）。⚠️ 早先报的过原点 α=1.39 与单种子 0.37 均不代表性（前者把 τ₀ 折入斜率；后者是分布低端）。论文 v2 已据实软化（`PAPER.md`）。
 - **图像→模拟闭环成功（用 DDD）**：真实 STEM 重建网络端到端跑通、加载下增殖 2.4×、且落在同一 Taylor 区制（α_eff≈1.0，`stem_on_taylor_line.png`）。
 - 关键方法学教训：①初始密度系列测不出 Taylor（湮灭抹掉杠杆，反得 KM 稳态）②forest-probe 须用**固定探针数**（分数探针的载流子混杂使 τ 平坦）③pyexadis 一进程只能建一个网络（多建触发 double-free）→ 一密度一进程。
 - 关键文件：`taylor_hardening/`（forest_probe.py, run_*_series.sh, aggregate_*.py, plot_km.py, overlay_stem_taylor.py, RESULTS.md）。HPC ExaDiS：`DDD_FFT_MODEL`+`Trapezoid`（~0.03s/步，远快于 Subcycling）。
