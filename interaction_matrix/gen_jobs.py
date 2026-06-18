@@ -37,12 +37,13 @@ def jtype(i, j):
 
 ROOT = sys.argv[1] if len(sys.argv) > 1 else "matrix"
 TH = sys.argv[2] if len(sys.argv) > 2 else "3"
-K_PAIRS = 4
-SEEDS = [1234, 5678, 2222, 3333]
-NFORESTS = [24, 12, 6]            # big-first (3 densities for the slope alpha_mf)
-# fast jobs (the matrix is RELATIVE across junction types; the shared probe
-# self-baseline cancels in the slope, so a higher rate is acceptable here)
-COMMON = "LBOX=7000 NPROBE=2 ERATE=1e4 MAX_STRAIN=0.0003 FLOW_LO=0.0002 MAXSEG=400"
+K_PAIRS = 3
+SEEDS = [1234, 5678, 2222]
+NFORESTS = [32, 16, 8]            # big-first (3 densities for the slope alpha_mf)
+# v2: smaller box (faster probe-forest engagement + fewer nodes) + LARGER strain
+# so the probe fully depins and we measure the true plateau, not the rising
+# pre-plateau (the diagnosed cause of the ~2x-low absolute alpha in v1).
+COMMON = "LBOX=5000 NPROBE=2 ERATE=1e4 MAX_STRAIN=0.0012 FLOW_LO=0.0007 MAXSEG=300"
 
 bytype = defaultdict(list)
 for m in range(12):
