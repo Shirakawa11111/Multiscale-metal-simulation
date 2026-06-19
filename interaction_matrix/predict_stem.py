@@ -76,12 +76,14 @@ def load_lines():
 
 
 def alpha_from_inventory(systems, amat):
-    """systems: list of (P_i, burg_i, plane_i). Returns alpha_network."""
+    """systems: list of (P_i, burg_i, plane_i). Returns alpha_network.
+    Generalized Taylor: alpha_eff^2 = sum_ij P_i P_j a_ij, where a_ij = alpha_ij^2
+    (amat stores alpha_ij, the measured slope -> must be SQUARED here)."""
     tot = 0.0
     for Pi, bi, ni in systems:
         for Pj, bj, nj in systems:
             t = jtype(bi, ni, bj, nj)
-            tot += Pi * Pj * amat.get(t, 0.0)
+            tot += Pi * Pj * amat.get(t, 0.0) ** 2
     return float(np.sqrt(max(tot, 0.0)))
 
 
