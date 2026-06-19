@@ -1,0 +1,15 @@
+{
+ "alpha_geometric": 0.6879208121744325,
+ "junction_inventory": {
+  "self": 0.4180670057302167,
+  "Hirth": 0.46962202233017986,
+  "collinear": 0.11231097193960343
+ },
+ "alpha_resampled_mean": 0.693240590900112,
+ "alpha_resampled_std": 0.011815003447346381,
+ "alpha_resampled_p5": 0.6790323666239545,
+ "alpha_resampled_p95": 0.712686637072071,
+ "n_systems": 4,
+ "macro_uniform": 0.43250140049258873,
+ "note": "alpha_network from measured a_ij + STEM junction inventory; resampling quantifies the geometric-Burgers uncertainty."
+}
