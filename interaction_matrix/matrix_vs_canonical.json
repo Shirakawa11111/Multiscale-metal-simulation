@@ -1,0 +1,19 @@
+{
+ "canonical_approx": {
+  "collinear": 0.62,
+  "glissile": 0.14,
+  "Lomer": 0.12,
+  "coplanar": 0.12,
+  "self": 0.12,
+  "Hirth": 0.08
+ },
+ "measured": {
+  "self": 0.2712255209920425,
+  "coplanar": 0.04918903768014823,
+  "Hirth": 0.20912438778562017,
+  "glissile": 0.1774035265441421,
+  "Lomer": 0.30778840145706754,
+  "collinear": 0.13164625612232483
+ },
+ "note": "measured matrix does NOT reproduce canonical per-type coefficients; collinear dominance (canonical 0.62) missed (mine 0.13); Hirth/self/Lomer over-strong. Bulk alpha=0.43 recovery is partly compensating errors."
+}
