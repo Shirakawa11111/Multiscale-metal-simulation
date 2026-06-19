@@ -126,10 +126,14 @@ def main():
     axial_flow = float(np.mean(np.abs(stress[m]))) if m.any() else float(np.abs(stress[-1]))
     tau_resolved = schmid * axial_flow           # resolved shear on system m
     alpha = tau_resolved / (MU * B_CU * np.sqrt(rho_f)) if rho_f > 0 else 0.0
+    axial_peak = float(np.max(np.abs(stress)))   # critical/depinning threshold
+    tau_peak = schmid * axial_peak
+    alpha_peak = tau_peak / (MU * B_CU * np.sqrt(rho_f)) if rho_f > 0 else 0.0
     res = dict(msys=MSYS, fsys=FSYS, jtype=jtype(MSYS, FSYS), schmid=float(schmid),
                rho_f=float(rho_f), rho_total=float(rho_total), n_forest=NFOREST,
                axial_flow=axial_flow, tau_resolved=float(tau_resolved),
-               alpha=float(alpha), a_ij=float(alpha ** 2), erate=ERATE, seed=SEED)
+               alpha=float(alpha), a_ij=float(alpha ** 2), erate=ERATE, seed=SEED,
+               n_probe=NPROBE, alpha_peak=float(alpha_peak), tau_peak=float(tau_peak))
     json.dump(res, open(os.path.join(OUT, "pair_result.json"), "w"), indent=1)
     print(f"  ({MSYS},{FSYS}) {jtype(MSYS,FSYS):>9}: schmid={schmid:.3f} rho_f={rho_f:.2e} "
           f"axial={axial_flow/1e6:.1f} tau={tau_resolved/1e6:.1f} MPa alpha={alpha:.3f} a_ij={alpha**2:.3f}",
