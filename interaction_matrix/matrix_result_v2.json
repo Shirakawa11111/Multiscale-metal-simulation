@@ -1,0 +1,14 @@
+{
+ "a_matrix": {
+  "self": 0.5207931652700931,
+  "coplanar": 0.2217860177742236,
+  "Hirth": 0.457301200288847,
+  "glissile": 0.4211929801695917,
+  "Lomer": 0.5547868072125252,
+  "collinear": 0.3628308919074075
+ },
+ "alpha_macro": 0.43250140049258873,
+ "n_pairs": 18,
+ "n_runs": 162,
+ "note": "FCC interaction matrix from controlled single-system forest depinning; alpha_macro = sqrt(pop-weighted <a_ij>)."
+}
