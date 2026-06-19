@@ -28,7 +28,7 @@ PHI = float(os.environ.get("PHI", "45"))
 GAP = float(os.environ.get("GAP", "6"))
 MAXSEG = float(os.environ.get("MAXSEG", "80"))
 NREL = int(os.environ.get("NREL", "500"))         # zero-stress relaxation steps
-NLOAD = int(os.environ.get("NLOAD", "600"))       # loading steps
+NLOAD = int(os.environ.get("NLOAD", "1500"))      # loading steps
 TAU_MPA = float(os.environ.get("TAU_MPA", "100"))
 OUT = os.environ.get("OUT", "cs_out")
 
@@ -123,7 +123,8 @@ def main():
     span = lambda P: float(np.linalg.norm(P.max(0) - P.min(0))) if len(P) else 0.0
     spanA, spanB = span(posA_unpin), span(nB)
     length_growth = (L_fin - L_res) / L_res if L_res else 0.0
-    remobilized = bool((spanB - spanA) / max(spanA, 1.0) > 0.5 or length_growth > 0.5)
+    # remobilized = the residual broke free and propagated to ~box scale (PBC sweep)
+    remobilized = bool(spanB > 0.45 * LBOX or length_growth > 1.5)
 
     out = dict(protocol="collinear_strength", LSEG=LSEG, tau_MPa=TAU_MPA,
                L0=float(L0), L_res=float(L_res), L_fin=float(L_fin),
