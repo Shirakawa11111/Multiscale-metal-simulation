@@ -26,8 +26,8 @@ def vec(name, default):
     return np.array([float(x) for x in os.environ.get(name, default).split(",")])
 
 
-B1, N1 = vec("B1", "0,1,-1"), vec("N1", "1,1,1")
-B2, N2 = vec("B2", "0,-1,1"), vec("N2", "-1,1,1")
+B1, N1, S1 = vec("B1", "0,1,-1"), vec("N1", "1,1,1"), float(os.environ.get("S1", "1"))
+B2, N2, S2 = vec("B2", "0,1,-1"), vec("N2", "-1,1,1"), float(os.environ.get("S2", "-1"))
 LBOX = float(os.environ.get("LBOX", "6000"))
 LSEG = float(os.environ.get("LSEG", "1500"))
 PHI = float(os.environ.get("PHI", "45"))
@@ -41,10 +41,10 @@ JTYPE = os.environ.get("JTYPE", "?")
 OUT = os.environ.get("OUT", "bs_out")
 
 
-def add_segment(center, burg, n, nodes, segs):
+def add_segment(center, burg, n, sgn, nodes, segs):
     bh = burg / np.linalg.norm(burg)
     e = np.cross(n, burg); e = e / np.linalg.norm(e)
-    xi = np.cos(np.radians(PHI)) * bh + np.sin(np.radians(PHI)) * e
+    xi = sgn * (np.cos(np.radians(PHI)) * bh + np.sin(np.radians(PHI)) * e)
     xi = xi / np.linalg.norm(xi)
     nn = max(4, int(round(LSEG / MAXSEG)))
     i0 = len(nodes); nhat = n / np.linalg.norm(n)
@@ -78,8 +78,8 @@ def main():
     neutral = N1 / np.linalg.norm(N1) + N2 / np.linalg.norm(N2)
     neutral = neutral / np.linalg.norm(neutral)
     nodes, segs = [], []
-    add_segment(C + 0.5 * GAP * neutral, B1, N1, nodes, segs)
-    add_segment(C - 0.5 * GAP * neutral, B2, N2, nodes, segs)
+    add_segment(C + 0.5 * GAP * neutral, B1, N1, S1, nodes, segs)
+    add_segment(C - 0.5 * GAP * neutral, B2, N2, S2, nodes, segs)
     nodes = np.array(nodes); segs = np.array(segs)
     L0 = llen(nodes[:, :3], segs[:, :2])
 
