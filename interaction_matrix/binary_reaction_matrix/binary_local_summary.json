@@ -1,0 +1,23 @@
+{
+ "local_ranking_MPa": {
+  "self": 225,
+  "collinear": 175,
+  "glissile": 175,
+  "coplanar": 175,
+  "Lomer": 125,
+  "Hirth": 125
+ },
+ "collinear_length_scaling": {
+  "form": "tau_c=K(mu b/l)ln(l/b)",
+  "K": 0.75,
+  "R2": 0.89
+ },
+ "controls": {
+  "linetension_null": "junctions require elastic interaction (glissile/Hirth anneal 1.00->no reaction); collinear annihilation collision-driven, tau_c 175->100 w/o elastic",
+  "rann_maxseg": "converged for MAXSEG>=80 (collinear 180, Hirth 100), robust to rann 5/10/20; MAXSEG=40 coarse-edge differs",
+  "box": "collinear tau_c=180 at L/Lseg=4,6,8 -> NOT a spanB>0.45*LBOX artifact",
+  "orientation": "6 collinear families tau_c=160+/-20 (12%), all annihilate -> not a single-geometry fluke"
+ },
+ "conclusion": "Controlled binary reactions confirm the correct mechanisms and collinear remobilization scaling, but the local remobilization matrix does NOT reproduce collinear dominance. Collinear dominance is therefore a collective forest/MFP effect -> measured in evolving_forest_mfp.",
+ "status": "SEALED benchmark; not the mainline"
+}
