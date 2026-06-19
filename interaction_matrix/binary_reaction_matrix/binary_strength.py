@@ -37,6 +37,7 @@ NREL = int(os.environ.get("NREL", "500"))
 NLOAD = int(os.environ.get("NLOAD", "1500"))
 TAU_MPA = float(os.environ.get("TAU_MPA", "100"))
 FORCE = os.environ.get("FORCE", "DDD_FFT_MODEL")
+RANN = float(os.environ.get("RANN", "10"))
 JTYPE = os.environ.get("JTYPE", "?")
 OUT = os.environ.get("OUT", "bs_out")
 
@@ -85,7 +86,7 @@ def main():
 
     net = DisNetManager(ExaDisNet(cell, nodes, segs))
     state = {"crystal": "fcc", "burgmag": B_CU, "mu": MU, "nu": 0.324, "a": 6.0,
-             "maxseg": MAXSEG, "minseg": MAXSEG / 4, "rtol": 10.0, "rann": 10.0,
+             "maxseg": MAXSEG, "minseg": MAXSEG / 4, "rtol": 10.0, "rann": RANN,
              "nextdt": 1e-11, "maxdt": 1e-9}
     cf, mob, ti, col, topo, rm = modules(state, net.cell)
     simA = SimulateNetwork(calforce=cf, mobility=mob, timeint=ti, collision=col, topology=topo,

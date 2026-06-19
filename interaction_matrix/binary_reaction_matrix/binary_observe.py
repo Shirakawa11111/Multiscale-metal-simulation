@@ -39,6 +39,8 @@ GAP = float(os.environ.get("GAP", "6"))
 MAXSEG = float(os.environ.get("MAXSEG", "80"))
 NREL = int(os.environ.get("NREL", "500"))
 JTYPE = os.environ.get("JTYPE", "?")
+FORCE = os.environ.get("FORCE", "DDD_FFT_MODEL")
+RANN = float(os.environ.get("RANN", "10"))
 OUT = os.environ.get("OUT", "bo_out")
 
 
@@ -76,9 +78,9 @@ def main():
 
     net = DisNetManager(ExaDisNet(cell, nodes, segs))
     state = {"crystal": "fcc", "burgmag": B_CU, "mu": MU, "nu": 0.324, "a": 6.0,
-             "maxseg": MAXSEG, "minseg": MAXSEG / 4, "rtol": 10.0, "rann": 10.0,
+             "maxseg": MAXSEG, "minseg": MAXSEG / 4, "rtol": 10.0, "rann": RANN,
              "nextdt": 1e-11, "maxdt": 1e-9}
-    cf = CalForce(force_mode="DDD_FFT_MODEL", state=state, Ngrid=32, cell=net.cell)
+    cf = CalForce(force_mode=FORCE, state=state, Ngrid=32, cell=net.cell)
     mob = MobilityLaw(mobility_law="FCC_0", state=state, Medge=64103.0, Mscrew=64103.0, vmax=4000.0)
     ti = TimeIntegration(integrator="Trapezoid", state=state, force=cf, mobility=mob)
     col = Collision(collision_mode="Retroactive", state=state)
