@@ -48,3 +48,13 @@ collinear（B2=−B1）线方向翻转 → A、B 成同一平行位错 → **不
 
 ## 主线并行
 STEM-to-DDD 不被 matrix 阻塞；matrix 作为校准/解释层。
+
+## Phase 3 修正后 — 有效 ranking（机制全确认）：重要诚实结论
+逐类用确认几何（collinear/self 湮灭、其余结点）测单反应 remobilization τ_c（L=1500）：
+self 225 > collinear 175 ~ glissile 175 ~ coplanar 175 > Lomer 125 ~ Hirth 125（`valid_ranking.png`）。
+- **Hirth 正确最弱（canonical 一致）**；collinear 机制正确（0.71）且 τ_c 与专门标度一致（~175）。
+- **但 collinear 不主导**——单反应强度都相近（125–225）。
+**关键诚实结论**：canonical 的 collinear 主导（~5×）**不是单结点性质，而是集体 forest/平均自由程效应**
+（collinear 湮灭高效消耗*可动*位错、缩短 MFP）。这解释了为何**两个协议都测不到它**：
+forest-probe（脱钉）和单二元反应都测局部强度，而 collinear 的强在于位错*储存/移除*，非局部强度。
+→ 要复现 a_ij 的 collinear 主导，需测**演化森林的储存率/平均自由程**（集体量），非单反应 τ_c。
