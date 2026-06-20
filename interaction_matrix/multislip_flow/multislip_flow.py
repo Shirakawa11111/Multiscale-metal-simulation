@@ -138,7 +138,7 @@ class Ledger:
         if cos_par(b_i, bf) > 0.94:
             return "residual" if anchored else "forest"
         return "offsys"
-    def snapshot(self, net, gamma_p, istep, tau):
+    def snapshot(self, net, gamma_p, istep, tau, strain=0.0):
         d = net.get_disnet(ExaDisNet).export_data()
         pos = d["nodes"]["positions"]; S = d["segs"]
         nid = np.asarray(S["nodeids"]).astype(int)
@@ -156,7 +156,7 @@ class Ledger:
             cls = self.classify(b_i, p_i, deg.get(a, 0) >= 3 or deg.get(c, 0) >= 3)
             pool[cls] += L
         Ltot = sum(pool.values()) or 1e-30
-        row = dict(istep=int(istep), gamma_p=float(gamma_p), tau_MPa=float(tau / 1e6),
+        row = dict(istep=int(istep), gamma_p=float(gamma_p), strain=float(strain), tau_MPa=float(tau / 1e6),
                    rho_mobile=self._rho(pool["mobile"]), rho_forest=self._rho(pool["forest"]),
                    rho_junction=self._rho(pool["junction"]), rho_residual=self._rho(pool["residual"]),
                    rho_stored=self._rho(pool["junction"] + pool["residual"]),
@@ -173,7 +173,8 @@ class MSSim(SimulateNetwork):
         if dEp.shape == (6,):
             self.gamma_p += float(np.dot(dEp, A2_m))
         if (state.get("istep", 0) % REC) == 0:
-            self.led.snapshot(N, self.gamma_p, state.get("istep", 0), float(state.get("stress", 0.0)))
+            self.led.snapshot(N, self.gamma_p, state.get("istep", 0),
+                              float(state.get("stress", 0.0)), float(state.get("strain", 0.0)))
 
 
 def build():
@@ -242,29 +243,34 @@ def main():
     sim.attach(led); sim.run(net, state)
 
     R = led.rows
-    g = np.array([r["gamma_p"] for r in R]); tau = np.array([r["tau_MPa"] for r in R])
+    eps = np.array([r.get("strain", 0.0) for r in R]); tau = np.array([r["tau_MPa"] for r in R])
     rf = np.array([r["rho_forest"] for r in R]); amb = np.array([r["ambiguous_frac"] for r in R])
     rstore = np.array([r["rho_stored"] for r in R]); rmob = np.array([r["rho_mobile"] for r in R])
-    # plateau: gamma_p>1e-3 AND late d(tau)/d(gamma) small relative to E
-    Eyoung = 2 * MU * (1 + NU) / 1e6
-    plateau = False; dtau_dg = float("nan")
-    load = g > 1e-12
-    if load.sum() >= 6:
-        late = np.where(load)[0][-max(4, load.sum() // 4):]
-        if np.ptp(g[late]) > 0:
-            dtau_dg = float(np.polyfit(g[late], tau[late], 1)[0])
-            plateau = bool(g.max() > 1e-3 and abs(dtau_dg) < 0.15 * Eyoung)
-    tau_flow = float(np.mean(tau[g > max(0.6 * g.max(), 1e-3)])) if (g > 1e-3).any() else float(tau[-1] if len(tau) else 0)
+    Eyoung = 2 * MU * (1 + NU) / 1e6                  # MPa
+    eps_p = eps - tau / Eyoung                         # plastic strain = total - elastic
+    eps_p = np.maximum.accumulate(np.clip(eps_p, 0, None)) if len(eps_p) else eps_p
+    # plateau = yielding: d(tau)/d(eps) falls well below E (plastic flow caps the stress)
+    plateau = False; dtau_de_over_E = float("nan")
+    if len(eps) >= 8 and np.ptp(eps) > 0:
+        late = slice(max(1, 2 * len(eps) // 3), len(eps))
+        if np.ptp(eps[late]) > 0:
+            dtau_de = float(np.polyfit(eps[late], tau[late], 1)[0])
+            dtau_de_over_E = dtau_de / Eyoung
+            plateau = bool(eps_p.max() > 1e-4 and abs(dtau_de) < 0.20 * Eyoung)
+    # flow stress = mean tau over the post-yield window
+    yld = eps_p > max(0.4 * eps_p.max(), 1e-5) if len(eps_p) else np.zeros(0, bool)
+    tau_flow = float(np.mean(tau[yld])) if yld.any() else float(tau[-1] if len(tau) else 0)
     # forest-partner drift (settled -> end), the RIGHT density-drift gate
     rf_settled = settled["rho_forest"]; rf_end = R[-1]["rho_forest"] if R else 0.0
     forest_drift = float((rf_end - rf_settled) / rf_settled) if rf_settled > 1e6 else 0.0
     mean_amb = float(np.mean(amb)) if len(amb) else 1.0
-    # storage MFP (only meaningful if stored rises with gamma)
+    # storage MFP from stored-density rise per PLASTIC strain
     L_mf_b = float("inf"); S_store = float("nan")
-    if load.sum() >= 6 and np.ptp(g[load]) > 0:
-        S_store = float(np.polyfit(g[load], rstore[load], 1)[0])
+    if yld.sum() >= 4 and np.ptp(eps_p[yld]) > 0:
+        S_store = float(np.polyfit(eps_p[yld], rstore[yld], 1)[0])
         if S_store > 0:
             L_mf_b = (1.0 / (B_CU * S_store)) / B_CU
+    g = eps_p   # for downstream reporting (plastic strain)
 
     drift_gate = abs(forest_drift) < 0.05
     amb_gate = mean_amb < 0.10
@@ -275,19 +281,20 @@ def main():
                schmid_primary=S_PRIM, schmid_partner=S_PART, schmid_ratio=S_RATIO, schmid_gate=schmid_gate,
                rho_f_target=RHO_F, nforest=nF, nsrc=nsrc, erate=ERATE, lbox=LBOX, xslip=XSLIP,
                forest_alone=FOREST_ALONE, seed=SEED, collinear=COLLINEAR,
-               gamma_p_max=float(g.max()) if len(g) else 0.0, strain_reached=bool(len(g) and g.max() > 1e-3),
-               tau_flow_MPa=tau_flow, dtau_dgamma_over_E=float(dtau_dg / Eyoung) if dtau_dg == dtau_dg else None,
+               eps_p_max=float(g.max()) if len(g) else 0.0, strain_max=float(eps.max()) if len(eps) else 0.0,
+               strain_reached=bool(len(g) and g.max() > 1e-4),
+               tau_flow_MPa=tau_flow, dtau_deps_over_E=dtau_de_over_E if dtau_de_over_E == dtau_de_over_E else None,
                plateau_reached=plateau, forest_drift=forest_drift, mean_ambiguous_frac=mean_amb,
                rho_mobile_end=float(rmob[-1]) if len(rmob) else 0.0,
                rho_forest_settled=rf_settled, rho_forest_end=rf_end,
                rho_stored_end=float(rstore[-1]) if len(rstore) else 0.0,
                S_store=S_store, L_mf_b=L_mf_b,
                drift_gate=drift_gate, ambiguous_gate=amb_gate, readable=readable,
-               series=[[r["gamma_p"], r["tau_MPa"], r["rho_mobile"], r["rho_forest"], r["rho_stored"]] for r in R[::2]])
+               series=[[r.get("strain", 0.0), r["tau_MPa"], r["rho_mobile"], r["rho_forest"], r["rho_stored"]] for r in R[::2]])
     json.dump(out, open(os.path.join(OUT, "flow.json"), "w"), indent=1)
     print(f"FLOW {JTYPE} s{SEED} edir={EDIR_MODE}(Sm={S_PRIM:.2f},Sf={S_PART:.2f},r={S_RATIO:.2f}) "
-          f"rho_f={RHO_F}: tau_flow={tau_flow:.1f}MPa gamma_p={out['gamma_p_max']:.2e} "
-          f"plateau={plateau} drift={forest_drift:+.2f} amb={mean_amb:.2f} L_mf={L_mf_b:.0f}b READABLE={readable}", flush=True)
+          f"rho_f={RHO_F}: tau_flow={tau_flow:.1f}MPa eps_p={out['eps_p_max']:.2e} eps={out['strain_max']:.2e} "
+          f"plateau={plateau} drift={forest_drift:+.2f} L_mf={L_mf_b:.0f}b READABLE={readable}", flush=True)
     pyexadis.finalize()
 
 
