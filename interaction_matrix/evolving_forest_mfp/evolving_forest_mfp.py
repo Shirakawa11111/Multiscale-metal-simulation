@@ -90,7 +90,9 @@ LBOX    = envf("LBOX", "20000")
 TAU     = envf("TAU_MPA", "45") * 1e6
 RHO_F   = envf("RHO_F", "3e12")
 NFOREST = envi("NFOREST", "0")                 # 0 -> derive from RHO_F
-KM      = envi("KM", "6")                      # FIXED mobile source count
+KM      = envi("KM", "6")                      # FIXED mobile source/line count
+MOBILE_MODE = os.environ.get("MOBILE_MODE", "fr")  # 'fr' = FR pinned sources (multiply);
+                                                   # 'lines' = infinite gliding lines (NO multiplication)
 NSTEPS  = envi("NSTEPS", "6000")
 NREL    = envi("NREL", "300")                  # zero-stress settle steps
 REC     = envi("REC", "20")                    # ledger record cadence
@@ -463,15 +465,32 @@ def build():
             seg = nodes[a:b, :3]
             face_dist = np.min(np.minimum(seg, LBOX - seg), axis=1)
             nodes[a + int(np.argmin(face_dist)), 3] = int(NodeConstraints.PINNED_NODE)
-    nodes = list(nodes); 
-    # mobile FIXED-count pinned-end sources (skip if forest-alone control)
+    nodes = list(nodes)
+    # mobile carriers (skip if forest-alone control)
     if not FOREST_ALONE:
-        Lseg = 0.25 * LBOX                        # SHORTER than 0.5 LBOX -> avoid span-wrap
-        nodes_arr = np.array(nodes) if len(nodes) else np.zeros((0, 4))
-        nodes = [r for r in nodes_arr]
-        for k in range(KM):
-            c = C + (rng.random(3) - 0.5) * 0.6 * LBOX
-            add_pinned_source(c, bm, nm, nodes, segs, Lseg)
+        if MOBILE_MODE == "lines":
+            # NON-multiplying mobile: infinite gliding lines on system m. Their density changes
+            # ONLY by reaction with the forest (annihilation/junction), so opp-vs-same isolates
+            # collinear consumption with NO FR-multiplication confound. line sense via common ref bm.
+            placed = 0
+            for k in range(KM):
+                o = C + (rng.random(3) - 0.5) * 0.7 * LBOX
+                th = float(rng.choice([30, 60]))   # commensurate (like forest) AND off-screw so they glide
+                try:
+                    ok = insert_infinite_line(cell, nodes, segs, bm, nm, o, theta=th, maxseg=MAXSEG, trial=True)
+                except TypeError:
+                    ok = 1.0
+                if ok and ok > 0:
+                    insert_infinite_line(cell, nodes, segs, bm, nm, o, theta=th, maxseg=MAXSEG)
+                    placed += 1
+            if placed == 0:
+                raise RuntimeError("MOBILE_MODE=lines placed 0 mobile lines (theta non-commensurate?)")
+        else:
+            # FR pinned-end sources (multiply under stress)
+            Lseg = 0.25 * LBOX                        # SHORTER than 0.5 LBOX -> avoid span-wrap
+            for k in range(KM):
+                c = C + (rng.random(3) - 0.5) * 0.6 * LBOX
+                add_pinned_source(c, bm, nm, nodes, segs, Lseg)
     nodes = np.array(nodes); segs = np.array(segs)
     return cell, nodes, segs
 
@@ -603,9 +622,15 @@ def main():
     pyexadis.finalize()
 
 def linfit(x, y):
-    if len(x) < 4:
+    x = np.asarray(x, float); y = np.asarray(y, float)
+    m = np.isfinite(x) & np.isfinite(y)
+    x, y = x[m], y[m]
+    if len(x) < 4 or np.ptp(x) <= 0:
         return float("nan"), float("nan"), 0.0
-    s, b = np.polyfit(x, y, 1)
+    try:
+        s, b = np.polyfit(x, y, 1)
+    except Exception:
+        return float("nan"), float("nan"), 0.0
     yh = b + s * x
     ss = 1 - np.sum((y - yh) ** 2) / max(1e-30, np.sum((y - y.mean()) ** 2))
     return float(s), float(b), float(ss)
