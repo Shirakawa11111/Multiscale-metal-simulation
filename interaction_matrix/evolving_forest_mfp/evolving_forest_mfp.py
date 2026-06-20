@@ -235,7 +235,7 @@ class Ledger:
             return "forest" if (on_nf or not pl_ok) else "residual"
         return "offsys"
 
-    def snapshot(self, net, gamma_m, istep, vmag_node):
+    def snapshot(self, net, gamma_m, istep, vmag_node, span_frac=0.0):
         d = net.get_disnet(ExaDisNet).export_data()
         pos = d["nodes"]["positions"]
         nid, burg, plane = seg_arrays(d)
@@ -290,6 +290,7 @@ class Ledger:
             mobile_survival=rho["mobile"] / self.mob_peak,
             ambiguous_frac=float(ambiguous / Ltot) if Ltot > 0 else 0.0,
             n_seg=int(nseg),
+            mobile_span_frac=float(span_frac),
         )
         self.rows.append(row)
         return row
@@ -396,14 +397,15 @@ class MFPSim(SimulateNetwork):
                 if cos_par(b_i, bm) > 0.94 and (cos_par(p_i, nm) > 0.90 if pl_ok else True):
                     if con[a] != int(NodeConstraints.PINNED_NODE): mob_nodes.add(a)
                     if con[c] != int(NodeConstraints.PINNED_NODE): mob_nodes.add(c)
+            span_frac = 0.0
             if mob_nodes:
                 mp = pos[list(mob_nodes)]
                 # per-axis span; KM sources are spread across ~0.6*LBOX at build, so only a
                 # near-full-box span (genuine PBC wrap of a single glide front) should flag.
-                span = float(np.max(mp.max(0) - mp.min(0)))
-                if span > 0.85 * LBOX:
+                span_frac = float(np.max(mp.max(0) - mp.min(0)) / LBOX)
+                if span_frac > 0.85:
                     self.flagged_wrap = True
-            self.led.snapshot(N, self.gamma_m, state.get("istep", 0), vmag)
+            self.led.snapshot(N, self.gamma_m, state.get("istep", 0), vmag, span_frac)
 
 # ----------------------------------------------------------------------------------------
 # Builders
@@ -593,10 +595,11 @@ def main():
                     gamma_m_global_final=float(sim.gamma_m_global)))
     res["rows"] = R
     json.dump(res, open(os.path.join(OUT, "ledger.json"), "w"), indent=1)
-    print("RESULT %s s%d tau%.0f: S_store=%.2e S_remove=%.2e L_mf=%.0fb Lambda=%.3f "
-          "R2s=%.2f R2r=%.2f wrap=%s" %
-          (JTYPE, SEED, TAU / 1e6, res["S_store"], res["S_remove"], res["L_mf_b"],
-           res["Lambda"], res["R2_store"], res["R2_remove"], sim.flagged_wrap), flush=True)
+    print("RESULT %s s%d tau%.0f: S_arrest=%.2e(R2=%.2f) S_store=%.2e S_remove=%.2e "
+          "L_mf=%.0fb Lambda=%.3f fit_n=%d win_span=%.2f wrap=%s" %
+          (JTYPE, SEED, TAU / 1e6, res["S_arrest"], res["R2_arrest"], res["S_store"],
+           res["S_remove"], res["L_mf_b"], res["Lambda"], res["fit_n"],
+           res["win_span_max"], sim.flagged_wrap), flush=True)
     pyexadis.finalize()
 
 def linfit(x, y):
@@ -613,18 +616,23 @@ def analyze(R, g, rho_f_built, rho_f_settled, sim):
                     Lambda=float("inf"), R2_store=0.0, R2_remove=0.0, fit_n=0,
                     gamma_global_consistency=float("nan"))
     surv = np.array([r["mobile_survival"] for r in R])
-    stored = np.array([r["rho_stored"] for r in R])
-    removed = np.array([r["rho_removed_events"] for r in R])
+    span = np.array([r.get("mobile_span_frac", 0.0) for r in R])
+    stored = np.array([r["rho_stored"] for r in R])           # junction + residual (RETAINED arrest)
+    removed = np.array([r["rho_removed_balance"] for r in R])  # junction-SUBTRACTED removal (annihilation)
+    arrest = stored + removed                                  # total mobile arrest (the MFP driver)
     rhoF = np.array([r["rho_forest"] for r in R])
-    # fit window: post-transient, carrier still alive (0.3<survival<0.95), monotone gamma
-    gmin = g[max(1, len(g) // 5)] if len(g) else 0.0
-    win = (surv > 0.30) & (surv < 0.95) & (g > gmin) & np.r_[True, np.diff(g) >= 0]
+    # PRE-WRAP window only: once the mobile glide front wraps the PBC box the MFP is corrupted.
+    gmin = g[max(1, len(g) // 8)] if len(g) else 0.0
+    win = (span < 0.70) & (g > gmin) & np.r_[True, np.diff(g) >= 0]
     if win.sum() < 4:
-        win = (g > gmin) & np.r_[True, np.diff(g) >= 0]   # relax survival gate if too few
+        win = (span < 0.85) & np.r_[True, np.diff(g) >= 0]
+    if win.sum() < 4:
+        win = np.r_[True, np.diff(g) >= 0]
     gw = g[win]
     S_store, c_store, R2_store = linfit(gw, stored[win])
     S_remove, c_remove, R2_remove = linfit(gw, removed[win])
-    S_tot = (S_store if S_store == S_store else 0.0) + (S_remove if S_remove == S_remove else 0.0)
+    S_arrest, c_arrest, R2_arrest = linfit(gw, arrest[win])
+    S_tot = S_arrest if S_arrest == S_arrest else 0.0
     L_mf_b = (1.0 / (B_CU * (S_tot / B_CU))) if S_tot > 0 else float("inf")
     # NOTE: rho is in 1/m^2, gamma dimensionless -> S has units 1/m^2. L = 1/(b*S) in meters.
     L_mf_m = 1.0 / (B_CU * S_tot) if S_tot > 0 else float("inf")
@@ -634,11 +642,12 @@ def analyze(R, g, rho_f_built, rho_f_settled, sim):
     # gamma cross-check (global should be >= mobile-only; flag if mobile >> global)
     gg = float(sim.gamma_m_global)
     cons = (g[-1] / gg) if gg != 0 else float("nan")
-    return dict(S_store=float(S_store), S_remove=float(S_remove),
+    win_span_max = float(np.max(span[win])) if win.sum() else 1.0
+    return dict(S_store=float(S_store), S_remove=float(S_remove), S_arrest=float(S_arrest),
                 S_tot=float(S_tot), c_store=float(c_store), c_remove=float(c_remove),
-                R2_store=float(R2_store), R2_remove=float(R2_remove),
+                R2_store=float(R2_store), R2_remove=float(R2_remove), R2_arrest=float(R2_arrest),
                 L_mf_b=float(L_mf_b), L_mf_m=float(L_mf_m), Lambda=float(Lambda),
-                rho_f_fit=float(rho_f_fit), fit_n=int(win.sum()),
+                rho_f_fit=float(rho_f_fit), fit_n=int(win.sum()), win_span_max=win_span_max,
                 gamma_global_consistency=float(cons),
                 mean_ambiguous_frac=float(np.mean([r["ambiguous_frac"] for r in R])))
 
