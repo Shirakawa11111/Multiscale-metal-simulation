@@ -1,0 +1,101 @@
+{
+ "lo": {
+  "rho_level": "lo",
+  "rho_target": 3000000000000.0,
+  "types": {
+   "coll_opp": {
+    "n": 2,
+    "tau_RSS_mean": 50.73397356230578,
+    "tau_RSS_sd": 1.0112497038907016,
+    "sigma_mean": 124.27234785150094,
+    "schmid": 0.408248290463863,
+    "L_mf_mean": 2406461.554687388,
+    "S_store_mean": 14052635346985.678,
+    "rho_forest_settled": 16695794459930.516,
+    "plateau": true,
+    "drift_ok": false,
+    "drift": 0.13639390368240364,
+    "amb_ok": true,
+    "schmid_ok": true,
+    "starved": false,
+    "readable": false
+   },
+   "coll_same": {
+    "n": 2,
+    "tau_RSS_mean": 50.873335397595,
+    "tau_RSS_sd": 0.8651454720522445,
+    "sigma_mean": 124.61371323757734,
+    "schmid": 0.408248290463863,
+    "L_mf_mean": 1351807.0995083365,
+    "S_store_mean": 16957687197000.684,
+    "rho_forest_settled": 16696222785023.459,
+    "plateau": true,
+    "drift_ok": false,
+    "drift": 0.17216712735394057,
+    "amb_ok": true,
+    "schmid_ok": true,
+    "starved": false,
+    "readable": false
+   },
+   "glissile": {
+    "n": 2,
+    "tau_RSS_mean": 52.40867757100522,
+    "tau_RSS_sd": 0.9806104431502476,
+    "sigma_mean": 118.05891428279634,
+    "schmid": 0.4439196979693237,
+    "L_mf_mean": 27645.766711656644,
+    "S_store_mean": 595915988025360.5,
+    "rho_forest_settled": 16678012014817.67,
+    "plateau": true,
+    "drift_ok": true,
+    "drift": -0.011635235613637916,
+    "amb_ok": true,
+    "schmid_ok": true,
+    "starved": false,
+    "readable": true
+   },
+   "hirth": {
+    "n": 2,
+    "tau_RSS_mean": 46.73759753017285,
+    "tau_RSS_sd": 1.072218912830504,
+    "sigma_mean": 95.03551957943478,
+    "schmid": 0.4917908350162442,
+    "L_mf_mean": 1517800.881076798,
+    "S_store_mean": 976965549564.7222,
+    "rho_forest_settled": 16390280094678.816,
+    "plateau": true,
+    "drift_ok": true,
+    "drift": 0.010859830115438224,
+    "amb_ok": true,
+    "schmid_ok": true,
+    "starved": false,
+    "readable": true
+   }
+  },
+  "R_RSS_coll_over_gliss": 0.9680452916135789,
+  "R_L_gliss_over_coll": 0.01148813977842583,
+  "R_S_coll_over_gliss": 0.023581571277439258,
+  "R_RSS_opp_over_same": 0.9972606113949468,
+  "R_RSS_coll_over_hirth": 1.0855066636566622
+ },
+ "hi": {
+  "rho_level": "hi",
+  "rho_target": 30000000000000.0,
+  "types": {}
+ },
+ "density_lever": {
+  "R_RSS_3e12": 0.9680452916135789,
+  "R_RSS_3e13": null,
+  "G_tau": null,
+  "R_L_3e12": 0.01148813977842583,
+  "R_L_3e13": null,
+  "G_L": null,
+  "R_RSS_opp_over_same_lo": 0.9972606113949468,
+  "R_RSS_opp_over_same_hi": null,
+  "gates_ok": false,
+  "verdict": "AMBIGUOUS",
+  "reasons": [
+   "lo_coll_opp gate fail (plateau=True drift_ok=False amb_ok=True schmid_ok=True starved=False)"
+  ]
+ }
+}
