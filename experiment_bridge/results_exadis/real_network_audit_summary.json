@@ -1,0 +1,54 @@
+{
+ "n_runs": 11,
+ "survival_seg_frac_range": [
+  1.83,
+  2.65
+ ],
+ "import_stable": true,
+ "topo_load": {
+  "top1": [
+   2,
+   7,
+   6
+  ],
+  "sample": [
+   20,
+   22,
+   27,
+   24,
+   26,
+   32,
+   35,
+   29
+  ]
+ },
+ "assignment_policy_dominates_topology": "top1 mean 5 junctions vs sample mean 27 (~5.4x)",
+ "cell_policy_density": {
+  "as_is": 14031278626979.697,
+  "thickened_periodic": 3198179610785.718
+ },
+ "assignment_sample_sensitivity": {
+  "as_is": {
+   "relax_len_mean_sd": [
+    0.724,
+    0.012
+   ],
+   "topo_load_mean_sd": [
+    23.8,
+    2.9
+   ],
+   "rho_cv": 0.016
+  },
+  "thickened_periodic": {
+   "relax_len_mean_sd": [
+    0.784,
+    0.062
+   ],
+   "topo_load_mean_sd": [
+    30.0,
+    4.1
+   ],
+   "rho_cv": 0.079
+  }
+ }
+}

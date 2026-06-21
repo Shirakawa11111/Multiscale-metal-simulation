@@ -32,7 +32,7 @@ uncertainty* — turning each route from "it runs" into "it is auditable."
   top-k candidates + audit report `cu_stem_idr_report.{json,md}`) + `idr_to_exadis.py` (CLI, selectable
   assignment/cell policy); `stem_to_exadis.py` marked LEGACY; `CELL_POLICY.md`, `ASSIGNMENT_UNCERTAINTY.md`.
   *Remaining:* formal sensitivity sweep harness (local), then M3.
-- **M3 — real-network DDD audit report** — NOT STARTED (needs HPC ExaDiS): zero-stress relaxation
+- **M3 — real-network DDD audit report** — **PILOT DONE** (experiment_bridge/REAL_NETWORK_AUDIT.md): zero-stress relaxation
   stability, loading response, density evolution, topology events, slip-system inventory, and
   assignment/z-scaling/endpoint sensitivity → audit JSON + md.
 - **M4 — BO/UQ pilot** — NOT STARTED: sensitivity over image/recon, crystallography-assignment,
