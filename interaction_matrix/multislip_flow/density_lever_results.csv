@@ -1,0 +1,5 @@
+xslip,level,rho_f,tauRSS_coll_opp,tauRSS_coll_same,tauRSS_glissile,tauRSS_hirth,R_coll_gliss,R_opp_same,R_coll_hirth
+XSLIP_on,lo,16514970748182.922,51.11,51.1,53.07,45.75,0.963,1.0,1.117
+XSLIP_on,hi,150244915131561.0,8.85,8.93,8.95,7.69,0.989,0.991,1.15
+XSLIP_off,lo,16518787641124.938,50.58,50.53,53.04,45.75,0.954,1.001,1.106
+XSLIP_off,hi,151755282208118.72,8.32,8.34,8.26,7.03,1.008,0.998,1.185

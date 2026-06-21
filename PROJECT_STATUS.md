@@ -38,18 +38,23 @@
 - `md_rung/` — MD 弹性常数锚定
 - `experiment_bridge/` — STEM 重建→DDD 适配与演化
 
-## 当前主线（Jun 20 起）：演化森林 storage / MFP 测量（Devincre–Kubin）
-局部反应这条路已到逻辑终点：机制真、长度标度真，但**局部强度 ranking 不产生 collinear 主导**。
-→ 问题不在单反应局部强度，而在"位错被存储/消耗前平均能跑多远"（mean free path / storage rate）。
-- **主攻**：`interaction_matrix/evolving_forest_mfp/` — pair-resolved 演化森林（mobile 系 m + forest 系 f，
-  forest 可演化非冻结、DDD_FFT+Collision+Topology），stress-controlled 低 RSS 流动，
-  测 dρ_stored/dγ、dρ_removed/dγ、L_MFP=1/(b·dρ/dγ)、Λ=L_MFP√ρ_f。
-  关键 control：collinear opposite-sense vs same-sense。预期 collinear 显著缩短 MFP。
-- **辅线（封存为基准）**：`a_ij_local` + 四个克制的 control（LineTension null / rann-maxseg / box / orientation），
-  结论句："局部 remobilization 矩阵不足以解释 canonical collinear 硬化"。不再当主线扩展。
-- **桥接**：MFP/storage rate 比局部 τ_c 更适合回灌 Kocks–Mecking / CP（DAMASK）：dρ/dγ=1/(bL)−recovery。
+## collinear 主导调查（Jun 19–21）：完结为有界负结果
+追问"canonical collinear 主导（Madec/Devincre，~5×最强）是否在本 DDD 复现"，三层实验逐层剥离 observable：
+- **局部强度**（`interaction_matrix/binary_reaction_matrix/`，已封存）：机制真（partial annihilation + 长度标度
+  τ_c=K(μb/l)ln(l/b)，R²=0.89），但局部 remobilization ranking **不产生 collinear 主导**（mid-pack）。4 个 control 全过。
+- **pairwise 演化森林 MFP**（`interaction_matrix/evolving_forest_mfp/`，已撤回）：attempt-3 null 采样不足（mobile 只滑过
+  ~0.31 个 forest cell），且 pairwise 几何**结构上承载不了**多滑移 collinear 系数（b3=0、无储存通道、无载流子补给）。诚实撤回。
+- **多滑移 flow-stress cell**（`interaction_matrix/multislip_flow/`，**主结论**）：共驱动（opt_pair）+ 增殖 FR 源 +
+  可演化 forest + strain-rate 控制 + CrossSlip + per-system ledger + 全部 gate。**RSS 修正**后比 junction-type 对。
+  **密度杠杆**（实测 ρ_f 1.65e13→1.5e14，~9×）：**R_RSS coll/glissile ≈ 1.0 两密度都平（G_τ≈1.03–1.06）、
+  coll_opp/coll_same=1.00、XSLIP on/off 一致** → canonical 主导（应~2.3×且随密度增长）**不复现**。见 `CONCLUSION.md`。
+
+**总判定**：canonical collinear **集体主导在本 ExaDiS/FCC_0/DDD_FFT/CrossSlip/FR-source 设置下不以 flow stress 或
+storage-MFP 形式复现**——机制成立、集体系数不复现，是**有界负结果**（非失败）。诚实局限：固定 erate 下 flow stress 被
+drag 主导（真 Taylor 需 rate-extrapolation）、co-driven collinear partner 结构性 drift 使 formal gate 在低密度
+AMBIGUOUS（但结论对此稳健）。方法论价值：连续剥离 observable + 撤回不干净 null + RSS 修正纠偏。
 
 ## 未解的硬问题（如要继续）
-1. **collinear 集体主导**：演化森林 MFP（当前主线）。
+1. **collinear 集体主导的干净测量**：需 rate-extrapolation/quasi-static + 完整多滑移群体统计（超出当前 protocol）。
 2. **真实 g·b Burgers**：STEM 锚定升级到物理验证需要衍射数据。
 3. **MD 迁移率/结点强度**、**DAMASK 那端**：补全多尺度链。
