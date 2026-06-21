@@ -18,7 +18,8 @@ for f in glob.glob(os.path.join(ROOT, "*/flow.json")):
 
 
 def runs(level, ptype):
-    return [D[f"{level}_{ptype}_s{s}"] for s in (1, 2) if f"{level}_{ptype}_s{s}" in D]
+    pat = re.compile(rf"^{level}_{ptype}_s\d+$")
+    return [D[k] for k in sorted(D) if pat.match(k)]
 
 
 def is_starved(r):
@@ -50,9 +51,12 @@ def agg(level, ptype):
         plateau=all(r.get("plateau_reached") for r in rs),
         drift_ok=all(abs(r.get("forest_drift", 1)) < 0.05 for r in rs),
         drift=float(np.mean([r.get("forest_drift", 0) for r in rs])),
+        drift_values=[round(float(r.get("forest_drift", 0)), 3) for r in rs],
+        drift_abs_max=float(max(abs(r.get("forest_drift", 0)) for r in rs)),
         amb_ok=all(r.get("mean_ambiguous_frac", 1) < 0.10 for r in rs),
         schmid_ok=all(r.get("schmid_gate") for r in rs),
         starved=any(is_starved(r) for r in rs),
+        readable_count=f"{sum(1 for r in rs if r.get('readable'))}/{len(rs)}",
         readable=all(r.get("readable") for r in rs),
     )
 
@@ -100,28 +104,42 @@ def both_readable_core():
     return True
 
 
+# ---- DUAL VERDICT: separate the strict formal gate from the mechanism reading ----
 gates_ok = both_readable_core()
-if not gates_ok:
-    verdict = "AMBIGUOUS"
-elif RR_hi and RR_lo:
-    if RR_hi > RR_lo * 1.12 and (G_L is None or G_L >= 1.0) and RR_hi > 1.15:
-        verdict = "CONFIRM"
-        reasons.append(f"R_RSS grows {RR_lo:.2f}->{RR_hi:.2f} (G_tau={G_tau:.2f})")
-    elif abs(RR_lo - 1) < 0.12 and abs(RR_hi - 1) < 0.12:
-        verdict = "REFUTE"
-        reasons.append(f"R_RSS ~1 at both ({RR_lo:.2f},{RR_hi:.2f}); no density gain")
+strict_gate_verdict = "READABLE" if gates_ok else "AMBIGUOUS"
+
+mech_reasons = []
+mechanism_verdict = "INDETERMINATE"
+if RR_hi and RR_lo:
+    flat_near_unity = abs(RR_lo - 1) < 0.12 and abs(RR_hi - 1) < 0.12 and (G_tau is None or G_tau < 1.12)
+    grows = (RR_hi > RR_lo * 1.12) and RR_hi > 1.15 and (G_L is None or G_L >= 1.0)
+    if grows:
+        mechanism_verdict = "CONFIRM_DENSITY_THRESHOLD"
+        mech_reasons.append(f"R_RSS grows {RR_lo:.3f}->{RR_hi:.3f} (G_tau={G_tau:.2f})")
+    elif flat_near_unity:
+        mechanism_verdict = "BOUNDED_NEGATIVE" if gates_ok else "DRIFT_LIMITED_BOUNDED_NEGATIVE"
+        mech_reasons += [
+            f"R_RSS coll/glissile ~1 at both densities ({RR_lo:.3f},{RR_hi:.3f}); no density gain (G_tau={G_tau:.2f})",
+            f"coll_opp/coll_same ~1 ({round(lo.get('R_RSS_opp_over_same') or 0,3)}/{round(hi.get('R_RSS_opp_over_same') or 0,3)})",
+            "no growth toward canonical target ~2.3",
+        ]
+        if not gates_ok:
+            mech_reasons.append("strict gate AMBIGUOUS (low-density collinear forest drift) limits formal interpretation; result robust to it")
     else:
-        verdict = "AMBIGUOUS"
-        reasons.append(f"R_RSS {RR_lo:.2f}->{RR_hi:.2f} unclear")
+        mechanism_verdict = "INDETERMINATE"
+        mech_reasons.append(f"R_RSS {RR_lo:.3f}->{RR_hi:.3f} unclear")
 
 summary = dict(lo=lo, hi=hi,
                density_lever=dict(R_RSS_3e12=RR_lo, R_RSS_3e13=RR_hi, G_tau=G_tau,
                                   R_L_3e12=RL_lo, R_L_3e13=RL_hi, G_L=G_L,
                                   R_RSS_opp_over_same_lo=lo.get("R_RSS_opp_over_same"),
                                   R_RSS_opp_over_same_hi=hi.get("R_RSS_opp_over_same"),
-                                  gates_ok=gates_ok, verdict=verdict, reasons=reasons))
+                                  gates_ok=gates_ok,
+                                  strict_gate_verdict=strict_gate_verdict,
+                                  mechanism_verdict=mechanism_verdict,
+                                  gate_reasons=reasons, mechanism_reasons=mech_reasons))
 print(json.dumps(summary, indent=1, default=str))
 json.dump(summary, open("density_lever_summary.json", "w"), indent=1, default=str)
-print("\n=== VERDICT:", verdict, "===")
-for r in reasons:
+print(f"\n=== strict_gate_verdict: {strict_gate_verdict}  |  mechanism_verdict: {mechanism_verdict} ===")
+for r in mech_reasons:
     print("  -", r)

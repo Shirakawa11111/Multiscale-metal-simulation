@@ -15,9 +15,15 @@
     "plateau": true,
     "drift_ok": false,
     "drift": 0.2165102926356013,
+    "drift_values": [
+     0.136,
+     0.297
+    ],
+    "drift_abs_max": 0.2972837171415908,
     "amb_ok": true,
     "schmid_ok": true,
     "starved": false,
+    "readable_count": "0/2",
     "readable": false
    },
    "coll_same": {
@@ -32,9 +38,15 @@
     "plateau": true,
     "drift_ok": false,
     "drift": 0.07712853940086944,
+    "drift_values": [
+     0.063,
+     0.091
+    ],
+    "drift_abs_max": 0.09137761949144385,
     "amb_ok": true,
     "schmid_ok": true,
     "starved": false,
+    "readable_count": "0/2",
     "readable": false
    },
    "glissile": {
@@ -49,9 +61,15 @@
     "plateau": true,
     "drift_ok": true,
     "drift": 0.017018143604927354,
+    "drift_values": [
+     0.029,
+     0.005
+    ],
+    "drift_abs_max": 0.02921577666002672,
     "amb_ok": true,
     "schmid_ok": true,
     "starved": false,
+    "readable_count": "2/2",
     "readable": true
    },
    "hirth": {
@@ -66,9 +84,15 @@
     "plateau": true,
     "drift_ok": false,
     "drift": 0.033445221880428755,
+    "drift_values": [
+     0.007,
+     0.06
+    ],
+    "drift_abs_max": 0.060002096964559146,
     "amb_ok": true,
     "schmid_ok": true,
     "starved": false,
+    "readable_count": "1/2",
     "readable": false
    }
   },
@@ -94,9 +118,15 @@
     "plateau": true,
     "drift_ok": true,
     "drift": -0.025733299554574953,
+    "drift_values": [
+     -0.03,
+     -0.022
+    ],
+    "drift_abs_max": 0.029570593160225558,
     "amb_ok": true,
     "schmid_ok": true,
     "starved": false,
+    "readable_count": "2/2",
     "readable": true
    },
    "coll_same": {
@@ -111,9 +141,15 @@
     "plateau": true,
     "drift_ok": true,
     "drift": -0.02922689348670622,
+    "drift_values": [
+     -0.035,
+     -0.023
+    ],
+    "drift_abs_max": 0.03519687495111385,
     "amb_ok": true,
     "schmid_ok": true,
     "starved": false,
+    "readable_count": "2/2",
     "readable": true
    },
    "glissile": {
@@ -128,9 +164,15 @@
     "plateau": true,
     "drift_ok": true,
     "drift": -0.004475668342465313,
+    "drift_values": [
+     -0.025,
+     0.016
+    ],
+    "drift_abs_max": 0.025122831539923313,
     "amb_ok": true,
     "schmid_ok": true,
     "starved": false,
+    "readable_count": "2/2",
     "readable": true
    },
    "hirth": {
@@ -145,9 +187,15 @@
     "plateau": true,
     "drift_ok": false,
     "drift": -0.02789879380442685,
+    "drift_values": [
+     -0.051,
+     -0.005
+    ],
+    "drift_abs_max": 0.0512925019786134,
     "amb_ok": true,
     "schmid_ok": true,
     "starved": false,
+    "readable_count": "1/2",
     "readable": false
    }
   },
@@ -167,9 +215,16 @@
   "R_RSS_opp_over_same_lo": 1.0001666774486846,
   "R_RSS_opp_over_same_hi": 0.9905532388174663,
   "gates_ok": false,
-  "verdict": "AMBIGUOUS",
-  "reasons": [
+  "strict_gate_verdict": "AMBIGUOUS",
+  "mechanism_verdict": "DRIFT_LIMITED_BOUNDED_NEGATIVE",
+  "gate_reasons": [
    "lo_coll_opp gate fail (plateau=True drift_ok=False amb_ok=True schmid_ok=True starved=False)"
+  ],
+  "mechanism_reasons": [
+   "R_RSS coll/glissile ~1 at both densities (0.963,0.989); no density gain (G_tau=1.03)",
+   "coll_opp/coll_same ~1 (1.0/0.991)",
+   "no growth toward canonical target ~2.3",
+   "strict gate AMBIGUOUS (low-density collinear forest drift) limits formal interpretation; result robust to it"
   ]
  }
 }

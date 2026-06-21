@@ -3,7 +3,7 @@
 整条工作的入口与每条主张的诚实状态。详细文档见各子目录。
 
 ## 一句话
-从"PFC 能不能迁移到 3D 金属硬化"出发，证明了 PFC 不行（区制错）、DDD 是区制正确的方法，并搭起一条 MD→DDD→真实 STEM 网络的多尺度链；定性图景清晰、若干定量关系经验证。受控二元反应进一步证明了 collinear 的**局部机制与 remobilization 长度标度**是真的，但**局部强度不产生 canonical collinear 主导**——由此定位到根因：collinear 主导是**集体 mean-free-path / storage 效应**，当前主线即测此（Devincre–Kubin）。**不是范式突破，是一条端到端搭起、关键环节经对抗式验证、边界清晰、且持续自我证伪的多尺度链。**
+从"PFC 能不能迁移到 3D 金属硬化"出发，证明了 PFC 不行（区制错）、DDD 是区制正确的方法，并搭起一条 MD→DDD→真实 STEM 网络的多尺度链；定性图景清晰、若干定量关系经验证。collinear 主导调查（局部机制+长度标度真，但局部强度、pairwise-MFP、多滑移 flow 都不复现 canonical 集体主导）**已完结为 drift-limited bounded negative，封存为"DDD interaction-kernel validation / 协议依赖性基准"**（见 `interaction_matrix/multislip_flow/CONCLUSION.md`）。**当前主线回到 STEM-to-DDD v2 + 统一缺陷图表示（IDR）+ BO/UQ 多尺度框架。** 不是范式突破，是一条端到端搭起、关键环节经对抗式验证、边界清晰、且持续自我证伪的多尺度链。
 
 ## 主张状态表（✅稳固 / ⚠️有界 / ❌未解）
 

@@ -7,7 +7,19 @@ toward 3D metal multiscale simulation.
 
 由 Claude Code 自驱动迭代循环开发与测试；每轮迭代的状态与教训见
 [PROGRESS.md](PROGRESS.md)，研究计划见
-[docs/RESEARCH_PLAN.md](docs/RESEARCH_PLAN.md)。
+[docs/RESEARCH_PLAN.md](docs/RESEARCH_PLAN.md)。**整条工作的诚实总账见
+[PROJECT_STATUS.md](PROJECT_STATUS.md)。**
+
+## 当前状态与路线图（2026-06）
+
+项目已从 PFC 起点扩展为一条 **PFC→DDD→MD→真实 STEM 网络**的多尺度链。两个支线：
+
+- **DDD interaction-kernel validation（已封存）**：对 canonical collinear 主导做对抗式验证。
+  局部机制与 remobilization 长度标度为真，但局部强度、pairwise-MFP、多滑移 flow-stress
+  density-lever 都**不复现 canonical 集体主导**——drift-limited **bounded negative**（非失败，
+  是协议适用边界）。见 [interaction_matrix/multislip_flow/CONCLUSION.md](interaction_matrix/multislip_flow/CONCLUSION.md)。
+- **当前主线**：STEM-to-DDD v2（可审计管线 + Burgers/滑移系不确定性包络）、统一缺陷图表示
+  IDR（2D graphene/h-BN 与 3D Cu 位错网络统一 schema）、BO/UQ 多尺度校准。
 
 ## 结构
 

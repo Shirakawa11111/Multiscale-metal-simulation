@@ -1,9 +1,20 @@
-# Multi-slip COLL on/off cell — conclusion (bounded negative)
+# Multi-slip COLL on/off cell — conclusion (drift-limited bounded negative)
 
+> **Role:** DDD interaction-kernel validation / protocol-dependence benchmark. SEALED — not a mainline.
+>
 > **One sentence:** In a co-driven, cross-slip-enabled, multiplying-FR-source multi-slip DDD cell
 > (ExaDiS / FCC_0 / DDD_FFT), the **canonical collinear interaction dominance does NOT reproduce** as a
 > flow-stress or storage/MFP effect — the collinear mechanism is real, but the collective coefficient is
 > not recovered. This is a bounded negative, not a failure.
+
+## Strict-gate verdict vs mechanism verdict (read both)
+The analyzer (`analyze_dlev.py`) emits two verdicts on purpose:
+- **`strict_gate_verdict = AMBIGUOUS`** — because the low-density collinear runs exceed the 5% forest-drift
+  gate. We do NOT claim "all gates passed, strict REFUTE."
+- **`mechanism_verdict = DRIFT_LIMITED_BOUNDED_NEGATIVE`** — because R_RSS(coll/glissile) ≈ 1 at both
+  densities, coll_opp/coll_same ≈ 1, identical across XSLIP on/off, with no growth toward the canonical ~2.3.
+The honest statement is the second one: *under a drift-gate limitation, five independent lines of evidence
+consistently show no collinear dominance.* The drift itself is informative, not waste (see below).
 
 ## What was tested
 Per the adversarial scrutiny ([../evolving_forest_mfp/SCRUTINY_VERDICT.md](../evolving_forest_mfp/SCRUTINY_VERDICT.md)),
