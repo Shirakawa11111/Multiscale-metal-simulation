@@ -1,0 +1,45 @@
+{
+ "n_samples": 50,
+ "n_edges": 243,
+ "assignment_policy_sample": {
+  "mean_segment_entropy_bits": 1.5548,
+  "frac_segments_multivalued": 1.0,
+  "n_distinct_systems_used": 12,
+  "inventory_mean_cv": 0.212
+ },
+ "cell_policy_contrast": {
+  "thickened_zbox3": {
+   "is_periodic": [
+    true,
+    true,
+    true
+   ],
+   "z_h": 1800.0
+  },
+  "thickened_zbox5": {
+   "is_periodic": [
+    true,
+    true,
+    true
+   ],
+   "z_h": 3000.0
+  },
+  "thickened_zbox10": {
+   "is_periodic": [
+    true,
+    true,
+    true
+   ],
+   "z_h": 6000.0
+  },
+  "as_is_foil": {
+   "is_periodic": [
+    true,
+    true,
+    false
+   ],
+   "z_h": 600.0
+  }
+ },
+ "interpretation": "Because every segment's geometric assignment is ~3-way degenerate (confidence ~0.33), sampled lowerings reshuffle the slip-system inventory substantially -- so any downstream DDD metric must be reported as a distribution over assignment samples, not a single number. Cell policy (foil non-periodic vs thickened periodic) changes z-periodicity and box height, a separate, deterministic knob."
+}

@@ -1,0 +1,27 @@
+{
+ "source": "experiment_bridge/recon_data/points_3d*.txt",
+ "valid": true,
+ "n_errors": 0,
+ "n_warnings": 0,
+ "n_lines": 27,
+ "n_vertices": 270,
+ "n_edges": 243,
+ "assignment": {
+  "n_edges": 243,
+  "mean_confidence": 0.3333,
+  "min_confidence": 0.3333,
+  "frac_low_confidence(<0.5)": 1.0,
+  "mean_assignment_entropy_bits": 1.5849,
+  "n_ambiguous(entropy>0.8)": 243
+ },
+ "burgers_source": "geometry_only_pending_gb",
+ "cell_policy": "foil_nonperiodic_z",
+ "endpoint_policy": "pinned_due_to_truncated_reconstruction",
+ "z_uncertainty_nm": 30,
+ "chosen_system_histogram": {
+  "6": 99,
+  "3": 81,
+  "9": 45,
+  "0": 18
+ }
+}

@@ -6,6 +6,7 @@ line, and that the Burgers vector is geometry-only (no g.b contrast). Here we ke
 candidates with normalized priors so downstream BO/UQ can (a) sample assignments, (b) report an
 assignment-sensitivity, instead of trusting one hard choice.
 """
+
 import math
 
 
@@ -18,8 +19,9 @@ def _dot(a, b):
     return sum(x * y for x, y in zip(a, b))
 
 
-def slip_system_candidates(tangent, slip_systems, T=0.15, topk=3,
-                           w_plane=1.0, w_char=0.0):
+def slip_system_candidates(
+    tangent, slip_systems, T=0.15, topk=3, w_plane=1.0, w_char=0.0
+):
     """Score every slip system against a line tangent and return top-k candidates w/ priors.
 
     tangent: 3-vector (line direction, need not be unit).
@@ -35,14 +37,22 @@ def slip_system_candidates(tangent, slip_systems, T=0.15, topk=3,
     t = _norm(tangent)
     scored = []
     for s in slip_systems:
-        n = _norm(s["n"]); b = _norm(s["b"])
-        containment = abs(_dot(n, t))            # lower is better
-        character = abs(_dot(b, t))              # 1=screw, 0=edge
+        n = _norm(s["n"])
+        b = _norm(s["b"])
+        containment = abs(_dot(n, t))  # lower is better
+        character = abs(_dot(b, t))  # 1=screw, 0=edge
         quality = w_plane * (1.0 - containment) + w_char * character
-        scored.append({"system_id": s["system_id"], "b": list(s["b"]), "n": list(s["n"]),
-                       "plane_containment_score": round(containment, 4),
-                       "line_character_score": round(character, 4),
-                       "gb_visibility_score": None, "_q": quality})
+        scored.append(
+            {
+                "system_id": s["system_id"],
+                "b": list(s["b"]),
+                "n": list(s["n"]),
+                "plane_containment_score": round(containment, 4),
+                "line_character_score": round(character, 4),
+                "gb_visibility_score": None,
+                "_q": quality,
+            }
+        )
     scored.sort(key=lambda c: c["_q"], reverse=True)
     keep = scored[:topk]
     mx = max(c["_q"] for c in keep)
@@ -63,8 +73,14 @@ def assignment_entropy(candidates):
 
 def network_assignment_summary(edge_labels):
     """Aggregate confidence/entropy across all edges -> an auditable assignment-uncertainty report."""
-    confs = [l.get("assignment_confidence") for l in edge_labels if l.get("assignment_confidence") is not None]
-    ents = [assignment_entropy(l.get("slip_system_candidates", [])) for l in edge_labels]
+    confs = [
+        l.get("assignment_confidence")
+        for l in edge_labels
+        if l.get("assignment_confidence") is not None
+    ]
+    ents = [
+        assignment_entropy(l.get("slip_system_candidates", [])) for l in edge_labels
+    ]
     n = len(edge_labels) or 1
     return {
         "n_edges": len(edge_labels),

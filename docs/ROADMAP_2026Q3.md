@@ -24,16 +24,22 @@ uncertainty* — turning each route from "it runs" into "it is auditable."
 - **BO/UQ calibration layer** — start with sensitivity/UQ pilot (not full Bayesian optimization).
 
 ## 3. Near-term milestones
-- **M1 — IDR schema + validators** (`defect_ir/`): geometry / topology / physics_labels / uncertainty /
-  provenance / simulation_targets; 2 worked examples (Cu STEM dislocation graph, graphene defect graph).
-- **M2 — STEM-to-DDD uncertainty envelope**: split `stem_to_exadis.py` into `stem_to_idr.py` +
-  `idr_to_exadis.py`; per-line slip-system candidate set + assignment confidence; `CELL_POLICY.md`,
-  `ASSIGNMENT_UNCERTAINTY.md`.
-- **M3 — real-network DDD audit report**: zero-stress relaxation stability, loading response, density
-  evolution, topology events, slip-system inventory, assignment/z-scaling/endpoint sensitivity → audit JSON + md.
-- **M4 — BO/UQ pilot**: sensitivity over image/recon, crystallography-assignment, DDD-legalization, loading
-  knobs; objectives = stability + interpretability (network survival, density-growth plausibility,
-  topology-event rate, assignment sensitivity, agreement with observed density increment).
+- **M1 — IDR schema + validators** (`defect_ir/`) — **DONE ✓**: 6-section `defect_idr_v1`
+  (`schema.py`), structural + physics validators (`validators.py`: unique ids, b·n=0, box consistency,
+  candidate priors), `uncertainty.py` (candidate priors + entropy), `adapters/to_exadis.py`,
+  `IDR_SPEC.md`, 2 validated examples, gate test.
+- **M2 — STEM-to-DDD uncertainty envelope** — **IN PROGRESS**: `stem_to_idr.py` (real recon → IDR,
+  top-k candidates + audit report `cu_stem_idr_report.{json,md}`) + `idr_to_exadis.py` (CLI, selectable
+  assignment/cell policy); `stem_to_exadis.py` marked LEGACY; `CELL_POLICY.md`, `ASSIGNMENT_UNCERTAINTY.md`.
+  *Remaining:* formal sensitivity sweep harness (local), then M3.
+- **M3 — real-network DDD audit report** — NOT STARTED (needs HPC ExaDiS): zero-stress relaxation
+  stability, loading response, density evolution, topology events, slip-system inventory, and
+  assignment/z-scaling/endpoint sensitivity → audit JSON + md.
+- **M4 — BO/UQ pilot** — NOT STARTED: sensitivity over image/recon, crystallography-assignment,
+  DDD-legalization, loading knobs; objectives = stability + interpretability (network survival,
+  density-growth plausibility, topology-event rate, assignment sensitivity, agreement with observed density).
+
+Default pipeline: `stem_to_idr.py → idr_to_exadis.py`. Legacy: `stem_to_exadis.py`.
 
 ## 4. No longer investing
 - chasing canonical collinear coefficient / random probe-matrix recovery

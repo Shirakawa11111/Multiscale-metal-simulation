@@ -1,5 +1,12 @@
 """STEM reconstruction -> ExaDiS/OpenDiS DDD network adapter.
 
+  *** LEGACY BASELINE (direct, single-assignment converter). ***
+  Prefer the uncertainty-aware path for new work:
+      experiment_bridge/stem_to_idr.py   (STEM -> defect_idr_v1, top-k slip-system candidates)
+      experiment_bridge/idr_to_exadis.py (IDR -> ExaDiS, selectable assignment/cell policy)
+  This file forces ONE slip system per line via argmin|n.t| (geometry only, no g.b) and hides the
+  assignment ambiguity; kept as a baseline / reproduction reference. See ASSIGNMENT_UNCERTAINTY.md.
+
 The regime-correct coupling: DDD represents dislocations as LINES (exactly the
 STEM reconstruction output) and evolves them in the room-temperature
 athermal-glide + junction + forest-hardening regime (where PFC fundamentally

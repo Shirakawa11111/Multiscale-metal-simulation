@@ -27,55 +27,91 @@ FORMAT_VERSION = "defect_idr_v1"
 
 # ---- enumerations (kept small + explicit) ----
 MATERIALS = {"fcc_cu", "graphene_2d", "hbn_2d", "bcc_fe", "other"}
-SOURCE_METHODS = {"stem_3d_reconstruction", "pfc_defect_detection",
-                  "md_defect_detection", "synthetic", "other"}
+SOURCE_METHODS = {
+    "stem_3d_reconstruction",
+    "pfc_defect_detection",
+    "md_defect_detection",
+    "synthetic",
+    "other",
+}
 VERTEX_ROLES = {"endpoint", "interior", "core", "atom", "junction"}
 CONSTRAINTS = {"pinned", "free", "surface", "unknown"}
 EDGE_KINDS = {"dislocation_segment", "core_pair", "bond", "other"}
 BURGERS_SOURCES = {"geometry", "gb_contrast", "topology", "assumed", "unknown"}
-ASSIGNMENT_STATUS = {"geometry_only_pending_gb", "gb_validated",
-                     "topology_inferred", "assumed", "unknown"}
+ASSIGNMENT_STATUS = {
+    "geometry_only_pending_gb",
+    "gb_validated",
+    "topology_inferred",
+    "assumed",
+    "unknown",
+}
 ENGINES = {"exadis", "pfc", "lammps", "none"}
 
 # ---- required keys per section (the enforced contract) ----
-REQUIRED_TOP = ["format_version", "provenance", "units", "geometry",
-                "topology", "uncertainty", "simulation_targets"]
+REQUIRED_TOP = [
+    "format_version",
+    "provenance",
+    "units",
+    "geometry",
+    "topology",
+    "uncertainty",
+    "simulation_targets",
+]
 REQUIRED_PROVENANCE = ["material", "dimension", "source_method"]
 REQUIRED_UNITS = ["length", "length_unit_m"]
 REQUIRED_GEOMETRY = ["cell", "vertices", "edges"]
-REQUIRED_CELL = ["is_periodic"]                       # h or box_size also expected (checked softly)
-REQUIRED_VERTEX = ["id", "pos"]                       # pos = [x, y] (2D) or [x, y, z] (3D)
+REQUIRED_CELL = ["is_periodic"]  # h or box_size also expected (checked softly)
+REQUIRED_VERTEX = ["id", "pos"]  # pos = [x, y] (2D) or [x, y, z] (3D)
 REQUIRED_EDGE = ["id", "v1", "v2"]
 REQUIRED_SIM = ["engine"]
 
 
-def empty_idr(material, dimension, source_method, length_unit="b", length_unit_m=2.556e-10):
+def empty_idr(
+    material, dimension, source_method, length_unit="b", length_unit_m=2.556e-10
+):
     """Return a minimal, valid-shaped IDR skeleton to fill in."""
     return {
         "format_version": FORMAT_VERSION,
-        "provenance": {"material": material, "dimension": int(dimension),
-                       "source_method": source_method, "input_ref": None,
-                       "tool": None, "created": None, "notes": ""},
-        "units": {"length": length_unit, "length_unit_m": float(length_unit_m),
-                  "burgers_magnitude_b": 1.0},
+        "provenance": {
+            "material": material,
+            "dimension": int(dimension),
+            "source_method": source_method,
+            "input_ref": None,
+            "tool": None,
+            "created": None,
+            "notes": "",
+        },
+        "units": {
+            "length": length_unit,
+            "length_unit_m": float(length_unit_m),
+            "burgers_magnitude_b": 1.0,
+        },
         "geometry": {
-            "cell": {"h": None, "box_size_m": None, "is_periodic": [True, True, dimension == 3]},
-            "vertices": [],   # {id, pos:[..], role, constraint}
-            "edges": [],      # {id, v1, v2, kind}
+            "cell": {
+                "h": None,
+                "box_size_m": None,
+                "is_periodic": [True, True, dimension == 3],
+            },
+            "vertices": [],  # {id, pos:[..], role, constraint}
+            "edges": [],  # {id, v1, v2, kind}
         },
         "topology": {
-            "slip_system_catalog": [],   # [{system_id, b:[..], n:[..]}]
-            "edge_labels": [],           # see edge_label() below
-            "vertex_labels": [],         # {vertex_id, coordination, defect_type}
+            "slip_system_catalog": [],  # [{system_id, b:[..], n:[..]}]
+            "edge_labels": [],  # see edge_label() below
+            "vertex_labels": [],  # {vertex_id, coordination, defect_type}
             "counts": {},
         },
-        "uncertainty": {},               # named fields; see examples
+        "uncertainty": {},  # named fields; see examples
         "simulation_targets": {"engine": "none"},
     }
 
 
-def edge_label(edge_id, candidates, chosen_system=None,
-               assignment_status="geometry_only_pending_gb"):
+def edge_label(
+    edge_id,
+    candidates,
+    chosen_system=None,
+    assignment_status="geometry_only_pending_gb",
+):
     """Build an uncertainty-aware edge label.
 
     candidates: list of dicts, each
@@ -86,9 +122,13 @@ def edge_label(edge_id, candidates, chosen_system=None,
     """
     if chosen_system is None and candidates:
         chosen_system = max(candidates, key=lambda c: c.get("prior", 0.0))["system_id"]
-    conf = next((c.get("prior") for c in candidates if c["system_id"] == chosen_system), None)
-    return {"edge_id": int(edge_id),
-            "slip_system_candidates": candidates,
-            "chosen_system": chosen_system,
-            "assignment_confidence": conf,
-            "assignment_status": assignment_status}
+    conf = next(
+        (c.get("prior") for c in candidates if c["system_id"] == chosen_system), None
+    )
+    return {
+        "edge_id": int(edge_id),
+        "slip_system_candidates": candidates,
+        "chosen_system": chosen_system,
+        "assignment_confidence": conf,
+        "assignment_status": assignment_status,
+    }

@@ -5,6 +5,7 @@ network given an assignment policy + cell policy. Because the policy is an argum
 it (top-1 vs sampled slip system, foil vs thickened-periodic cell, endpoint policy) without touching
 the upstream reconstruction.
 """
+
 import random
 
 
@@ -13,7 +14,8 @@ def _pick_system(label, policy, rng):
     if not cands:
         return None
     if policy == "sample":
-        r = rng.random(); acc = 0.0
+        r = rng.random()
+        acc = 0.0
         for c in cands:
             acc += c.get("prior", 0.0)
             if r <= acc:
@@ -21,11 +23,15 @@ def _pick_system(label, policy, rng):
         return cands[-1]
     # default top-1 (the chosen_system, else highest prior)
     cs = label.get("chosen_system")
-    return next((c for c in cands if c["system_id"] == cs), max(cands, key=lambda c: c.get("prior", 0.0)))
+    return next(
+        (c for c in cands if c["system_id"] == cs),
+        max(cands, key=lambda c: c.get("prior", 0.0)),
+    )
 
 
-def idr_to_exadis_network(doc, assignment_policy="top1", cell_policy="as_is",
-                          zbox=1.0, seed=0):
+def idr_to_exadis_network(
+    doc, assignment_policy="top1", cell_policy="as_is", zbox=1.0, seed=0
+):
     """Return an ExaDiS manual-network dict.
 
     assignment_policy: 'top1' (chosen_system) | 'sample' (Monte-Carlo from priors).
@@ -34,7 +40,8 @@ def idr_to_exadis_network(doc, assignment_policy="top1", cell_policy="as_is",
                   the hardening-pilot policy; see experiment_bridge/CELL_POLICY.md).
     """
     rng = random.Random(seed)
-    g = doc["geometry"]; topo = doc["topology"]
+    g = doc["geometry"]
+    topo = doc["topology"]
     vid_to_idx = {v["id"]: i for i, v in enumerate(g["vertices"])}
     labels = {l["edge_id"]: l for l in topo.get("edge_labels", [])}
 
@@ -43,7 +50,11 @@ def idr_to_exadis_network(doc, assignment_policy="top1", cell_policy="as_is",
         pos = list(v["pos"])
         if len(pos) == 2:
             pos = pos + [0.0]
-        con = "PINNED_NODE" if v.get("constraint") in ("pinned", "surface") else "UNCONSTRAINED"
+        con = (
+            "PINNED_NODE"
+            if v.get("constraint") in ("pinned", "surface")
+            else "UNCONSTRAINED"
+        )
         nodes.append([float(pos[0]), float(pos[1]), float(pos[2]), con])
 
     segs = []
@@ -56,8 +67,18 @@ def idr_to_exadis_network(doc, assignment_policy="top1", cell_policy="as_is",
             used_policy_counts["no_system"] += 1
             continue
         b, n = sysc["b"], sysc["n"]
-        segs.append([i1, i2, float(b[0]), float(b[1]), float(b[2]),
-                     float(n[0]), float(n[1]), float(n[2])])
+        segs.append(
+            [
+                i1,
+                i2,
+                float(b[0]),
+                float(b[1]),
+                float(b[2]),
+                float(n[0]),
+                float(n[1]),
+                float(n[2]),
+            ]
+        )
         used_policy_counts["with_system"] += 1
 
     cell = dict(g["cell"])
@@ -77,10 +98,23 @@ def idr_to_exadis_network(doc, assignment_policy="top1", cell_policy="as_is",
         "nodes": nodes,
         "segs": segs,
         "node_columns": ["x_b", "y_b", "z_b", "constraint"],
-        "seg_columns": ["node1", "node2", "burg_x", "burg_y", "burg_z", "plane_x", "plane_y", "plane_z"],
+        "seg_columns": [
+            "node1",
+            "node2",
+            "burg_x",
+            "burg_y",
+            "burg_z",
+            "plane_x",
+            "plane_y",
+            "plane_z",
+        ],
         "network_counts": {"nodes": len(nodes), "segments": len(segs)},
-        "provenance": {"lowered_from": "defect_idr_v1",
-                       "assignment_policy": assignment_policy,
-                       "cell_policy": cell_policy, "zbox": zbox, "seed": seed,
-                       **used_policy_counts},
+        "provenance": {
+            "lowered_from": "defect_idr_v1",
+            "assignment_policy": assignment_policy,
+            "cell_policy": cell_policy,
+            "zbox": zbox,
+            "seed": seed,
+            **used_policy_counts,
+        },
     }
