@@ -1,0 +1,147 @@
+{
+ "format_version": "defect_idr_v1",
+ "provenance": {
+  "material": "graphene_2d",
+  "dimension": 2,
+  "source_method": "pfc_defect_detection",
+  "input_ref": "results/*.npz",
+  "tool": "defect_analysis",
+  "created": null,
+  "notes": "5|7 coordination cores from periodic Delaunay; PFC density field."
+ },
+ "units": {
+  "length": "a0",
+  "length_unit_m": 2.46e-10,
+  "burgers_magnitude_b": 1.0
+ },
+ "geometry": {
+  "cell": {
+   "h": [
+    [
+     100.0,
+     0,
+     0
+    ],
+    [
+     0,
+     100.0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ],
+   "box_size_m": [
+    2.46e-08,
+    2.46e-08,
+    0.0
+   ],
+   "is_periodic": [
+    true,
+    true,
+    false
+   ]
+  },
+  "vertices": [
+   {
+    "id": 0,
+    "pos": [
+     48.0,
+     50.0
+    ],
+    "role": "atom",
+    "constraint": "free"
+   },
+   {
+    "id": 1,
+    "pos": [
+     52.0,
+     50.0
+    ],
+    "role": "atom",
+    "constraint": "free"
+   },
+   {
+    "id": 2,
+    "pos": [
+     50.0,
+     53.0
+    ],
+    "role": "atom",
+    "constraint": "free"
+   },
+   {
+    "id": 3,
+    "pos": [
+     50.0,
+     47.0
+    ],
+    "role": "atom",
+    "constraint": "free"
+   }
+  ],
+  "edges": [
+   {
+    "id": 0,
+    "v1": 0,
+    "v2": 1,
+    "kind": "core_pair"
+   }
+  ]
+ },
+ "topology": {
+  "slip_system_catalog": [],
+  "edge_labels": [
+   {
+    "edge_id": 0,
+    "kind": "5-7_core",
+    "slip_system_candidates": [],
+    "chosen_system": null,
+    "assignment_confidence": null,
+    "assignment_status": "topology_inferred"
+   }
+  ],
+  "vertex_labels": [
+   {
+    "vertex_id": 0,
+    "coordination": 5,
+    "defect_type": "5"
+   },
+   {
+    "vertex_id": 1,
+    "coordination": 7,
+    "defect_type": "7"
+   },
+   {
+    "vertex_id": 2,
+    "coordination": 6,
+    "defect_type": "none"
+   },
+   {
+    "vertex_id": 3,
+    "coordination": 6,
+    "defect_type": "none"
+   }
+  ],
+  "counts": {
+   "n_vertices": 4,
+   "n_edges": 1,
+   "n_cores": 1,
+   "density_m2": 1652455548945733.5
+  }
+ },
+ "uncertainty": {
+  "burgers_assignment": {
+   "method": "topology_5_7_core",
+   "validated_by_gb": false
+  },
+  "note": "2D Burgers implied by 5-7 separation; not a 3D vector"
+ },
+ "simulation_targets": {
+  "engine": "pfc",
+  "loading_mode": "affine_tension",
+  "note": "PFC density-field seeding"
+ }
+}
