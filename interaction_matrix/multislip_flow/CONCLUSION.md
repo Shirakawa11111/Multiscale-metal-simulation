@@ -42,6 +42,12 @@ Schmid), and the **measured** forest density, not the target.
 - **XSLIP on vs off: identical** — the "cross-slip replenishment" mechanism does not manifest.
 - L_mf / storage agrees: collinear MFP is *longer* (weaker storage), not shorter.
 
+## Robustness (seeds)
+A 3rd independent seed at low density reproduces the result: R_RSS(coll/glissile) = 0.965 (XSLIP on) /
+0.980 (XSLIP off), coll_opp/coll_same ≈ 1.00 — matching the n=2 values. (A 3rd seed at *high* density was
+not pursued: those ρ_f=3e13 runs cost ~7 h × 56 cores for a marginal 3rd point on an already-consistent
+n=2+seed3 result, and the node was needed for other work. The committed figure/summaries are n=2.)
+
 ## Five independent measurements, all consistent
 1. Local remobilization strength (`../binary_reaction_matrix`, SEALED): collinear not dominant (mid-pack).
 2. Pairwise MFP (`../evolving_forest_mfp`, RETRACTED): sampling-starved; geometry can't host the coefficient.
