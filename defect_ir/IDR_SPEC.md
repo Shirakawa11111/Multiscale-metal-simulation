@@ -47,6 +47,15 @@ Recommended keys: `z_depth {weakly_constrained, sigma_nm}`, `burgers_assignment 
 erate, force_model, mobility, ...` (consumed by the adapters; see `experiment_bridge/CELL_POLICY.md`).
 
 ## Lowering
-`defect_ir.adapters.to_exadis.idr_to_exadis_network(doc, assignment_policy, cell_policy, zbox, seed)`
-commits the uncertainty-aware IDR to one concrete ExaDiS network. `assignment_policy ∈ {top1, sample}`,
-`cell_policy ∈ {as_is, thickened_periodic}` — both are the BO/UQ sweep knobs.
+`defect_ir.adapters.to_exadis.idr_to_exadis_network(doc, assignment_policy, cell_policy, zbox, seed,
+endpoint_policy)` commits the uncertainty-aware IDR to one concrete ExaDiS network. Knobs:
+- `assignment_policy ∈ {top1, sample_linewise, sample_edgewise}`:
+  - **`top1`** — deterministic (the chosen_system).
+  - **`sample_linewise`** — the physical Monte-Carlo default: ONE draw per `parent_line_id`, applied to all
+    that line's segments (needs `parent_line_id` on edges; preserves Burgers continuity along a line).
+  - **`sample_edgewise`** — per-edge draw; injects within-line Burgers discontinuities → **deprecated**,
+    keep only as an artifact stress-test / upper bound (see `experiment_bridge/REAL_NETWORK_AUDIT.md` v1.1).
+  - `'sample'` is a deprecated alias → normalized to `sample_linewise` with a warning.
+- `cell_policy ∈ {as_is, thickened_periodic}`; `endpoint_policy ∈ {pinned, free}`.
+These are the BO/UQ sweep knobs. **Line coherence:** the validator warns if edges sharing a `parent_line_id`
+carry inconsistent candidate sets.

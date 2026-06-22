@@ -32,12 +32,15 @@ uncertainty* — turning each route from "it runs" into "it is auditable."
   top-k candidates + audit report `cu_stem_idr_report.{json,md}`) + `idr_to_exadis.py` (CLI, selectable
   assignment/cell policy); `stem_to_exadis.py` marked LEGACY; `CELL_POLICY.md`, `ASSIGNMENT_UNCERTAINTY.md`.
   *Remaining:* formal sensitivity sweep harness (local), then M3.
-- **M3 — real-network DDD audit report** — **PILOT DONE** (experiment_bridge/REAL_NETWORK_AUDIT.md): zero-stress relaxation
-  stability, loading response, density evolution, topology events, slip-system inventory, and
-  assignment/z-scaling/endpoint sensitivity → audit JSON + md.
-- **M4 — BO/UQ pilot** — **PILOT DONE** (experiment_bridge/BO_UQ_PILOT.md): sensitivity over image/recon, crystallography-assignment,
-  DDD-legalization, loading knobs; objectives = stability + interpretability (network survival,
-  density-growth plausibility, topology-event rate, assignment sensitivity, agreement with observed density).
+- **M3 — real-network DDD audit report** — **PILOT DONE, v1.1-corrected** (experiment_bridge/REAL_NETWORK_AUDIT.md):
+  import is stable & auditable; the v0 "assignment→topology 5.4×" was a per-edge sampling artifact
+  (within-line Burgers discontinuities), corrected with line-coherent `sample_linewise`. Robust result:
+  **cell policy dominates apparent density (~5.2×, deconfounded from force)**; assignment ambiguity is a
+  minor topology knob once propagated per line.
+- **M4 — BO/UQ pilot** — **PILOT DONE, v1.1-corrected** (experiment_bridge/BO_UQ_PILOT.md): corrected knob
+  ranking — cell policy → density (dominant); force → density (1.17×); line-coherent assignment → minor
+  topology; endpoint minor; survival robust. (v0 edgewise ranking retracted to an appendix.)
+  **Default lowering policy: `sample_linewise`.**
 
 Default pipeline: `stem_to_idr.py → idr_to_exadis.py`. Legacy: `stem_to_exadis.py`.
 

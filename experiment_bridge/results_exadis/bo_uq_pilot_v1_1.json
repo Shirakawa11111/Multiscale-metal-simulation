@@ -1,0 +1,19 @@
+{
+ "version": "v1.1 (line-coherent default)",
+ "corrected_knob_influence": {
+  "cell_policy": {"dominant_for": "apparent density", "magnitude": "5.2x", "note": "deconfounded: same-force foil->thickened; it is cell volume/periodicity, not force"},
+  "force_model": {"dominant_for": "secondary density change at fixed thickened cell", "magnitude": "1.17x", "note": "DDD_FFT vs LineTension"},
+  "assignment_policy_linewise": {"dominant_for": "minor topology variability", "magnitude": "~top1 level (linewise/top1 = 0.63/3.58/0.92)"},
+  "assignment_policy_edgewise": {"status": "deprecated_artifact", "evidence": "~143/216 within-line Burgers discontinuities -> artificial junctions (the v0 5.4x)"},
+  "endpoint_policy": {"dominant_for": "minor topology", "magnitude": "~1.07x"},
+  "network_survival": {"status": "robust to all knobs"}
+ },
+ "junctions_top1_edgewise_linewise": {
+  "foil_LineTension": [10, 25.5, 6.3],
+  "thickened_DDD_FFT": [2, 29.5, 7.2],
+  "thickened_LineTension": [6, 26.3, 5.5]
+ },
+ "density_deconfound_m2": {"foil_LT": 1.16e13, "thick_LT": 2.25e12, "thick_FFT": 2.64e12,
+  "cell_effect_same_force": "5.2x", "force_effect_same_cell": "1.17x"},
+ "next": "cell-policy density audit (sweep zbox + force at fixed sample_linewise); g.b-ready assignment (correctness, not a 5x topology effect)"
+}

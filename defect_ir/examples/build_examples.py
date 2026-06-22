@@ -211,7 +211,7 @@ def main():
     net_top1 = idr_to_exadis_network(cu, assignment_policy="top1", cell_policy="as_is")
     net_smpl = idr_to_exadis_network(
         cu,
-        assignment_policy="sample",
+        assignment_policy="sample_linewise",  # physical default (line-coherent)
         cell_policy="thickened_periodic",
         zbox=5.0,
         seed=1,
@@ -219,7 +219,7 @@ def main():
     print(
         f"\nIDR->ExaDiS lowering (Cu): top1 segs={net_top1['network_counts']['segments']} "
         f"(periodic {net_top1['cell']['is_periodic']}); "
-        f"sampled+thickened segs={net_smpl['network_counts']['segments']} "
+        f"linewise+thickened segs={net_smpl['network_counts']['segments']} "
         f"(periodic {net_smpl['cell']['is_periodic']})"
     )
     print(

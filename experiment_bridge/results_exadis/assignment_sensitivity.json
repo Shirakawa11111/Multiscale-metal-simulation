@@ -1,45 +1,32 @@
 {
- "n_samples": 50,
- "n_edges": 243,
- "assignment_policy_sample": {
-  "mean_segment_entropy_bits": 1.5548,
-  "frac_segments_multivalued": 1.0,
-  "n_distinct_systems_used": 12,
-  "inventory_mean_cv": 0.212
- },
- "cell_policy_contrast": {
-  "thickened_zbox3": {
-   "is_periodic": [
-    true,
-    true,
-    true
-   ],
-   "z_h": 1800.0
+ "source": "cu_stem_idr.json",
+ "policies": {
+  "top1": {
+   "within_line_discontinuities_mean": 0.0,
+   "intra_line_adjacencies": 216,
+   "within_line_discontinuity_frac": 0.0,
+   "inventory_cv": 0.0,
+   "n_seeds": 1
   },
-  "thickened_zbox5": {
-   "is_periodic": [
-    true,
-    true,
-    true
-   ],
-   "z_h": 3000.0
+  "sample_edgewise": {
+   "within_line_discontinuities_mean": 142.8,
+   "intra_line_adjacencies": 216,
+   "within_line_discontinuity_frac": 0.661,
+   "inventory_cv": 0.206,
+   "n_seeds": 30
   },
-  "thickened_zbox10": {
-   "is_periodic": [
-    true,
-    true,
-    true
-   ],
-   "z_h": 6000.0
-  },
-  "as_is_foil": {
-   "is_periodic": [
-    true,
-    true,
-    false
-   ],
-   "z_h": 600.0
+  "sample_linewise": {
+   "within_line_discontinuities_mean": 0.0,
+   "intra_line_adjacencies": 216,
+   "within_line_discontinuity_frac": 0.0,
+   "inventory_cv": 0.622,
+   "n_seeds": 30
   }
  },
- "interpretation": "Because every segment's geometric assignment is ~3-way degenerate (confidence ~0.33), sampled lowerings reshuffle the slip-system inventory substantially -- so any downstream DDD metric must be reported as a distribution over assignment samples, not a single number. Cell policy (foil non-periodic vs thickened periodic) changes z-periodicity and box height, a separate, deterministic knob."
+ "edgewise_artifact": {
+  "within_line_discontinuities": 142.8,
+  "of_intra_line_adjacencies": 216,
+  "linewise_discontinuities": 0.0,
+  "verdict": "sample_edgewise injects ~143 artificial within-line Burgers discontinuities (=> artificial junctions); sample_linewise injects 0. Use sample_linewise."
+ }
 }

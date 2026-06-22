@@ -1,43 +1,42 @@
-# BO/UQ sensitivity pilot (M4)
+# BO/UQ sensitivity pilot (M4, v1.1)
 
-Goal (per the roadmap): a *sensitivity* pilot — not full Bayesian optimization, and not stress-curve
-matching. Sweep the IDR's exposed knobs and rank which one drives which **objective** (stability +
-interpretability). 35 ExaDiS runs on the real 270-node Cu network: 5 configs (cell/zbox/endpoint) ×
-{top-1 + 6 assignment samples}, conservative ≤30 cores. Figure: `results_exadis/bo_uq_pilot.png`,
-data: `results_exadis/bo_uq_pilot_summary.json` (builds on the M3 audit, `REAL_NETWORK_AUDIT.md`).
+A *sensitivity* pilot (not full Bayesian optimization, not stress-curve matching): sweep the IDR's exposed
+knobs and rank which one drives which **objective** (stability + interpretability), using the physical
+**line-coherent** assignment policy. Data: `results_exadis/v11_linewise_summary.json`,
+`results_exadis/assignment_sensitivity.json`; figure `results_exadis/v11_linewise.png`. Builds on
+`REAL_NETWORK_AUDIT.md` (v1.1).
 
-> **⚠️ v1.1 correction.** The "assignment → topology 5.4×" ranking below used *edgewise* sampling and is
-> now superseded: line-coherent (`sample_linewise`) sampling shows junctions return to ~top-1 level
-> (the 5.4× was a within-line-discontinuity artifact; see `REAL_NETWORK_AUDIT.md` v1.1 correction).
-> Corrected ranking: **cell policy dominates (density 5.2×, deconfounded from force); assignment ambiguity
-> is a MINOR knob for topology (~top-1 ± residual); endpoint minor; survival robust.** The highest-value
-> next step is unchanged in spirit (reduce assignment ambiguity via g·b) but its quantitative topology
-> impact is much smaller than the edgewise pilot suggested.
-
-## Knobs × objectives — the ranking [edgewise, see correction above]
-| knob | objective it drives | magnitude |
-|--|--|--|
-| **slip-system assignment** (top-1 vs sampling the 3-way ambiguity) | **topology** (junction formation) | **5.4×** (top-1 ~5 vs sample ~27 junctions) + within-sample CV ~0.15 |
-| **cell policy / zbox** (foil vs thickened periodic) | **density** | **4.4×** (foil 1.4e13 vs thickened 3.2e12); topology ~flat (z3/z5/z10 → 29/30/30) |
-| **endpoint policy** (pinned vs free) | topology | minor, ~1.07× (30 vs 28) |
-| — | **network survival** | **robust** (~0.41 across *all* knobs — import does not collapse) |
+## Corrected knob → objective ranking
+| rank | knob | objective | magnitude |
+|--|--|--|--|
+| 1 | **cell policy** (foil ↔ thickened periodic) | **apparent density** | **~5.2×** (deconfounded: same-force foil→thickened) |
+| 2 | **force model** at fixed thickened cell | density | ~1.17× (DDD_FFT vs LineTension) |
+| 3 | **assignment** (`sample_linewise`) | topology | **minor / residual** (~top-1 ± seed scatter) |
+| 4 | endpoint policy (pinned/free) | topology | minor (~7%) |
+| — | network survival | **robust** to all knobs (import does not collapse) |
 
 ## Reading it
-- **Assignment policy is the dominant uncertainty for topology**, by far: the legacy single-assignment
-  hides a 5.4× swing, and even among valid samples topology varies ~12–17%. Density, by contrast, is
-  *insensitive* to assignment (CV ≈ 0).
-- **Cell policy is the dominant knob for density** (4.4×), but barely touches topology or survival.
-- **Endpoint policy** is a minor knob here (short loading); **survival is robust** to every knob —
-  the STEM→DDD import is a stable initial condition regardless.
+- **Cell policy is the dominant uncertainty** — and it is the cell *volume / periodicity*, not the force
+  model (force only 1.17× at a fixed thickened cell). Any density number must be reported with its cell policy.
+- **Assignment ambiguity is a minor topology knob** once propagated *per line* (`sample_linewise`). The
+  earlier "assignment dominates topology ~5×" was an edgewise artifact (see Appendix + `REAL_NETWORK_AUDIT.md`).
+- **Survival is robust** — the STEM→DDD import is a stable initial condition under every knob.
 
 ## Decision value
-The pilot tells you where to spend effort: **resolving the slip-system assignment ambiguity (experimental
-g·b) is the single highest-value next step**, because it controls the topology objective by ~5×; cell
-policy must always be *reported* (it sets density 4.4×) but is a modeling choice, not an unknown; endpoint
-and zbox-within-periodic are second-order. This is the framework doing its job — quantifying and ranking
-the experimental→simulation uncertainty so downstream DDD numbers come with an audit trail.
+- The highest-leverage modeling choice is the **cell policy** (foil vs thickened-periodic) for density
+  normalization → the natural next experiment is a **cell-policy density audit** (sweep zbox + force at fixed
+  line-coherent assignment).
+- Resolving the slip-system assignment via experimental **g·b** is still worthwhile — it upgrades a
+  geometry-only IDR to a physics-validated one (collapses the assignment entropy) — but, per v1.1, it is
+  **not** expected to produce a large topology swing; its value is correctness/auditability, not a 5× effect.
 
-*Caveats:* small system (270 nodes), short relaxation/loading; density-growth was ~1.0 over 300 load steps
-(no multiplication captured at this scale) so the density-growth-plausibility objective is not yet
-discriminating — a longer-loading variant is the natural extension. These are sensitivity ratios, not
-converged hardening numbers.
+*Caveats:* small system (270 nodes), short loading (density-growth objective not yet discriminating); these
+are sensitivity ratios, not converged hardening numbers.
+
+---
+
+## Appendix — SUPERSEDED v0 (edgewise) ranking
+The v0 pilot (35 runs, `m4/`, `bo_uq_pilot.png`, `bo_uq_pilot_summary.json`) used the edgewise `sample`
+policy and reported: assignment → topology **5.4×** (top1 ~5 vs sample ~27); cell/zbox → density 4.4×;
+endpoint minor; survival robust. The 5.4× was an edgewise within-line-discontinuity artifact (143/216
+discontinuities); it is retracted. Density/survival conclusions from v0 stand (and are refined above).

@@ -17,7 +17,13 @@ from defect_ir.adapters.to_exadis import idr_to_exadis_network  # re-exported
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("idr_json")
-    ap.add_argument("--assignment", default="top1", choices=["top1", "sample"])
+    ap.add_argument(
+        "--assignment",
+        default="top1",
+        choices=["top1", "sample_linewise", "sample_edgewise"],
+        help="top1=deterministic; sample_linewise=physical Monte-Carlo (default for UQ); "
+        "sample_edgewise=artifact stress-test only",
+    )
     ap.add_argument("--cell", default="as_is", choices=["as_is", "thickened_periodic"])
     ap.add_argument("--zbox", type=float, default=5.0)
     ap.add_argument("--seed", type=int, default=0)

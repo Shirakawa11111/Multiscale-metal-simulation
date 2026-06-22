@@ -1,76 +1,50 @@
-# Real-network DDD audit (M3)
+# Real-network DDD audit (M3, v1.1)
 
 Question: is the STEM → IDR → ExaDiS import **stable and auditable**, and how do downstream DDD outcomes
-depend on the assignment / cell policy that the IDR exposes? 10 runs on the real 27-line Cu network
-(`cu_stem_idr.json`, 270 nodes), each: zero-stress relaxation + short stress-controlled loading.
-Harness: `real_network_audit.py`. Figure: `results_exadis/real_network_audit.png`,
-data: `results_exadis/real_network_audit_summary.json` + per-run `audit/*/audit.json`.
+depend on the policies the IDR exposes? Runs on the real 27-line Cu network (`cu_stem_idr.json`, 270 nodes):
+zero-stress relaxation + short stress-controlled loading. Harness: `real_network_audit.py`; reproducibility
+in `AUDIT_MANIFEST.md`. This document gives the **corrected (v1.1)** conclusions; the v0 edgewise result is
+recorded as a falsified artifact at the bottom.
 
-## 1. The import is stable (no collapse)
-Across all policies the network **survives** zero-stress relaxation — segment count grows (1.8–2.6×, from
-remesh splitting), it does not delete away. Line length relaxes to 0.53–0.84 of the built value: the
-pinned-end reconstructed lines **straighten** under line tension between their anchors (physical, expected).
-So the ingested experimental network is a viable DDD initial condition, not a degenerate one.
+## 1. Corrected results (line-coherent sampling)
+- **The import is stable.** Across all policies the network survives zero-stress relaxation (segment count
+  grows 1.8–2.6× via remesh; it does not delete away); line length relaxes to 0.53–0.84 of built value as
+  the pinned reconstructed lines straighten under line tension. A viable DDD initial condition.
+- **Assignment ambiguity is a MINOR knob for topology.** Junction nodes after loading, top1 vs
+  `sample_edgewise` vs **`sample_linewise`** (the physical default), per cell/force:
 
-> **⚠️ SUPERSEDED by the v1.1 correction (see bottom).** Section 2's "5.4×" used *edgewise* sampling,
-> which is now known to be a sampling artifact. Line-coherent sampling shows topology is **not** strongly
-> assignment-sensitive. Read §"v1.1 correction" for the corrected conclusion.
+  | cell/force | top1 | sample_edgewise | **sample_linewise** | linewise/top1 |
+  |--|--|--|--|--|
+  | foil + LineTension | 10 | 25.5 | **6.3** | 0.63 |
+  | thickened + DDD_FFT | 2 | 29.5 | **7.2** | 3.58 |
+  | thickened + LineTension | 6 | 26.3 | **5.5** | 0.92 |
 
-## 2. [edgewise, superseded] Downstream topology under edgewise sampling
-| assignment policy | junction nodes after loading |
-|--|--|
-| **top1** (legacy single argmin\|n·t\|) | **~5** |
-| **sample** (the real 3-way candidate ambiguity) | **~27 (5.4×)** |
+  Line-coherent junction counts sit at ~top-1 level (ratio scattered 0.6–3.6 around 1, not 5×). So the
+  geometric assignment ambiguity does **not** strongly amplify topology in this network.
+- **Cell policy DOMINATES apparent density (~5.2×), deconfounded from force.** ρ after relax:
+  foil+LineTension 1.16e13, thickened+LineTension 2.25e12, thickened+DDD_FFT 2.64e12 → the **cell** drives
+  density 5.2× (foil→thickened at the *same* LineTension force); the **force** model is minor (1.17×).
 
-This is the central audit result: because every line's Burgers is geometrically 3-way degenerate, the
-legacy top-1 converter places many lines on the *same* (first-listed) system → few cross-system reactions
-→ it **under-counts junctions ~5×**. Sampling the true ambiguity produces a realistically reactive forest.
-**Any junction / hardening number from a single top-1 assignment is not trustworthy as a point estimate.**
+## 2. The falsification (why v0 was wrong) — found & fixed
+A review flagged that the v0 `sample` policy drew a slip system **independently per edge**, so adjacent
+segments of the *same* reconstructed line could get different Burgers → artificial within-line
+discontinuities → artificial junctions. Verified (`results_exadis/assignment_sensitivity.{json,md}`):
+**`sample_edgewise` injects ~143/216 (66%) within-line Burgers discontinuities; `sample_linewise` injects 0**
+(and `top1` 0). The v0 "5.4× topology swing" was therefore **predominantly an edgewise-sampling artifact**.
+Fix: edges carry `parent_line_id`; `sample_linewise` makes one draw per line; `sample` is deprecated;
+`sample_edgewise` is retained only as a discontinuity stress-test / upper bound.
+Figure: `results_exadis/v11_linewise.png`; data: `results_exadis/v11_linewise_summary.json`; 39-run rerun in `v11/`.
 
-## 3. Apparent density is dominated by the CELL policy
-| cell policy | ρ after relax | force |
-|--|--|--|
-| `as_is` (foil, z non-periodic) | 1.4e13 m⁻² | LineTension |
-| `thickened_periodic` (zbox=5) | 3.2e12 m⁻² | DDD_FFT | 
+## 3. What stands, what is bounded
+- **Stands:** the import is auditable & stable; the assignment is genuinely ambiguous *as a label*
+  (geometry fixes the {111} plane, the 3 ⟨110⟩ Burgers are near-degenerate: mean confidence ~0.33,
+  ~1.58 bits — `cu_stem_idr_report.md`), but that ambiguity propagates **per line**, not per segment, and
+  is a minor topology driver; **cell policy is the dominant density knob.**
+- **Bounded / caveats:** small system (270 nodes), short relaxation/loading (density-growth ~1.0, no
+  multiplication captured); these are sensitivity ratios, not converged hardening numbers. `as_is`+DDD_FFT
+  is unsupported (FFT needs full PBC).
 
-A ~4.4× difference — the thickened periodic cell dilutes the density (5× z-volume) and uses full N-body
-elastic force. So density must always be reported *with* its cell policy (see `CELL_POLICY.md`).
-
-## 4. Sensitivity at fixed policy (the UQ envelope)
-Across 4 assignment samples at a fixed cell policy: relaxed line length is stable (CV ≈ 0.01–0.06),
-density CV ≈ 0.02–0.08, but junction count varies ±3–4 (~15%). So density is robust to the assignment
-ambiguity; **topology is not** — it must be reported as a distribution.
-
-## Verdict
-The STEM-to-DDD import is **auditable and stable**, but two policy knobs the IDR makes explicit —
-slip-system assignment (→ topology, 5×) and cell policy (→ density, 4.4×) — dominate the downstream DDD
-outcome. This is exactly what the IDR was built to expose: the framework now **quantifies** where the
-experimental-to-simulation uncertainty lives instead of hiding it behind a single forced choice.
-*Caveat:* small system (270 nodes, short relaxation/loading); these are sensitivity ratios, not converged
-hardening numbers.
-
----
-
-## v1.1 correction — line-coherent assignment (the artifact, found & fixed)
-A review flagged that `sample` drew a slip system **independently per edge**, so adjacent segments of the
-*same* reconstructed line could get different Burgers → artificial within-line discontinuities → artificial
-junctions. Verified: edgewise sampling produces **142/216 (66%)** within-line Burgers discontinuities;
-`top1` and the new **`sample_linewise`** (one draw per parent line) produce **0**. Rerun (39 ExaDiS runs,
-`v11/`, figure `results_exadis/v11_linewise.png`, data `results_exadis/v11_linewise_summary.json`):
-
-| cell/force | top1 | sample_edgewise | sample_linewise | linewise/top1 |
-|--|--|--|--|--|
-| foil + LineTension | 10 | 25.5 | **6.3** | 0.63 |
-| thickened + DDD_FFT | 2 | 29.5 | **7.2** | 3.58 |
-| thickened + LineTension | 6 | 26.3 | **5.5** | 0.92 |
-
-**Corrected conclusion.** The ~5.4× junction increase was **predominantly an edgewise-sampling artifact**.
-With physically-coherent line-wise sampling, junction counts return to ~top-1 level (scattered around it,
-ratio 0.6–3.6, not 5×). So **slip-system assignment ambiguity does NOT strongly amplify topology** once
-sampled coherently — there is only a modest residual seed variation. `sample_linewise` is the correct UQ
-protocol; `sample_edgewise` is retained only as a discontinuity stress-test / upper bound.
-
-**Cell vs force deconfounded** (separating the two knobs that were coupled in §3): density after relax is
-foil+LineTension 1.16e13, thickened+LineTension 2.25e12, thickened+DDD_FFT 2.64e12 → the **cell** drives
-density **5.2×** (foil→thickened at the *same* LineTension force); the **force** model is minor (~1.17×).
-So "cell policy drives density" stands, and it is the cell volume/periodicity, not the force model.
+## v0 (SUPERSEDED — historical)
+The original M3 pilot reported top1 ≈ 5 vs `sample` ≈ 27 junctions (~5.4×) and concluded "assignment policy
+dominates topology." That used edgewise sampling and is retracted per §2 — kept here only as the record of
+the self-correction.

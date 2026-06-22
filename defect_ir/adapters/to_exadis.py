@@ -36,18 +36,37 @@ def _pick_system(label, policy, rng):
 
 
 def idr_to_exadis_network(
-    doc, assignment_policy="top1", cell_policy="as_is", zbox=1.0, seed=0,
+    doc,
+    assignment_policy="top1",
+    cell_policy="as_is",
+    zbox=1.0,
+    seed=0,
     endpoint_policy="pinned",
 ):
     """Return an ExaDiS manual-network dict.
 
-    assignment_policy: 'top1' (chosen_system) | 'sample' (Monte-Carlo from priors).
+    assignment_policy:
+      'top1'            -> the chosen_system (deterministic baseline).
+      'sample_linewise' -> PHYSICAL Monte-Carlo default: ONE draw per parent reconstructed line,
+                           applied to all its segments (no within-line Burgers discontinuities).
+      'sample_edgewise' -> per-edge draw; creates within-line discontinuities -> use ONLY as an
+                           artifact stress-test / upper bound (see REAL_NETWORK_AUDIT.md v1.1).
+      'sample'          -> DEPRECATED ambiguous alias; normalized to 'sample_linewise' with a warning.
     cell_policy: 'as_is' (keep IDR cell + periodicity) |
                  'thickened_periodic' (scale h[2,2] by zbox, force is_periodic all True --
                   the hardening-pilot policy; see experiment_bridge/CELL_POLICY.md).
     endpoint_policy: 'pinned' (honor the IDR vertex constraints) |
                  'free' (release pinned endpoints -> all UNCONSTRAINED, tests anchor sensitivity).
     """
+    if assignment_policy == "sample":
+        import warnings
+
+        warnings.warn(
+            "assignment_policy='sample' is ambiguous; using the physical default 'sample_linewise'. "
+            "Pass 'sample_edgewise' explicitly only for the within-line-discontinuity stress-test.",
+            stacklevel=2,
+        )
+        assignment_policy = "sample_linewise"
     rng = random.Random(seed)
     g = doc["geometry"]
     topo = doc["topology"]
@@ -59,7 +78,10 @@ def idr_to_exadis_network(
         pos = list(v["pos"])
         if len(pos) == 2:
             pos = pos + [0.0]
-        pinned = endpoint_policy != "free" and v.get("constraint") in ("pinned", "surface")
+        pinned = endpoint_policy != "free" and v.get("constraint") in (
+            "pinned",
+            "surface",
+        )
         con = "PINNED_NODE" if pinned else "UNCONSTRAINED"
         nodes.append([float(pos[0]), float(pos[1]), float(pos[2]), con])
 
@@ -83,7 +105,7 @@ def idr_to_exadis_network(
         lab = labels.get(e["id"])
         pid = e.get("parent_line_id")
         if assignment_policy == "sample_linewise" and pid in line_choice:
-            sysc = line_choice[pid]   # coherent across the whole line
+            sysc = line_choice[pid]  # coherent across the whole line
         else:
             sysc = _pick_system(lab, assignment_policy, rng) if lab else None
         if sysc is None:

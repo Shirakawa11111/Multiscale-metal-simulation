@@ -41,7 +41,8 @@ defect_ir/
 ## Why this matters
 The old `experiment_bridge/stem_to_exadis.py` forced one slip system per line via `argmin|n·t|`.
 The IDR keeps the top-k candidates with priors; `idr_to_exadis_network(..., assignment_policy=...)`
-can then take the top-1 or **sample** an assignment, and `network_assignment_summary` reports how
+can then take `top1` or **`sample_linewise`** (one draw per reconstructed line — the physical default;
+`sample_edgewise` is a deprecated artifact stress-test), and `network_assignment_summary` reports how
 ambiguous the network is. That is the hook the BO/UQ layer needs.
 
 ## Run
