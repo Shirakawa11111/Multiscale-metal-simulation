@@ -1,4 +1,6 @@
 {
+ "_status": "SUPERSEDED v0 (edgewise sampling artifact). The 'assignment dominates topology 5.4x' verdict below is RETRACTED -- it was a per-edge within-line Burgers-discontinuity artifact (~143/216). Canonical v1.1 result: results_exadis/v11_linewise_summary.json + BO_UQ_PILOT.md. Corrected: cell policy dominates reported density; line-coherent assignment is a MINOR topology knob; sample_linewise is the default.",
+ "_superseded_by": "v11_linewise_summary.json",
  "knob_influence": {
   "assignment_policy": {
    "on_topology": "top1 ~5 vs sample ~27 junctions (5.4x); + within-sample CV ~0.15",

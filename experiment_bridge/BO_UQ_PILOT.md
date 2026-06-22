@@ -53,7 +53,7 @@ are sensitivity ratios, not converged hardening numbers.
 ---
 
 ## Appendix — SUPERSEDED v0 (edgewise) ranking
-The v0 pilot (35 runs, `m4/`, `bo_uq_pilot.png`, `bo_uq_pilot_summary.json`) used the edgewise `sample`
+The v0 pilot (35 runs, `m4/`, `bo_uq_pilot.png`, `bo_uq_pilot_summary_v0_superseded.json`) used the edgewise `sample`
 policy and reported: assignment → topology **5.4×** (top1 ~5 vs sample ~27); cell/zbox → density 4.4×;
 endpoint minor; survival robust. The 5.4× was an edgewise within-line-discontinuity artifact (143/216
 discontinuities); it is retracted. Density/survival conclusions from v0 stand (and are refined above).

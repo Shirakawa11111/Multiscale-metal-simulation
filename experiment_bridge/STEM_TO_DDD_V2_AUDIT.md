@@ -10,9 +10,12 @@ endpoint policy) exposed, quantified, and — where it was wrong — self-correc
 > reported density convention, while survival / line-length relaxation / junction count are the robust,
 > cell-independent observables.*
 
-**Main-result figure:** `results_exadis/audit_summary_figure.png` (4 panels: pipeline schematic · g·b
-entropy collapse · edgewise-vs-linewise artifact · density convention). Regenerate the whole local package
-with `python3 experiment_bridge/run_local_audit_package.py`.
+**Main-result figure** (4 panels: pipeline schematic · g·b entropy collapse · edgewise-vs-linewise artifact ·
+density convention). Regenerate the whole local package with `python3 experiment_bridge/run_local_audit_package.py`.
+
+![STEM-to-DDD v2 audit summary](results_exadis/audit_summary_figure.png)
+
+Navigation: [`AUDIT_PACKAGE_INDEX.md`](AUDIT_PACKAGE_INDEX.md).
 
 ---
 

@@ -58,16 +58,13 @@ def main():
                 }
     rep = {
         "source": os.path.basename(IDR),
-        "total_line_length_m": L_m,
-        "projected_area_m2": proj_area_m2,
         "as_built": {
+            "total_line_length_m": L_m,
+            "projected_area_m2": proj_area_m2,
             "lambda_area_m1_foil_native": lambda_area_m1,
             "volume_density_m2_by_convention": {k: float(v) for k, v in vol.items()},
         },
         "relaxed_from_cell_policy_audit": relaxed,
-        # kept at top level for back-compat with earlier readers
-        "lambda_area_m1_foil_native": lambda_area_m1,
-        "volume_density_m2_by_convention": {k: float(v) for k, v in vol.items()},
         "note": ("Lambda_A (projected line density) is the foil-native observable (independent of z). "
                  "Volume density rho = Lambda_A / z_eff is convention-dependent (rho ~ 1/zbox). Report TWO "
                  "states: AS-BUILT (the STEM reconstruction geometry, foil-native) and RELAXED (the "
