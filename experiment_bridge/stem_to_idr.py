@@ -86,7 +86,7 @@ def build_idr():
     vid = 0
     edges = []
     edge_labels = []
-    for ln in lines:
+    for li, ln in enumerate(lines):
         bln = [to_b(p) for p in ln]
         first = vid
         for j, p in enumerate(bln):
@@ -110,6 +110,7 @@ def build_idr():
                     "v1": first + j,
                     "v2": first + j + 1,
                     "kind": "dislocation_segment",
+                    "parent_line_id": li,
                 }
             )
             edge_labels.append(

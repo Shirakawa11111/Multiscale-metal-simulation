@@ -87,6 +87,7 @@ def build_cu_stem():
                     "v1": first + j,
                     "v2": first + j + 1,
                     "kind": "dislocation_segment",
+                    "parent_line_id": li,
                 }
             )
             edge_labels.append(

@@ -30,6 +30,18 @@ def test_invalid_rejected():
     assert not ok and any("not a known vertex" in e for e in errs)
 
 
+
+def test_linewise_coherent():
+    from defect_ir.adapters.to_exadis import idr_to_exadis_network
+    cu = build_cu_stem()
+    plid = [e["parent_line_id"] for e in cu["geometry"]["edges"]]
+    net = idr_to_exadis_network(cu, assignment_policy="sample_linewise", seed=1)
+    sig = [tuple(round(x,2) for x in s[2:8]) for s in net["segs"]]
+    for i in range(1, len(sig)):
+        if plid[i] == plid[i-1]:
+            assert sig[i] == sig[i-1], "linewise must keep one Burgers per parent line"
+
+
 if __name__ == "__main__":
     test_examples_valid()
     test_lowering_roundtrip()

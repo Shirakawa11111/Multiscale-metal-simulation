@@ -9,20 +9,26 @@ the upstream reconstruction.
 import random
 
 
+def _sample(cands, rng):
+    r = rng.random()
+    acc = 0.0
+    for c in cands:
+        acc += c.get("prior", 0.0)
+        if r <= acc:
+            return c
+    return cands[-1]
+
+
 def _pick_system(label, policy, rng):
+    """policy in {top1, sample/sample_edgewise, sample_linewise}.
+    NB: sample_linewise is resolved upstream (one draw per parent line); if it reaches here it means the
+    edge has no parent_line_id, so we fall back to an edgewise draw."""
     cands = label.get("slip_system_candidates", [])
     if not cands:
         return None
-    if policy == "sample":
-        r = rng.random()
-        acc = 0.0
-        for c in cands:
-            acc += c.get("prior", 0.0)
-            if r <= acc:
-                return c
-        return cands[-1]
-    # default top-1 (the chosen_system, else highest prior)
-    cs = label.get("chosen_system")
+    if policy in ("sample", "sample_edgewise", "sample_linewise"):
+        return _sample(cands, rng)
+    cs = label.get("chosen_system")  # top1
     return next(
         (c for c in cands if c["system_id"] == cs),
         max(cands, key=lambda c: c.get("prior", 0.0)),
@@ -57,12 +63,29 @@ def idr_to_exadis_network(
         con = "PINNED_NODE" if pinned else "UNCONSTRAINED"
         nodes.append([float(pos[0]), float(pos[1]), float(pos[2]), con])
 
+    # LINE-COHERENT sampling: one draw per parent reconstructed line, applied to all its segments
+    # (prevents adjacent segments of the SAME physical line getting different Burgers -> artificial junctions).
+    line_choice = {}
+    if assignment_policy == "sample_linewise":
+        for e in g["edges"]:
+            pid = e.get("parent_line_id")
+            if pid is None:
+                continue
+            if pid not in line_choice:
+                lab = labels.get(e["id"])
+                cands = lab.get("slip_system_candidates", []) if lab else []
+                line_choice[pid] = _sample(cands, rng) if cands else None
+
     segs = []
     used_policy_counts = {"with_system": 0, "no_system": 0}
     for e in g["edges"]:
         i1, i2 = vid_to_idx[e["v1"]], vid_to_idx[e["v2"]]
         lab = labels.get(e["id"])
-        sysc = _pick_system(lab, assignment_policy, rng) if lab else None
+        pid = e.get("parent_line_id")
+        if assignment_policy == "sample_linewise" and pid in line_choice:
+            sysc = line_choice[pid]   # coherent across the whole line
+        else:
+            sysc = _pick_system(lab, assignment_policy, rng) if lab else None
         if sysc is None:
             used_policy_counts["no_system"] += 1
             continue

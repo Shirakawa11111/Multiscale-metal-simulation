@@ -29,6 +29,7 @@ POLICY = os.environ.get("POLICY", "top1")
 CELL = os.environ.get("CELL", "as_is")
 ZBOX = float(os.environ.get("ZBOX", "5"))
 ENDPOINT = os.environ.get("ENDPOINT", "pinned")
+FORCE = os.environ.get("FORCE", "")  # "" = auto (DDD_FFT if periodic else LineTension)
 SEED = int(os.environ.get("SEED", "0"))
 NREL = int(os.environ.get("NREL", "300"))
 NLOAD = int(os.environ.get("NLOAD", "300"))
@@ -69,7 +70,7 @@ def inventory(netd):
 
 
 def modules(state, cell, periodic):
-    force = "DDD_FFT_MODEL" if periodic else "LineTension"
+    force = FORCE if FORCE else ("DDD_FFT_MODEL" if periodic else "LineTension")
     cf = CalForce(force_mode=force, state=state, Ngrid=32, cell=cell) if periodic else \
         CalForce(force_mode=force, state=state)
     mob = MobilityLaw(mobility_law="FCC_0", state=state, Medge=64103.0, Mscrew=64103.0, vmax=4000.0)
@@ -119,7 +120,7 @@ def main():
         topology_event_rate=int(mB["n_junction_nodes"]),
     )
     out = dict(tag=JTAG, policy=POLICY, cell=CELL, endpoint=ENDPOINT, seed=SEED, periodic=periodic,
-               zbox=ZBOX if periodic else None, force="DDD_FFT_MODEL" if periodic else "LineTension",
+               zbox=ZBOX if periodic else None, force=(FORCE if FORCE else ("DDD_FFT_MODEL" if periodic else "LineTension")),
                objectives=obj, build=m0, after_relax=mA, after_load=mB,
                rho_build=rho(m0["line_len_b"]), rho_relax=rho(mA["line_len_b"]), rho_load=rho(mB["line_len_b"]),
                survival_seg_frac=round(mA["n_segs"] / max(1, m0["n_segs"]), 3),

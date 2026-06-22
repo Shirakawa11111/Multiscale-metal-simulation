@@ -159,6 +159,23 @@ def validate_idr(doc, strict=False):
                 f"edge_labels[{i}].assignment_status '{lab['assignment_status']}' unknown"
             )
 
+    # line coherence: edges sharing a parent_line_id should carry the SAME candidate set
+    # (so sample_linewise lowering is well-defined and edgewise artifacts are detectable).
+    lab_by_edge = {l.get("edge_id"): l for l in topo.get("edge_labels", [])}
+    line_cands = {}
+    for e in edges:
+        pid = e.get("parent_line_id")
+        if pid is None:
+            continue
+        lab = lab_by_edge.get(e.get("id"))
+        if not lab:
+            continue
+        sig = tuple(sorted(c.get("system_id") for c in lab.get("slip_system_candidates", [])))
+        line_cands.setdefault(pid, set()).add(sig)
+    n_incoherent = sum(1 for sigs in line_cands.values() if len(sigs) > 1)
+    if n_incoherent:
+        warns.append(f"{n_incoherent} parent_line(s) have inconsistent candidate sets across segments")
+
     # simulation_targets
     st = doc["simulation_targets"]
     for k in S.REQUIRED_SIM:
