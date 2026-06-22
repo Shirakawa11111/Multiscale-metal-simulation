@@ -42,7 +42,10 @@ uncertainty* — turning each route from "it runs" into "it is auditable."
   topology; endpoint minor; survival robust. (v0 edgewise ranking retracted to an appendix.)
   **Default lowering policy: `sample_linewise`.**
 
-Default pipeline: `stem_to_idr.py → idr_to_exadis.py`. Legacy: `stem_to_exadis.py`.
+Cell-policy density audit done (`experiment_bridge/CELL_POLICY_AUDIT.md`): apparent density is a
+cell-normalization convention (ρ∝1/zbox); survival/topology are cell-robust.
+
+Default pipeline: `stem_to_idr.py → idr_to_exadis.py` with `--assignment sample_linewise`. Legacy: `stem_to_exadis.py`.
 
 ## 4. No longer investing
 - chasing canonical collinear coefficient / random probe-matrix recovery

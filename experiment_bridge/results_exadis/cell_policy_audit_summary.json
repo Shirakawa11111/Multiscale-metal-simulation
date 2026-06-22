@@ -1,0 +1,12 @@
+{
+ "rho_app_m2": {
+  "foil": 12549778097794.9,
+  "z3LT": 4362955924959.945,
+  "z5LT": 2718212717787.815,
+  "z10LT": 1458432275169.191,
+  "z5FFT": 2498912880209.269
+ },
+ "finding_density": "rho_app proportional to 1/zbox (pure cell-volume normalization): z3/z5/z10 LT = 4.36e12/2.72e12/1.46e12; foil vs thick-z5 = 4.6x at same force; force(LT vs FFT)=0.92x",
+ "finding_robust": "survival ~2.0 and junctions ~5-8 are ~cell-independent (DDD_FFT adds a few junctions vs LineTension); line-length relaxation 0.59-0.69",
+ "verdict": "Apparent density is a REPORTING CONVENTION set by cell policy (rho ~ line_length/volume ~ 1/zbox), NOT physics. Cell-robust observables are network survival, line-length relaxation, and junction count. A foil-network density must always be quoted with its cell convention."
+}
