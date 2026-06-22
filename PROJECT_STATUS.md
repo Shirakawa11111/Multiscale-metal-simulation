@@ -61,7 +61,12 @@ AMBIGUOUS（但结论对此稳健）。方法论价值：连续剥离 observable
   `cu_stem_idr_report.{json,md}`）+ `idr_to_exadis.py`（可选 assignment/cell policy）；`stem_to_exadis.py` 标 legacy；
   `CELL_POLICY.md`/`ASSIGNMENT_UNCERTAINTY.md`。**关键发现**：STEM→DDD 滑移系指派在无 g·b 时本质高度不确定
   （几何定 {111} 面，但面上 3 个 ⟨110⟩ Burgers 近简并，mean confidence ~0.33、~1.58 bits）——旧 top-1 指派把它藏了。
-- **M3/M4 未开始**（需 HPC ExaDiS / BO-UQ）：真实网络 audit + 灵敏度 pilot。
+- **M3/M4 pilot 完成**（HPC ExaDiS）：真实 270 节点网络导入**稳定**（松弛不 collapse）；knob 灵敏度。
+- **IDR v1.1 修正（自我证伪，重要）**：评审指出旧 `sample` 是**逐 segment** 独立采样，使同一条线相邻段
+  得到不同 Burgers → 人工 junction。实测 edgewise 产生 142/216 (66%) 线内 Burgers 不连续；改为
+  **line-coherent `sample_linewise`**（每线一次抽样）后为 0。重跑结论修正：**之前"assignment→topology 5.4×"
+  主要是 edgewise 采样伪影**，line-coherent 下 junction 回到 ~top1 水平（assignment 对 topology 影响小）；
+  **cell 才主导 density（5.2×，已与 force 去耦，force 仅 1.17×）**。见 `experiment_bridge/REAL_NETWORK_AUDIT.md` v1.1。
 
 ## 未解的硬问题（如要继续）
 1. **collinear 集体主导的干净测量**：需 rate-extrapolation/quasi-static + 完整多滑移群体统计（超出当前 protocol）。

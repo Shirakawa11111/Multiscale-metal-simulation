@@ -6,7 +6,15 @@ interpretability). 35 ExaDiS runs on the real 270-node Cu network: 5 configs (ce
 {top-1 + 6 assignment samples}, conservative ≤30 cores. Figure: `results_exadis/bo_uq_pilot.png`,
 data: `results_exadis/bo_uq_pilot_summary.json` (builds on the M3 audit, `REAL_NETWORK_AUDIT.md`).
 
-## Knobs × objectives — the ranking
+> **⚠️ v1.1 correction.** The "assignment → topology 5.4×" ranking below used *edgewise* sampling and is
+> now superseded: line-coherent (`sample_linewise`) sampling shows junctions return to ~top-1 level
+> (the 5.4× was a within-line-discontinuity artifact; see `REAL_NETWORK_AUDIT.md` v1.1 correction).
+> Corrected ranking: **cell policy dominates (density 5.2×, deconfounded from force); assignment ambiguity
+> is a MINOR knob for topology (~top-1 ± residual); endpoint minor; survival robust.** The highest-value
+> next step is unchanged in spirit (reduce assignment ambiguity via g·b) but its quantitative topology
+> impact is much smaller than the edgewise pilot suggested.
+
+## Knobs × objectives — the ranking [edgewise, see correction above]
 | knob | objective it drives | magnitude |
 |--|--|--|
 | **slip-system assignment** (top-1 vs sampling the 3-way ambiguity) | **topology** (junction formation) | **5.4×** (top-1 ~5 vs sample ~27 junctions) + within-sample CV ~0.15 |

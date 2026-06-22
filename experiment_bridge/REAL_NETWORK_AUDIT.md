@@ -12,7 +12,11 @@ remesh splitting), it does not delete away. Line length relaxes to 0.53–0.84 o
 pinned-end reconstructed lines **straighten** under line tension between their anchors (physical, expected).
 So the ingested experimental network is a viable DDD initial condition, not a degenerate one.
 
-## 2. Downstream topology is dominated by the ASSIGNMENT policy
+> **⚠️ SUPERSEDED by the v1.1 correction (see bottom).** Section 2's "5.4×" used *edgewise* sampling,
+> which is now known to be a sampling artifact. Line-coherent sampling shows topology is **not** strongly
+> assignment-sensitive. Read §"v1.1 correction" for the corrected conclusion.
+
+## 2. [edgewise, superseded] Downstream topology under edgewise sampling
 | assignment policy | junction nodes after loading |
 |--|--|
 | **top1** (legacy single argmin\|n·t\|) | **~5** |
@@ -44,3 +48,29 @@ outcome. This is exactly what the IDR was built to expose: the framework now **q
 experimental-to-simulation uncertainty lives instead of hiding it behind a single forced choice.
 *Caveat:* small system (270 nodes, short relaxation/loading); these are sensitivity ratios, not converged
 hardening numbers.
+
+---
+
+## v1.1 correction — line-coherent assignment (the artifact, found & fixed)
+A review flagged that `sample` drew a slip system **independently per edge**, so adjacent segments of the
+*same* reconstructed line could get different Burgers → artificial within-line discontinuities → artificial
+junctions. Verified: edgewise sampling produces **142/216 (66%)** within-line Burgers discontinuities;
+`top1` and the new **`sample_linewise`** (one draw per parent line) produce **0**. Rerun (39 ExaDiS runs,
+`v11/`, figure `results_exadis/v11_linewise.png`, data `results_exadis/v11_linewise_summary.json`):
+
+| cell/force | top1 | sample_edgewise | sample_linewise | linewise/top1 |
+|--|--|--|--|--|
+| foil + LineTension | 10 | 25.5 | **6.3** | 0.63 |
+| thickened + DDD_FFT | 2 | 29.5 | **7.2** | 3.58 |
+| thickened + LineTension | 6 | 26.3 | **5.5** | 0.92 |
+
+**Corrected conclusion.** The ~5.4× junction increase was **predominantly an edgewise-sampling artifact**.
+With physically-coherent line-wise sampling, junction counts return to ~top-1 level (scattered around it,
+ratio 0.6–3.6, not 5×). So **slip-system assignment ambiguity does NOT strongly amplify topology** once
+sampled coherently — there is only a modest residual seed variation. `sample_linewise` is the correct UQ
+protocol; `sample_edgewise` is retained only as a discontinuity stress-test / upper bound.
+
+**Cell vs force deconfounded** (separating the two knobs that were coupled in §3): density after relax is
+foil+LineTension 1.16e13, thickened+LineTension 2.25e12, thickened+DDD_FFT 2.64e12 → the **cell** drives
+density **5.2×** (foil→thickened at the *same* LineTension force); the **force** model is minor (~1.17×).
+So "cell policy drives density" stands, and it is the cell volume/periodicity, not the force model.

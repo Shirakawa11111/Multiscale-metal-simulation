@@ -1,0 +1,30 @@
+{
+ "junctions": {
+  "foil+LT": {
+   "top1": 10,
+   "edgewise_mean": 25.5,
+   "linewise_mean": 6.3,
+   "linewise_over_top1": 0.63
+  },
+  "thick+FFT": {
+   "top1": 2,
+   "edgewise_mean": 29.5,
+   "linewise_mean": 7.2,
+   "linewise_over_top1": 3.58
+  },
+  "thick+LT": {
+   "top1": 6,
+   "edgewise_mean": 26.3,
+   "linewise_mean": 5.5,
+   "linewise_over_top1": 0.92
+  }
+ },
+ "density_deconfound": {
+  "foil_LT": 11600000000000.0,
+  "thick_FFT": 2640000000000.0,
+  "thick_LT": 2250000000000.0,
+  "cell_effect_same_force_LineTension": "5.2x (foil 1.16e13 -> thick 2.25e12)",
+  "force_effect_same_thick_cell": "1.17x (FFT 2.64e12 vs LT 2.25e12)"
+ },
+ "verdict": "The ~5.4x sampling junction increase was PREDOMINANTLY an EDGEWISE artifact (142/216 within-line Burgers discontinuities). Line-coherent (physical) sampling gives ~top1 junction counts -> assignment ambiguity does NOT strongly amplify topology. Density is driven by the CELL (5.2x), not the force (1.17x)."
+}
