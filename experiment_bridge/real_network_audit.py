@@ -28,6 +28,7 @@ IDR = os.environ.get("IDR", "results_exadis/cu_stem_idr.json")
 POLICY = os.environ.get("POLICY", "top1")
 CELL = os.environ.get("CELL", "as_is")
 ZBOX = float(os.environ.get("ZBOX", "5"))
+ENDPOINT = os.environ.get("ENDPOINT", "pinned")
 SEED = int(os.environ.get("SEED", "0"))
 NREL = int(os.environ.get("NREL", "300"))
 NLOAD = int(os.environ.get("NLOAD", "300"))
@@ -83,7 +84,8 @@ def main():
     pyexadis.initialize()
     os.makedirs(OUT, exist_ok=True)
     doc = json.load(open(IDR))
-    netd = idr_to_exadis_network(doc, assignment_policy=POLICY, cell_policy=CELL, zbox=ZBOX, seed=SEED)
+    netd = idr_to_exadis_network(doc, assignment_policy=POLICY, cell_policy=CELL, zbox=ZBOX,
+                                 seed=SEED, endpoint_policy=ENDPOINT)
     periodic = all(netd["cell"]["is_periodic"])
     vol_b3 = abs(np.linalg.det(np.array(netd["cell"]["h_b"], float)))
     rho = lambda L: L / vol_b3 / B_CU ** 2
@@ -108,9 +110,17 @@ def main():
                     max_step=NLOAD, print_freq=10**9, plot_freq=10**9, write_freq=10**9, write_dir=OUT).run(net, state)
     mB = metrics(net)
 
-    out = dict(tag=JTAG, policy=POLICY, cell=CELL, seed=SEED, periodic=periodic, zbox=ZBOX if periodic else None,
-               force="DDD_FFT_MODEL" if periodic else "LineTension",
-               build=m0, after_relax=mA, after_load=mB,
+    # objectives (stability + interpretability, NOT stress-curve matching)
+    surv = mA["n_segs"] / max(1, m0["n_segs"])
+    obj = dict(
+        network_survival_score=round(min(1.0, surv if surv < 1 else 1.0 / surv), 3),  # 1=retained; <1 = collapsed OR blew up
+        density_growth=round(mB["line_len_b"] / max(1e-9, mA["line_len_b"]), 3),
+        density_growth_plausible=bool(0.5 <= mB["line_len_b"] / max(1e-9, mA["line_len_b"]) <= 5.0),
+        topology_event_rate=int(mB["n_junction_nodes"]),
+    )
+    out = dict(tag=JTAG, policy=POLICY, cell=CELL, endpoint=ENDPOINT, seed=SEED, periodic=periodic,
+               zbox=ZBOX if periodic else None, force="DDD_FFT_MODEL" if periodic else "LineTension",
+               objectives=obj, build=m0, after_relax=mA, after_load=mB,
                rho_build=rho(m0["line_len_b"]), rho_relax=rho(mA["line_len_b"]), rho_load=rho(mB["line_len_b"]),
                survival_seg_frac=round(mA["n_segs"] / max(1, m0["n_segs"]), 3),
                relax_len_frac=round(mA["line_len_b"] / max(1e-9, m0["line_len_b"]), 3),

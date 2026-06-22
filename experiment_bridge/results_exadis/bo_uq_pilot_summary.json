@@ -1,0 +1,25 @@
+{
+ "knob_influence": {
+  "assignment_policy": {
+   "on_topology": "top1 ~5 vs sample ~27 junctions (5.4x); + within-sample CV ~0.15",
+   "dominant_for": "topology"
+  },
+  "cell_policy_zbox": {
+   "on_density": "foil 1.4e13 vs thickened 3.2e12 (4.4x); topology ~flat (z3/z5/z10: 29/30/30)",
+   "dominant_for": "density"
+  },
+  "endpoint_policy": {
+   "on_topology": "pinned 30 vs free 28 (~7%)",
+   "dominant_for": "minor"
+  }
+ },
+ "survival_robust": 0.41,
+ "topo_assignment_CV": {
+  "foil": 0.152,
+  "z3": 0.117,
+  "z5": 0.17,
+  "z10": 0.159,
+  "z5free": 0.126
+ },
+ "verdict": "Assignment policy is the dominant uncertainty for topology; cell policy for density; endpoint minor; survival robust to all knobs. -> highest-value next step is resolving the assignment ambiguity (experimental g.b)."
+}

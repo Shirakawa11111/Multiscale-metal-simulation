@@ -30,7 +30,8 @@ def _pick_system(label, policy, rng):
 
 
 def idr_to_exadis_network(
-    doc, assignment_policy="top1", cell_policy="as_is", zbox=1.0, seed=0
+    doc, assignment_policy="top1", cell_policy="as_is", zbox=1.0, seed=0,
+    endpoint_policy="pinned",
 ):
     """Return an ExaDiS manual-network dict.
 
@@ -38,6 +39,8 @@ def idr_to_exadis_network(
     cell_policy: 'as_is' (keep IDR cell + periodicity) |
                  'thickened_periodic' (scale h[2,2] by zbox, force is_periodic all True --
                   the hardening-pilot policy; see experiment_bridge/CELL_POLICY.md).
+    endpoint_policy: 'pinned' (honor the IDR vertex constraints) |
+                 'free' (release pinned endpoints -> all UNCONSTRAINED, tests anchor sensitivity).
     """
     rng = random.Random(seed)
     g = doc["geometry"]
@@ -50,11 +53,8 @@ def idr_to_exadis_network(
         pos = list(v["pos"])
         if len(pos) == 2:
             pos = pos + [0.0]
-        con = (
-            "PINNED_NODE"
-            if v.get("constraint") in ("pinned", "surface")
-            else "UNCONSTRAINED"
-        )
+        pinned = endpoint_policy != "free" and v.get("constraint") in ("pinned", "surface")
+        con = "PINNED_NODE" if pinned else "UNCONSTRAINED"
         nodes.append([float(pos[0]), float(pos[1]), float(pos[2]), con])
 
     segs = []

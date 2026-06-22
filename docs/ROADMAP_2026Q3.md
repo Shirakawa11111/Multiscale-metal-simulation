@@ -35,7 +35,7 @@ uncertainty* — turning each route from "it runs" into "it is auditable."
 - **M3 — real-network DDD audit report** — **PILOT DONE** (experiment_bridge/REAL_NETWORK_AUDIT.md): zero-stress relaxation
   stability, loading response, density evolution, topology events, slip-system inventory, and
   assignment/z-scaling/endpoint sensitivity → audit JSON + md.
-- **M4 — BO/UQ pilot** — NOT STARTED: sensitivity over image/recon, crystallography-assignment,
+- **M4 — BO/UQ pilot** — **PILOT DONE** (experiment_bridge/BO_UQ_PILOT.md): sensitivity over image/recon, crystallography-assignment,
   DDD-legalization, loading knobs; objectives = stability + interpretability (network survival,
   density-growth plausibility, topology-event rate, assignment sensitivity, agreement with observed density).
 
