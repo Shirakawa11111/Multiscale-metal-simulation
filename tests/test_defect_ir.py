@@ -44,15 +44,6 @@ def test_linewise_coherent():
             ), "linewise must keep one Burgers per parent line"
 
 
-if __name__ == "__main__":
-    test_examples_valid()
-    test_lowering_roundtrip()
-    test_invalid_rejected()
-    test_linewise_coherent()
-    test_gb_collapse()
-    print("defect_ir gate test: PASS")
-
-
 def test_gb_collapse():
     from defect_ir.uncertainty import apply_gb_constraints, assignment_entropy
 
@@ -71,3 +62,12 @@ def test_gb_collapse():
     # no observations -> unchanged
     k2, st2 = apply_gb_constraints(cands, [])
     assert len(k2) == len(cands) and st2 == "geometry_only_pending_gb"
+
+
+if __name__ == "__main__":
+    test_examples_valid()
+    test_lowering_roundtrip()
+    test_invalid_rejected()
+    test_linewise_coherent()
+    test_gb_collapse()
+    print("defect_ir gate test: PASS")
