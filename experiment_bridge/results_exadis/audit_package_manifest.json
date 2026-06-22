@@ -1,0 +1,40 @@
+{
+ "audit_package_version": "STEM_to_DDD_v2_IDR_v1.1",
+ "generated_against_commit": "6f06aca",
+ "local_reproducer": "python3 experiment_bridge/run_local_audit_package.py",
+ "local_reproducer_status": "PASS (see results_exadis/local_audit_pass.txt)",
+ "default_lowering_policy": "sample_linewise",
+ "core_outputs": [
+  "cu_stem_idr_report.md",
+  "assignment_sensitivity.md",
+  "density_conventions.md",
+  "synthetic_gb.md",
+  "audit_summary_figure.png",
+  "local_audit_pass.txt"
+ ],
+ "core_outputs_present": {
+  "cu_stem_idr_report.md": true,
+  "assignment_sensitivity.md": true,
+  "density_conventions.md": true,
+  "synthetic_gb.md": true,
+  "audit_summary_figure.png": true,
+  "local_audit_pass.txt": true
+ },
+ "key_invariants": {
+  "within_line_discontinuities_linewise": 0,
+  "within_line_discontinuities_edgewise_artifact": 142.8,
+  "assignment_entropy_no_gb_bits": 1.5849,
+  "assignment_entropy_2_reflections_bits": 0.0,
+  "lambda_area_foil_native_m1_as_built": 3260000.0,
+  "rho_volume_convention": "rho ~ 1/zbox (declare z_eff)"
+ },
+ "superseded": [
+  "results_exadis/bo_uq_pilot_summary_v0_superseded.json (v0 5.4x retracted)"
+ ],
+ "sealed_branches": [
+  "interaction_matrix/multislip_flow/CONCLUSION.md"
+ ],
+ "deferred": [
+  "full Bayesian optimization (UQ objectives frozen first)"
+ ]
+}

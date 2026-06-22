@@ -28,14 +28,21 @@ deterministic step: `python3 experiment_bridge/run_local_audit_package.py`.
 - `synthetic_gb.py` → `results_exadis/synthetic_gb.{md,json}` — **line-coherent** (one true Burgers per
   parent line); entropy collapse 1.585 → 0.704 → 0 bits over 0/1/2 reflections.
 - Interface: `defect_ir.uncertainty.apply_gb_constraints` (real diffraction data plugs in here).
+- **[`GB_DATA_REQUIREMENTS.md`](GB_DATA_REQUIREMENTS.md)** — experimental-input spec: 2 well-chosen
+  reflections per line collapse the assignment; how (g, visible) enters `gb_constraints`; partial coverage.
 
 ## Reproducibility
 - **`run_local_audit_package.py`** — one-click: runs all local steps + figure, checks outputs, asserts
-  invariants (edgewise 142.8 / linewise 0; g·b 1.585→0).
+  invariants (edgewise 142.8 / linewise 0; g·b 1.585→0). Last PASS log: `results_exadis/local_audit_pass.txt`.
+- `results_exadis/audit_package_manifest.json` — seal manifest (version, commit, core outputs, invariants).
 - `tests/test_defect_ir.py` — gate test (examples valid, lowering round-trips, linewise coherent, g·b collapse).
 - [`AUDIT_MANIFEST.md`](AUDIT_MANIFEST.md) — authoritative record of the DDD/HPC runs (not rerun locally).
+- *All package `.py` files are normal LF multi-line Python — `python3 -m py_compile experiment_bridge/*.py
+  tests/*.py` passes (a GitHub-raw viewer may collapse line breaks; that is a rendering artifact).*
 
 ## Superseded (do not read as current)
 - `results_exadis/bo_uq_pilot_summary_v0_superseded.json` — v0 edgewise ranking (5.4× topology). **RETRACTED**;
   canonical is `results_exadis/v11_linewise_summary.json` + [`BO_UQ_PILOT.md`](BO_UQ_PILOT.md).
+- `results_exadis/bo_uq_pilot_summary.json` — a SUPERSEDED pointer stub at the old name (guards hardcoded
+  readers; points to the v1.1 sources). It contains no conclusions.
 - `stem_to_exadis.py` — LEGACY direct single-assignment converter (kept as baseline).

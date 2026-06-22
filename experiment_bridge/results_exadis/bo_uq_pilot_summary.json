@@ -1,0 +1,11 @@
+{
+ "_status": "SUPERSEDED",
+ "_do_not_use_for_current_conclusion": true,
+ "_reason": "v0 edgewise-sampling artifact; 'assignment -> topology 5.4x' is RETRACTED (per-edge within-line Burgers discontinuities, ~143/216).",
+ "_archived_full_v0": "bo_uq_pilot_summary_v0_superseded.json",
+ "_current_sources": [
+  "v11_linewise_summary.json",
+  "assignment_sensitivity.json",
+  "../BO_UQ_PILOT.md"
+ ]
+}

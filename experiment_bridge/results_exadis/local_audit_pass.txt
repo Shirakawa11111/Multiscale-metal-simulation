@@ -1,0 +1,37 @@
+
+=== STEM -> IDR ===
+  $ experiment_bridge/stem_to_idr.py
+  -> report -> cu_stem_idr_report.{json,md}
+  OK (3 outputs present)
+
+=== assignment sensitivity (edgewise vs linewise) ===
+  $ experiment_bridge/assignment_sensitivity.py
+  -> -> results_exadis/assignment_sensitivity.{json,md}
+  OK (2 outputs present)
+
+=== density conventions (as-built + relaxed) ===
+  $ experiment_bridge/density_conventions.py
+  -> -> results_exadis/density_conventions.{json,md}
+  OK (2 outputs present)
+
+=== synthetic g.b (line-coherent) ===
+  $ experiment_bridge/synthetic_gb.py
+  -> -> results_exadis/synthetic_gb.{json,md}
+  OK (2 outputs present)
+
+=== gate test ===
+  $ tests/test_defect_ir.py
+  -> defect_ir gate test: PASS
+  OK (0 outputs present)
+
+=== main-result figure ===
+  $ experiment_bridge/make_audit_figure.py
+  -> -> results_exadis/audit_summary_figure.png
+  OK (1 outputs present)
+
+=== DDD/HPC audit records (presence-only; authoritative DDD/HPC records) ===
+  OK (1 summary files present)
+
+============================================================
+LOCAL AUDIT PACKAGE: PASS
+  invariants: edgewise within-line discont=142.8 (artifact), linewise=0.0 (clean); g.b entropy 1.5849->0.0 bits
