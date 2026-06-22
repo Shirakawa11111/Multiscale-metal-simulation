@@ -49,4 +49,25 @@ if __name__ == "__main__":
     test_lowering_roundtrip()
     test_invalid_rejected()
     test_linewise_coherent()
+    test_gb_collapse()
     print("defect_ir gate test: PASS")
+
+
+def test_gb_collapse():
+    from defect_ir.uncertainty import apply_gb_constraints, assignment_entropy
+
+    cu = build_cu_stem()
+    cands = cu["topology"]["edge_labels"][0]["slip_system_candidates"]
+    true_b = cands[0]["b"]
+    import numpy as np
+
+    obs = [
+        {"g": g, "visible": abs(np.dot(g, true_b)) > 1e-6}
+        for g in ([2, 0, 0], [0, 2, 0], [0, 0, 2])
+    ]
+    kept, status = apply_gb_constraints(cands, obs)
+    assert len(kept) == 1 and status == "gb_validated"
+    assert assignment_entropy(kept) == 0.0
+    # no observations -> unchanged
+    k2, st2 = apply_gb_constraints(cands, [])
+    assert len(k2) == len(cands) and st2 == "geometry_only_pending_gb"

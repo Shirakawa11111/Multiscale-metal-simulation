@@ -90,3 +90,42 @@ def network_assignment_summary(edge_labels):
         "mean_assignment_entropy_bits": round(sum(ents) / n, 4),
         "n_ambiguous(entropy>0.8)": sum(e > 0.8 for e in ents),
     }
+
+
+# ---- g.b (diffraction-contrast) constraint: collapse assignment ambiguity with real/synthetic data ----
+def apply_gb_constraints(candidates, observations, tol=0.1):
+    """Filter + renormalize slip-system candidates using g.b invisibility observations.
+
+    A dislocation with Burgers b is (to first order) INVISIBLE under reflection g when g.b = 0. Each
+    observation is {g:[3], visible:bool}; a candidate is kept only if its predicted visibility
+    (|g.b_hat| > tol) matches every observation. Surviving candidates are renormalized; each gets a
+    `gb_compatible=True` and `gb_visibility_score` = min over observations of |g.b_hat|.
+    Returns (kept_candidates, assignment_status) -- status 'gb_validated' if it collapses to one, else
+    'gb_partial'. With no observations, returns the input unchanged ('geometry_only_pending_gb').
+    """
+    if not observations:
+        return list(candidates), "geometry_only_pending_gb"
+    kept = []
+    for c in candidates:
+        bh = _norm(c["b"])
+        scores = []
+        ok = True
+        for o in observations:
+            gb = abs(_dot(_norm(o["g"]), bh))
+            predicted_visible = gb > tol
+            scores.append(gb)
+            if predicted_visible != bool(o["visible"]):
+                ok = False
+                break
+        if ok:
+            cc = dict(c)
+            cc["gb_compatible"] = True
+            cc["gb_visibility_score"] = round(min(scores), 4)
+            kept.append(cc)
+    if not kept:  # observations inconsistent with all -> keep all, flag
+        return list(candidates), "gb_inconsistent"
+    Z = sum(c.get("prior", 0.0) for c in kept) or 1.0
+    for c in kept:
+        c["prior"] = round(c.get("prior", 0.0) / Z, 4)
+    status = "gb_validated" if len(kept) == 1 else "gb_partial"
+    return kept, status

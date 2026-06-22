@@ -59,3 +59,12 @@ endpoint_policy)` commits the uncertainty-aware IDR to one concrete ExaDiS netwo
 - `cell_policy ∈ {as_is, thickened_periodic}`; `endpoint_policy ∈ {pinned, free}`.
 These are the BO/UQ sweep knobs. **Line coherence:** the validator warns if edges sharing a `parent_line_id`
 carry inconsistent candidate sets.
+
+
+## g·b interface (collapsing assignment ambiguity)
+`uncertainty` may carry `gb_constraints` per line — observed reflections `[{g:[h,k,l], visible:bool}]`.
+`defect_ir.uncertainty.apply_gb_constraints(candidates, observations)` filters candidates by the
+invisibility criterion (|g·b|≈0 ⇒ invisible), renormalizes priors, and returns the surviving set with
+`assignment_status ∈ {geometry_only_pending_gb, gb_partial, gb_validated, gb_inconsistent}`. The synthetic
+demo `experiment_bridge/synthetic_gb.py` shows entropy collapsing 1.58→0.65→0 bits as 0→1→2 reflections
+are added. Plug real diffraction-contrast data into `gb_constraints` to upgrade a geometry-only IDR.
