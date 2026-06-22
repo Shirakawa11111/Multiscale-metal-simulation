@@ -12,8 +12,10 @@ Developed and tested by Claude Code in a self-driven iteration loop. Honest top-
   defect graphs and 3D dislocation networks, with per-assignment **candidates + confidence** and
   explicit uncertainty. Spec: [defect_ir/IDR_SPEC.md](defect_ir/IDR_SPEC.md). **[M1 ✓]**
 - **`experiment_bridge/`** — STEM-to-DDD v2: `stem_to_idr.py` (reconstruction → IDR, top-k slip-system
-  candidates) → `idr_to_exadis.py` (IDR → ExaDiS, selectable assignment/cell policy). Legacy direct
-  converter `stem_to_exadis.py` kept as baseline. Transparency: `CELL_POLICY.md`, `ASSIGNMENT_UNCERTAINTY.md`. **[M2 in progress]**
+  candidates) → `idr_to_exadis.py` (IDR → ExaDiS, selectable assignment/cell policy). Consolidated audit:
+  `STEM_TO_DDD_V2_AUDIT.md` (one-click reproduce via `run_local_audit_package.py`, main figure
+  `make_audit_figure.py`). Legacy direct converter `stem_to_exadis.py` kept as baseline. Transparency:
+  `CELL_POLICY.md`, `ASSIGNMENT_UNCERTAINTY.md`. **[M2 ✓]**
 - **BO/UQ** — sensitivity/UQ over assignment / cell / endpoint policy (next).
 
 ## Structure

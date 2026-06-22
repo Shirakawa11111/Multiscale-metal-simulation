@@ -98,8 +98,11 @@ def apply_gb_constraints(candidates, observations, tol=0.1):
 
     A dislocation with Burgers b is (to first order) INVISIBLE under reflection g when g.b = 0. Each
     observation is {g:[3], visible:bool}; a candidate is kept only if its predicted visibility
-    (|g.b_hat| > tol) matches every observation. Surviving candidates are renormalized; each gets a
-    `gb_compatible=True` and `gb_visibility_score` = min over observations of |g.b_hat|.
+    (|g_hat . b_hat| > tol) matches every observation. Here g_hat, b_hat are the UNIT reflection and Burgers
+    vectors (both g and b are normalized via _norm before the dot product), so the thresholded quantity is the
+    cosine of the angle between g and b -- a scale-invariant proxy for the g.b=0 invisibility criterion, with
+    tol acting as an angle tolerance. Surviving candidates are renormalized; each gets a `gb_compatible=True`
+    and `gb_visibility_score` = min over observations of |g_hat . b_hat|.
     Returns (kept_candidates, assignment_status) -- status 'gb_validated' if it collapses to one, else
     'gb_partial'. With no observations, returns the input unchanged ('geometry_only_pending_gb').
     """

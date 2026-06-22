@@ -2,8 +2,10 @@
 
 Demonstrates how the IDR collapses assignment ambiguity when diffraction-contrast (g.b) data arrives.
 For each reconstructed line we take its candidate set, pick ONE synthetic 'true' Burgers per parent line
-(line-coherent, NOT per segment), generate g.b invisibility observations (visible <=> |g.b|>tol) under a
-chosen set of reflections, share that truth across all the line's segments, and apply
+(line-coherent, NOT per segment), generate g.b invisibility observations (visible <=> the cosine
+|g_hat . b_hat| = |g.b|/(|g||b|) > tol; both g and b are normalized, so tol is an angle threshold and a
+scale-invariant proxy for the g.b=0 invisibility criterion) under a chosen set of reflections, share that
+truth across all the line's segments, and apply
 `defect_ir.uncertainty.apply_gb_constraints`. Reports how assignment entropy collapses:
   no g.b  -> 3 candidates, ~1.58 bits
   1 g     -> partial, entropy drops

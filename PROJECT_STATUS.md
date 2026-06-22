@@ -57,10 +57,12 @@ AMBIGUOUS（但结论对此稳健）。方法论价值：连续剥离 observable
 ## 主线进展（STEM-to-DDD v2 / IDR / BO-UQ）
 - **M1 ✓**：`defect_ir/` 统一缺陷图表示落地（schema v1 + 结构/物理 validators + 候选置信度 + to_exadis 适配 +
   IDR_SPEC + 2 例 + gate test）。详见 [defect_ir/README.md](defect_ir/README.md)。
-- **M2 进行中**：`experiment_bridge/stem_to_idr.py`（真实 27 线重建→IDR，复现 270 节点网络，输出审计报告
+- **M2 ✓（审计包完成）**：`experiment_bridge/stem_to_idr.py`（真实 27 线重建→IDR，复现 270 节点网络，输出审计报告
   `cu_stem_idr_report.{json,md}`）+ `idr_to_exadis.py`（可选 assignment/cell policy）；`stem_to_exadis.py` 标 legacy；
-  `CELL_POLICY.md`/`ASSIGNMENT_UNCERTAINTY.md`。**关键发现**：STEM→DDD 滑移系指派在无 g·b 时本质高度不确定
-  （几何定 {111} 面，但面上 3 个 ⟨110⟩ Burgers 近简并，mean confidence ~0.33、~1.58 bits）——旧 top-1 指派把它藏了。
+  整合为 `STEM_TO_DDD_V2_AUDIT.md`，加 `density_conventions.py`（foil-native Λ_A vs convention ρ_vol）与 line-coherent
+  `synthetic_gb.py`、一键复现 `run_local_audit_package.py`、四面板主图 `make_audit_figure.py`。**关键发现**：STEM→DDD
+  滑移系指派在无 g·b 时本质高度不确定（几何定 {111} 面，但面上 3 个 ⟨110⟩ Burgers 近简并，mean confidence ~0.33、
+  ~1.58 bits）——旧 top-1 指派把它藏了。
 - **M3/M4 pilot 完成**（HPC ExaDiS）：真实 270 节点网络导入**稳定**（松弛不 collapse）；knob 灵敏度。
 - **IDR v1.1 修正（自我证伪，重要）**：评审指出旧 `sample` 是**逐 segment** 独立采样，使同一条线相邻段
   得到不同 Burgers → 人工 junction。实测 edgewise 产生 142/216 (66%) 线内 Burgers 不连续；改为

@@ -10,6 +10,10 @@ endpoint policy) exposed, quantified, and — where it was wrong — self-correc
 > reported density convention, while survival / line-length relaxation / junction count are the robust,
 > cell-independent observables.*
 
+**Main-result figure:** `results_exadis/audit_summary_figure.png` (4 panels: pipeline schematic · g·b
+entropy collapse · edgewise-vs-linewise artifact · density convention). Regenerate the whole local package
+with `python3 experiment_bridge/run_local_audit_package.py`.
+
 ---
 
 ## 1. Input — real STEM reconstruction
@@ -71,6 +75,10 @@ The dominant knob is the **cell policy**, and it controls only the **density rep
   thick-z5 = **4.6×** at the *same* force. **Force model is minor** (LT vs FFT = 0.92×, ~8%).
 - **Foil-native observable is Λ_A** = line length / projected area = **3.26e6 m⁻¹** (z-independent). The
   bulk-equivalent ρ = Λ_A / z_eff is a derived, convention-dependent number — always quote it with z_eff/zbox.
+- **Report two states** (`density_conventions.py`): *as-built* Λ_A 3.26e6 m⁻¹ (microscope reconstruction
+  geometry) vs *relaxed* Λ_A 1.92e6 m⁻¹ foil (DDD-legalized simulation IC; relaxation fraction 0.59–0.69,
+  cell-dependent — foil relaxes most). They answer different questions: what the foil shows vs what the
+  simulation starts from.
 - Cross-check: as-built ρ_foil 2.13e13 × relax_len_frac(~0.59) ≈ **1.26e13** ≈ the relaxed foil 1.25e13. ✓
 - **Cell-robust observables:** survival (~2.0), line-length relaxation (0.59–0.69), junction count (5–8).
 
@@ -88,6 +96,18 @@ line-coherent** ground-truth Burgers per parent line:
 → ~2 well-chosen reflections collapse the assignment to a single slip system (`gb_validated`). Real data
 plugs into each line's `uncertainty.gb_constraints` as observed (g, visible) pairs — same code path.
 
+**From synthetic to real g·b (the next research axis).** The IDR is built so real diffraction constraints
+enter *without changing the downstream pipeline*:
+1. **synthetic, line-coherent** (done) — validates the interface + entropy-collapse mechanism.
+2. **partial-real** — when only one or two reflections exist, attach `gb_constraints` to the subset of lines
+   they cover → mixed `gb_validated` / `geometry_only_pending_gb` network; quantify how much entropy drops.
+3. **real STEM-to-DDD validation** — compare geometry-only vs g·b-constrained DDD outputs on the same network.
+
+> *Future experimental requirement.* Geometry-only STEM-to-DDD already yields a stable, auditable DDD input,
+> but **physics-validated Burgers assignment requires diffraction contrast (g·b)**. The IDR is designed to
+> accept these constraints without altering the downstream pipeline — so acquiring 1–2 well-chosen reflections
+> per line is the highest-value next *experimental* input.
+
 ---
 
 ## Reportable observables (the three classes)
@@ -99,12 +119,28 @@ This audit fixes what BO/UQ should be defined over (see `BO_UQ_PILOT.md` → UQ 
 - **C — reporting:** **Λ_A projected line density (foil-native)**; ρ_vol only with a declared cell convention.
   *(a convention, not physics)*
 
+## Reportable conclusion (paper-ready)
+> We developed an uncertainty-aware STEM-to-DDD v2 pipeline built on a Defect Intermediate Representation
+> (IDR). Applied to a real 27-line Cu reconstruction, geometry-only assignment exposes a three-way Burgers
+> ambiguity on **every** segment (mean confidence 0.333, entropy log₂3 = 1.585 bits). A first naive
+> *edgewise* Monte-Carlo propagation produced a large apparent topology effect, but the IDR audit **falsified
+> it as an unphysical within-line Burgers-discontinuity artifact** (142.8/216 discontinuities). A
+> **line-coherent** lowering policy removes the artifact and shows assignment ambiguity is a *minor* topology
+> knob in this dataset, whereas **cell policy dominates the reported volume density** (ρ_app ∝ 1/zbox; force
+> model only ~8%). The foil-native observable is the **projected line density** Λ_A; bulk-equivalent volume
+> density requires a declared effective thickness and a stated state (as-built vs relaxed). The pipeline is
+> **g·b-ready**: synthetic diffraction-contrast constraints collapse the assignment entropy from log₂3 toward
+> zero with 1–2 reflections. The contribution is an *auditable* microscope-to-DDD path, not a hardening curve.
+
 ## Reproduce
 ```
+python3 experiment_bridge/run_local_audit_package.py   # one-click: runs ALL local steps + checks outputs
+# or individually:
 python3 experiment_bridge/stem_to_idr.py            # recon -> cu_stem_idr.json + report
 python3 experiment_bridge/assignment_sensitivity.py # edgewise(142.8) vs linewise(0) within-line discont
-python3 experiment_bridge/density_conventions.py    # Lambda_A (foil-native) + rho_vol by convention
+python3 experiment_bridge/density_conventions.py    # Lambda_A (foil-native) + rho_vol by convention (as-built+relaxed)
 python3 experiment_bridge/synthetic_gb.py           # line-coherent g.b entropy collapse 1.58->0.70->0
-# DDD (HPC, <=30 cores): real_network_audit.py (M3), cell_policy_audit (M5) — see those docs
+python3 experiment_bridge/make_audit_figure.py      # 4-panel main-result figure
+# DDD (HPC, <=30 cores): real_network_audit.py (M3), cell_policy_audit (M2/M3 follow-up) — see those docs
 ```
 All local steps are deterministic; DDD steps record seed + config in their summary JSON (`AUDIT_MANIFEST.md`).
