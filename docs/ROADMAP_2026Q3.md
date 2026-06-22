@@ -28,10 +28,13 @@ uncertainty* — turning each route from "it runs" into "it is auditable."
   (`schema.py`), structural + physics validators (`validators.py`: unique ids, b·n=0, box consistency,
   candidate priors), `uncertainty.py` (candidate priors + entropy), `adapters/to_exadis.py`,
   `IDR_SPEC.md`, 2 validated examples, gate test.
-- **M2 — STEM-to-DDD uncertainty envelope** — **IN PROGRESS**: `stem_to_idr.py` (real recon → IDR,
+- **M2 — STEM-to-DDD uncertainty envelope** — **DONE ✓ (audit package)**: `stem_to_idr.py` (real recon → IDR,
   top-k candidates + audit report `cu_stem_idr_report.{json,md}`) + `idr_to_exadis.py` (CLI, selectable
-  assignment/cell policy); `stem_to_exadis.py` marked LEGACY; `CELL_POLICY.md`, `ASSIGNMENT_UNCERTAINTY.md`.
-  *Remaining:* formal sensitivity sweep harness (local), then M3.
+  assignment/cell policy); `stem_to_exadis.py` marked LEGACY. Consolidated into
+  **`experiment_bridge/STEM_TO_DDD_V2_AUDIT.md`** (input → IDR uncertainty → lowering correction → DDD
+  stability → cell policy → g·b path). Adds `density_conventions.py` (foil-native **Λ_A** vs convention ρ_vol)
+  and **line-coherent** `synthetic_gb.py` (entropy collapse 1.58→0.70→0). Supporting: `CELL_POLICY.md`,
+  `ASSIGNMENT_UNCERTAINTY.md`.
 - **M3 — real-network DDD audit report** — **PILOT DONE, v1.1-corrected** (experiment_bridge/REAL_NETWORK_AUDIT.md):
   import is stable & auditable; the v0 "assignment→topology 5.4×" was a per-edge sampling artifact
   (within-line Burgers discontinuities), corrected with line-coherent `sample_linewise`. Robust result:
@@ -40,7 +43,8 @@ uncertainty* — turning each route from "it runs" into "it is auditable."
 - **M4 — BO/UQ pilot** — **PILOT DONE, v1.1-corrected** (experiment_bridge/BO_UQ_PILOT.md): corrected knob
   ranking — cell policy → density (dominant); force → density (1.17×); line-coherent assignment → minor
   topology; endpoint minor; survival robust. (v0 edgewise ranking retracted to an appendix.)
-  **Default lowering policy: `sample_linewise`.**
+  **Default lowering policy: `sample_linewise`.** UQ objectives now **frozen** into 3 classes
+  (A stability / B topology / C reporting) before any full BO — full BO deferred.
 
 Cell-policy density audit done (`experiment_bridge/CELL_POLICY_AUDIT.md`): apparent density is a
 cell-normalization convention (ρ∝1/zbox); survival/topology are cell-robust.

@@ -1,8 +1,9 @@
 """Synthetic g.b experiment [g.b-ready interface, LOCAL, no DDD].
 
 Demonstrates how the IDR collapses assignment ambiguity when diffraction-contrast (g.b) data arrives.
-For each reconstructed line we take its candidate set, pick a synthetic 'true' Burgers (the top-1), generate
-g.b invisibility observations (visible <=> |g.b|>tol) under a chosen set of reflections, and apply
+For each reconstructed line we take its candidate set, pick ONE synthetic 'true' Burgers per parent line
+(line-coherent, NOT per segment), generate g.b invisibility observations (visible <=> |g.b|>tol) under a
+chosen set of reflections, share that truth across all the line's segments, and apply
 `defect_ir.uncertainty.apply_gb_constraints`. Reports how assignment entropy collapses:
   no g.b  -> 3 candidates, ~1.58 bits
   1 g     -> partial, entropy drops
@@ -40,13 +41,16 @@ def main():
     doc = json.load(open(IDR))
     labels = doc["topology"]["edge_labels"]
     rng = random.Random(0)
-    # synthetic ground-truth Burgers per edge: a RANDOM candidate (not always top-1), fixed across scenarios
-    true_bs = [
-        lab["slip_system_candidates"][
-            rng.randrange(len(lab["slip_system_candidates"]))
-        ]["b"]
-        for lab in labels
-    ]
+    # LINE-COHERENT synthetic ground truth: ONE random true Burgers per parent_line_id, shared by all its
+    # edges (consistent with the IDR v1.1 line-coherent principle -- avoids re-introducing the edgewise artifact).
+    eid_to_plid = {e["id"]: e.get("parent_line_id") for e in doc["geometry"]["edges"]}
+    line_true = {}
+    for lab in labels:
+        pid = eid_to_plid.get(lab["edge_id"])
+        if pid not in line_true:
+            cands = lab["slip_system_candidates"]
+            line_true[pid] = cands[rng.randrange(len(cands))]["b"]
+    true_bs = [line_true[eid_to_plid.get(lab["edge_id"])] for lab in labels]
     rep = {
         "source": os.path.basename(IDR),
         "tol": TOL,
@@ -78,7 +82,8 @@ def main():
     )
     md = f"""# Synthetic g·b ambiguity collapse (g·b-ready interface)
 
-`{rep['source']}`, {rep['n_edges']} edges, invisibility tol={TOL}. Synthetic 'true' Burgers = top-1 per line.
+`{rep['source']}`, {rep['n_edges']} edges, invisibility tol={TOL}. Synthetic ground truth: ONE random true
+Burgers per **parent line** (line-coherent, consistent with IDR v1.1), shared by all that line's segments.
 
 | scenario | # reflections | mean entropy (bits) | mean candidates | frac resolved |
 |--|--|--|--|--|

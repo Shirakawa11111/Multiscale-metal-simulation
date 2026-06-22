@@ -1,11 +1,12 @@
 # Synthetic g·b ambiguity collapse (g·b-ready interface)
 
-`cu_stem_idr.json`, 243 edges, invisibility tol=0.1. Synthetic 'true' Burgers = top-1 per line.
+`cu_stem_idr.json`, 243 edges, invisibility tol=0.1. Synthetic ground truth: ONE random true
+Burgers per **parent line** (line-coherent, consistent with IDR v1.1), shared by all that line's segments.
 
 | scenario | # reflections | mean entropy (bits) | mean candidates | frac resolved |
 |--|--|--|--|--|
 | no_gb | 0 | 1.5849 | 3.0 | 0.0 |
-| 1_reflection_g200 | 1 | 0.6502 | 1.65 | 0.35 |
+| 1_reflection_g200 | 1 | 0.7037 | 1.7 | 0.296 |
 | 2_reflections_g200_g020 | 2 | 0.0 | 1.0 | 1.0 |
 | 3_reflections_g200_g020_g002 | 3 | 0.0 | 1.0 | 1.0 |
 

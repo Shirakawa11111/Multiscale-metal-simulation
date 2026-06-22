@@ -30,6 +30,23 @@ knobs and rank which one drives which **objective** (stability + interpretabilit
   geometry-only IDR to a physics-validated one (collapses the assignment entropy) — but, per v1.1, it is
   **not** expected to produce a large topology swing; its value is correctness/auditability, not a 5× effect.
 
+## UQ objective freeze (pre-BO)
+Before any *full* Bayesian optimization the objective is frozen into three classes, so BO optimizes a defined
+target rather than a vague stress curve. The pilot above tells us which class each pipeline knob actually
+moves (see `STEM_TO_DDD_V2_AUDIT.md` §"three classes"):
+
+| class | observables | what the audit found |
+|--|--|--|
+| **A — stability** | network survival, segment-count growth, line-length relaxation (0.59–0.69) | **robust** to all knobs |
+| **B — topology** | junction count, topology-event proxy, **within-line discontinuity ≡ 0** | minor; line-coherent-sensitive |
+| **C — reporting** | **Λ_A projected line density (foil-native)**, ρ_vol *under declared cell convention* | a **convention**, not physics (ρ ∝ 1/zbox) |
+
+Within-line discontinuity is **not** a tunable objective — it is a hard legality invariant (must be 0;
+`sample_edgewise` violates it). The first BO/UQ question is therefore *which knobs move a reportable
+observable vs which only change a reporting convention*, not "minimize flow stress." Full BO stays **deferred**
+until (a) a real g·b assignment collapses class B's residual ambiguity and (b) converged loading makes the
+class-A density-growth objective discriminating.
+
 *Caveats:* small system (270 nodes), short loading (density-growth objective not yet discriminating); these
 are sensitivity ratios, not converged hardening numbers.
 

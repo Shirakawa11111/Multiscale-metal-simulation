@@ -1,0 +1,13 @@
+{
+ "source": "cu_stem_idr.json",
+ "total_line_length_m": 1.3640405397969077e-05,
+ "projected_area_m2": 4.1812070399999995e-12,
+ "lambda_area_m1_foil_native": 3262312.8363356716,
+ "volume_density_m2_by_convention": {
+  "foil_z600": 21272253758057.33,
+  "thickened_z3_1800": 7090751252685.776,
+  "thickened_z5_3000": 4254450751611.466,
+  "thickened_z10_6000": 2127225375805.733
+ },
+ "note": "Lambda_A (projected line density) is the foil-native observable (independent of z). Volume density rho = Lambda_A / z_eff is convention-dependent (rho ~ 1/zbox), matching the cell-policy audit. Always quote rho with its z_eff/zbox convention."
+}

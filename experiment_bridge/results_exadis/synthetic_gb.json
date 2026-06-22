@@ -14,12 +14,12 @@
   },
   "1_reflection_g200": {
    "n_reflections": 1,
-   "mean_entropy_bits": 0.6502,
-   "mean_candidates": 1.65,
-   "frac_resolved": 0.35,
+   "mean_entropy_bits": 0.7037,
+   "mean_candidates": 1.7,
+   "frac_resolved": 0.296,
    "status_counts": {
-    "gb_partial": 158,
-    "gb_validated": 85
+    "gb_partial": 171,
+    "gb_validated": 72
    }
   },
   "2_reflections_g200_g020": {

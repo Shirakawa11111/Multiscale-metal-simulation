@@ -22,8 +22,22 @@ Figure `results_exadis/cell_policy_audit.png`; data `results_exadis/cell_policy_
 - **Survival and topology are ~cell-independent (robust):** segment survival ~2.0 and junction count ~5–8
   across all cells (DDD_FFT adds a few junctions vs LineTension); line-length relaxation 0.59–0.69.
 
+## Foil-native vs convention-dependent density
+Because ρ_vol ∝ 1/zbox is a convention, the **foil-native** observable is the projected-area line density
+(`density_conventions.py` → `density_conventions.md`):
+
+| quantity | value | nature |
+|--|--|--|
+| **Λ_A = line length / projected area** | **3.26e6 m⁻¹** | foil-native, **z-independent** |
+| ρ_vol = Λ_A / z_eff | 2.13e13 (z600) … 4.25e12 (z5) as-built | convention-dependent (∝ 1/z) |
+
+A STEM foil directly constrains line length per projected area, so **report Λ_A**; the bulk-equivalent ρ_vol
+is a derived number that requires a declared z_eff/zbox. (Cross-check: as-built ρ_foil 2.13e13 × the relaxed
+length fraction ~0.59 ≈ 1.26e13 ≈ the relaxed foil 1.25e13 above. ✓)
+
 ## Verdict
 The cell policy controls only the **density reporting convention** (ρ ∝ 1/volume), not physics. The
-**cell-robust, reportable observables** are network survival, line-length relaxation, and junction count.
-Any apparent-density number from a STEM foil network must be quoted with its cell convention (foil vs
-thickened-periodic + zbox). *Caveat:* small system, short loading — sensitivity ratios, not converged numbers.
+**cell-robust, reportable observables** are network survival, line-length relaxation, and junction count;
+the foil-native density observable is **Λ_A** (projected line density). Any *volume* density from a STEM
+foil network must be quoted with its cell convention (foil vs thickened-periodic + zbox). *Caveat:* small
+system, short loading — sensitivity ratios, not converged numbers.
