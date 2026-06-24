@@ -1,0 +1,23 @@
+# py_compile evidence — STEM-to-DDD v2 package is valid multi-line Python
+# Generated from a FRESH git clone of the pushed repo (not the author's working tree).
+# This is durable proof that the 'single-line / docstring-glued-to-import' look in a GitHub-raw
+# viewer is a rendering artifact, not the file content.
+
+fresh_clone_commit: 8cb2a83961d5f651313f19625b20f75baeccfbcd
+gitattributes: none (no line-ending transforms)
+encoding: UTF-8, no BOM, LF line endings (CR=0)
+
+physical line counts (fresh clone):
+  experiment_bridge/run_local_audit_package.py     89 lines
+  experiment_bridge/make_audit_figure.py           105 lines
+  experiment_bridge/density_conventions.py         126 lines
+  experiment_bridge/synthetic_gb.py                109 lines
+  tests/test_defect_ir.py                          73 lines
+
+$ python3 -m py_compile \
+    experiment_bridge/run_local_audit_package.py experiment_bridge/make_audit_figure.py \
+    experiment_bridge/density_conventions.py experiment_bridge/synthetic_gb.py tests/test_defect_ir.py
+exit=0  -> ALL OK, no SyntaxError
+
+$ python3 -m py_compile experiment_bridge/*.py tests/*.py defect_ir/*.py defect_ir/adapters/*.py
+exit=0  -> ALL package modules compile

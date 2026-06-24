@@ -7,6 +7,8 @@ deterministic step: `python3 experiment_bridge/run_local_audit_package.py`.
 ## Core report
 - **[`STEM_TO_DDD_V2_AUDIT.md`](STEM_TO_DDD_V2_AUDIT.md)** — the integrated argument (input → IDR uncertainty
   → lowering correction → DDD stability → cell policy → g·b path) + paper-ready conclusion.
+- **[`STEM_TO_DDD_V2_RELEASE_NOTES.md`](STEM_TO_DDD_V2_RELEASE_NOTES.md)** — versioned summary: scope, 5 core
+  claims, reproducer, invariants, limitations, sealed/deferred, next stage.
 - **`results_exadis/audit_summary_figure.png`** — 4-panel main result (`make_audit_figure.py`).
 
 ## Input → IDR
@@ -37,8 +39,9 @@ deterministic step: `python3 experiment_bridge/run_local_audit_package.py`.
 - `results_exadis/audit_package_manifest.json` — seal manifest (version, commit, core outputs, invariants).
 - `tests/test_defect_ir.py` — gate test (examples valid, lowering round-trips, linewise coherent, g·b collapse).
 - [`AUDIT_MANIFEST.md`](AUDIT_MANIFEST.md) — authoritative record of the DDD/HPC runs (not rerun locally).
-- *All package `.py` files are normal LF multi-line Python — `python3 -m py_compile experiment_bridge/*.py
-  tests/*.py` passes (a GitHub-raw viewer may collapse line breaks; that is a rendering artifact).*
+- `results_exadis/py_compile_pass.txt` — **fresh-clone** `py_compile` evidence: all package `.py` are valid
+  LF multi-line Python (a GitHub-raw viewer may collapse line breaks; that is a rendering artifact, not the
+  file content). No `.gitattributes`, no BOM, CR=0.
 
 ## Superseded (do not read as current)
 - `results_exadis/bo_uq_pilot_summary_v0_superseded.json` — v0 edgewise ranking (5.4× topology). **RETRACTED**;

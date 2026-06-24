@@ -3,6 +3,7 @@
  "generated_against_commit": "6f06aca",
  "local_reproducer": "python3 experiment_bridge/run_local_audit_package.py",
  "local_reproducer_status": "PASS (see results_exadis/local_audit_pass.txt)",
+ "syntax_validation": "FRESH-CLONE py_compile ALL OK (see results_exadis/py_compile_pass.txt); files are valid LF multi-line Python; GitHub-raw 'single-line' look is a viewer artifact",
  "default_lowering_policy": "sample_linewise",
  "core_outputs": [
   "cu_stem_idr_report.md",
@@ -10,7 +11,8 @@
   "density_conventions.md",
   "synthetic_gb.md",
   "audit_summary_figure.png",
-  "local_audit_pass.txt"
+  "local_audit_pass.txt",
+  "py_compile_pass.txt"
  ],
  "core_outputs_present": {
   "cu_stem_idr_report.md": true,
@@ -18,7 +20,8 @@
   "density_conventions.md": true,
   "synthetic_gb.md": true,
   "audit_summary_figure.png": true,
-  "local_audit_pass.txt": true
+  "local_audit_pass.txt": true,
+  "py_compile_pass.txt": true
  },
  "key_invariants": {
   "within_line_discontinuities_linewise": 0,
